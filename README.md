@@ -1,5 +1,5 @@
-# TITLE
-Work in progress by Robbie M Parks
+# Tropical cyclones and educational attainment
+Work in progress by Gabriella Meltzer, Joan Casey, Marianthi-Anna Kioumourtzoglou, Robbie M Parks
 
 note: please run 0_00_create_folder_structure.R first to create folders which may not be there when first loaded.
 
