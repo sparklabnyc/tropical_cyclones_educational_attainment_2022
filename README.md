@@ -1,4 +1,5 @@
 # Tropical cyclones and educational attainment
+
 Work in progress by Gabriella Meltzer, Joan Casey, Marianthi-Anna Kioumourtzoglou, Robbie M Parks
 
 note: please run 0_00_create_folder_structure.R first to create folders which may not be there when first loaded.
@@ -6,24 +7,22 @@ note: please run 0_00_create_folder_structure.R first to create folders which ma
 note: to run an R Markdown file from command line, run\
 Rscript -e "rmarkdown::render('SCRIPT_NAME.Rmd')"
 
-Data preparation (data_prep) list:
+## Data preparation (data_prep) list:
 
-a_XX_prepare_XX_data               - prepare county-level monthly broad cause
+a_XX_prepare_XX_data - prepare XX data
 
-a_XX_prepare_XX_data           -
+## Data exploration (data_exploration) list:
 
-Data exploration (data_exploration) list:
+b_XX - XX
 
-b_XX                                                  - XX
+## Model running (models) list:
 
-Model running (models) list:
+c_XX - XX
 
-c_XX                                                  - XX
+## Model processing (model_processing) list:
 
-Model processing (model_processing) list:
+d_XX - XX
 
-d_XX                                                  - XX
+## Model running (model_plotting) list:
 
-Model running (model_plotting) list:
-
-e_XX                                                  - XX
+e_XX - XX
