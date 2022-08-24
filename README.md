@@ -11,7 +11,7 @@ Rscript -e "rmarkdown::render('SCRIPT_NAME.Rmd')"
 
 a_01_prepare_educational_attainment_data - prepare educational attainment data from raw (in local) to annual tidied format (in GitHub repo).
 
-a_02_XX - XX (Robbie: like above but for covariates)
+a_02_prepare_county_covariates_data - prepare county covariates data from raw (in local) to annual tidied format (in GitHub repo)
 
 ## Data exploration (data_exploration) list:
 
