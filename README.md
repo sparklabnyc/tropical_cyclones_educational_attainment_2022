@@ -9,7 +9,9 @@ Rscript -e "rmarkdown::render('SCRIPT_NAME.Rmd')"
 
 ## Data preparation (data_prep) list:
 
-a_XX_prepare_XX_data - prepare XX data
+a_01_prepare_educational_attainment_data - prepare educational attainment data from raw (in local) to annual tidied format (in GitHub repo).
+
+a_02_XX - XX (Robbie: like above but for covariates)
 
 ## Data exploration (data_exploration) list:
 
