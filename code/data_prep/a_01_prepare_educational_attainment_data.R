@@ -9,7 +9,7 @@ source(paste0(functions.folder,'functions.R'))
 
 # load the local educational attainment full csv 
 # Robbie: Research how to specify that the column for state FIPS is a character when loaded
-data_educational_attainment_full_raw = readr::read_csv(educational_attainment_full_local_file) 
+data_educational_attainment_full_raw = readr::read_csv(educational_attainment_full_local_file_gcs) 
 
 # determine the unique values of fips (Robbie: Check if state FIPS)
 states = data_educational_attainment_full_raw %>% pull(fips) %>% unique() %>% arrange()
@@ -22,7 +22,7 @@ for(state_current in states){
   
   # save as RDS file
   saveRDS(data_educational_attainment_full_raw_state, 
-          paste0(processed.educational.attainment.folder,state_current,'_educational_attainment.rds'))
+          paste0(processed.educational.attainment.folder,state_current,'_educational_attainment_gcs.rds'))
 }
 
 # Robbie: after this (just to check so not to keep code), test load the RDS files with readRDS
