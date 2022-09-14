@@ -15,7 +15,7 @@ a_02_prepare_county_covariates_data - prepare county covariates data from raw (i
 
 ## Data exploration (data_exploration) list:
 
-b_XX - XX
+b_00_plotting_example_ggplot2 - prepare GCS data and plot in an example
 
 ## Model running (models) list:
 
