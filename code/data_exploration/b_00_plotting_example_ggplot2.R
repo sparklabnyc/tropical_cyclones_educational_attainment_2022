@@ -20,8 +20,8 @@ data_to_plot = data %>%
 plot = ggplot(data_to_plot) +
   geom_line(aes(x=year,y=gcs_mn_all,color=as.factor(sedacounty))) + 
   facet_wrap(~grade) +
-  xlab('Year') + ylab('Score') +
-  guides(color=FALSE)
+  xlab('Year') + ylab('Standardized score') +
+  guides(color="none")
   
 # create plot
 plot
