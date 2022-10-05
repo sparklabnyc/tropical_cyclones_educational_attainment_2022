@@ -10,6 +10,7 @@ source(paste0(functions.folder,'functions.R'))
 
 # load the local educational attainment for single state
 # state_selected = 36
+#Preparing data for plotting, setting up loop for states and subjects
 for (state_selected in states_included) {
   for (subject_selected in subjects_included) {
     data = readRDS(paste0(processed.educational.attainment.folder,state_selected,
