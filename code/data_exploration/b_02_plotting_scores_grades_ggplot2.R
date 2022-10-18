@@ -20,9 +20,9 @@ for (state_selected in states_included) {
     
     # create plot
     plot = ggplot(data_to_plot) +
-      geom_line(aes(x=year,y=gcs_mn_all,color=as.factor(sedacounty))) + 
-      facet_wrap(~grade) +
-      xlab('Year') + ylab('Standardized score') +
+      geom_line(aes(x=grade,y=gcs_mn_all,color=as.factor(year))) + 
+      facet_wrap(~sedacounty) +
+      xlab('Grade') + ylab('Standardized score') +
       ggtitle(paste0(state_selected," ", subject_selected)) +
       guides(color="none")
     
@@ -30,10 +30,9 @@ for (state_selected in states_included) {
     plot
     
     # output as pdf
-    pdf(paste0(plot.output.folder,state_selected, '_',subject_selected,'_plot_over_time.pdf'),height=0,width=0,paper='a4r')
+    pdf(paste0(plot.output.folder,state_selected, '_',subject_selected,'_plot_over_grade.pdf'),height=0,width=0,paper='a4r')
     print(plot)
     dev.off()
   }
   
 }
-

@@ -9,3 +9,4 @@ if(length(new.packages)) install.packages(new.packages,repos = "https://cloud.r-
 
 # load packages
 lapply(list.of.packages, require, character.only = TRUE)
+
