@@ -7,6 +7,7 @@ source(paste0(file.locations.folder,'file_locations.R'))
 source(paste0(objects.folder,'objects.R'))
 source(paste0(functions.folder,'functions.R'))
 
+#Robbie to work on creating county-cohort object
 
 # load the local educational attainment for single state
 # state_selected = 36

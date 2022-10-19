@@ -11,16 +11,14 @@ source(paste0(functions.folder,'functions.R'))
 for (state_selected in states_included) {
   for (covars_selected in covars_included) {
     data = readRDS(paste0(processed.covariates.folder,state_selected,
-                          '_covariates.rds')) 
-    data_to_plot = data %>%
-      dplyr::filter(covars_included==covars_selected) #Not sure what this line is supposed to be
+                          '_covariates.rds'))
     
     # create plot
-    plot = ggplot(data_to_plot) +
-      geom_line(aes(x=year,y=covars_selected,color=as.factor(sedacounty))) + #each covariate is on a different scale
-      facet_wrap(~state_selected) + #Ideally would like to have a plot for each covariate
-      xlab('Year') + ylab('Standardized score') +
-      ggtitle(paste0(state_selected," ", subject_selected)) +
+    plot = ggplot(data) +
+      geom_line(aes(x=year,y=get(covars_selected),color=as.factor(sedacounty))) +
+      facet_wrap(~grade) +
+      xlab('Year') + ylab(covars_selected) +
+      ggtitle(paste0(state_selected," ",covars_selected)) +
       guides(color="none")
     
     # create plot
