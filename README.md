@@ -13,9 +13,15 @@ a_01_prepare_educational_attainment_data - prepare educational attainment data f
 
 a_02_prepare_county_covariates_data - prepare county covariates data from raw (in local) to annual tidied format (in GitHub repo)
 
+a_03_prepare_county_cohort_data - prepare county cohort data from annual tidied format to format ready for modeling
+
 ## Data exploration (data_exploration) list:
 
-b_00_plotting_example_ggplot2 - prepare GCS data and plot in an example
+b_01_plotting_scores_years_ggplot2 - prepare GCS data and plot change in score over years, faceted by grade
+
+b_02_plotting_scores_grades_ggplot2 - prepare GCS data and plot change in score over grades, faceted by years
+
+b_01_plotting_covariates_ggplot2 - prepare covariates data and plot change in over years, faceted by grade
 
 ## Model running (models) list:
 
