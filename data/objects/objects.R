@@ -9,6 +9,6 @@ states_included <- c(1, 5, 9, 10, 11, 12, 13, 17, 18, 19, 20, 21, 22, 23, 24, 25
 subjects_included <- c('mth', 'rla')
 
 #Make a vector for the covariates
-covars_included <- c('urban', 'suburb', 'town', 'rural', 'pernam', 'perasn', 'perhsp', 
-                     'perblk', 'perwht', 'perfrl', 'perell', 'perspeced', 'perecd', 'povertyall', 
-                     'unempall', 'snapall', 'single_momall')
+covars_included <- c('sedacounty', 'urban', 'suburb', 'town', 'rural', 'pernam', 'perasn', 'perhsp', 
+                     'perblk', 'perwht', 'perfl', 'perrl', 'perell', 'totenrl', 'perecd', 'lninc50all', 
+                     'baplusall', 'povertyall', 'snapall', 'single_momall')

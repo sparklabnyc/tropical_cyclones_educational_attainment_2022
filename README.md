@@ -15,6 +15,8 @@ a_02_prepare_county_covariates_data - prepare county covariates data from raw (i
 
 a_03_prepare_county_cohort_data - prepare county cohort data from annual tidied format to format ready for modeling
 
+a_04_prepare_covariates_data - prepare covariates data from annual tidied format to format ready for modeling
+
 ## Data exploration (data_exploration) list:
 
 b_01_plotting_scores_years_ggplot2 - prepare GCS data and plot change in score over years, faceted by grade

@@ -11,7 +11,7 @@ source(paste0(functions.folder,'functions.R'))
 data_county_covariate_full_raw = readr::read_csv(covariate_full_local_file)
 
 #Specifying that FIPS column is character
-read_csv(covariate_full_local_file, col_types = list(
+readr::read_csv(covariate_full_local_file, col_types = list(
   fips = "c"))
 
 # determine the unique values of fips
