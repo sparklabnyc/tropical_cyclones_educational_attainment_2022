@@ -17,6 +17,8 @@ a_03_prepare_county_cohort_data - prepare county cohort data from annual tidied 
 
 a_04_prepare_covariates_data - prepare covariates data from annual tidied format to format ready for modeling
 
+a_05_prepare_tropical_cyclone_data - prepare tropical cyclone data
+
 ## Data exploration (data_exploration) list:
 
 b_01_plotting_scores_years_ggplot2 - prepare GCS data and plot change in score over years, faceted by grade

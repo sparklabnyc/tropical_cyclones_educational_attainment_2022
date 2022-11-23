@@ -1,0 +1,107 @@
+---
+title: "Prepare tropical cyclone data"
+output: html_document
+---
+
+## Load packages and file locations etc.
+```{r include=FALSE}
+rm(list=ls())
+
+# 1a Declare root directory, folder locations and load essential stuff
+project.folder <- paste0(print(here::here()),'/')
+source(paste0(project.folder,'create_folder_structure.R'))
+source(paste0(file.locations.folder,'file_locations.R'))
+source(paste0(objects.folder,'objects.R'))
+source(paste0(functions.folder,'functions.R'))
+library(dplyr)
+```
+
+## Loading tropical cyclone dataset
+### Downloaded from https://github.com/geanders/hurricaneexposuredata/blob/master/data/
+```{r}
+load(paste0(tc.github.raw.folder,'storm_winds.rda'))
+load(paste0(tc.github.raw.folder,'county_centers.rda'))
+load(paste0(tc.github.raw.folder,'closest_dist.rda'))
+```
+
+## Figure out which states and counties are included
+```{r}
+# all counties which might be included in the dataset (excluding Puerto Rico for now)
+all_counties = county_centers %>% filter(state_name!="Puerto Rico") %>% pull("fips")
+
+# way of getting out all the states which are included in the dataset
+counties.track = county_distance(counties=all_counties, start_year = start_year, end_year = end_year, dist_limit=1000000)
+counties.track$state.fips = substr(counties.track$fips,1,2)
+state.fips = sort(unique(counties.track$state.fips)) # unique states
+county.fips = sort(unique(counties.track$fips)) # unique counties
+
+print(paste0(length(county.fips),' counties and ',paste0(length(state.fips),' states in included years ',start_year,'-',end_year)))
+```
+
+## Process and categorize wind data
+```{r}
+# load all wind data for all counties included in dataset in all years included in analysis
+counties.wind  = county_wind(counties=all_counties, start_year = start_year, end_year = end_year, wind_limit=0)
+
+# establish counties with high wind speeds
+counties.wind = counties.wind %>% 
+  dplyr::filter(vmax_sust>tropical_storm_wind_limit) %>%
+  mutate(cat_sust = case_when(vmax_sust<hurricane_wind_limit ~ 'gale to violent storm',
+                   TRUE ~ 'hurricane'))
+  
+# use the function just above
+counties.wind = add_date_info(counties.wind)
+```
+
+## Summarise by county and by year on complete grid of fips, years, in analysis
+```{r}
+counties.wind = counties.wind %>%
+  group_by(fips, year, cat_sust) %>%
+  tally()
+  
+print(paste0(sum(counties.wind$n),' exposure days in ', length(county.fips),' counties and ',paste0(length(state.fips),' states in included years ',start_year,'-',end_year)))
+
+head(counties.wind, 10)
+
+years = c(start_year:end_year)
+fips = all_counties
+cat_susts = c('gale to violent storm', 'hurricane')
+complete.grid = expand.grid(year=years, fips=fips, cat_sust=cat_susts)
+
+counties.wind = left_join(complete.grid, counties.wind) %>%
+  replace(is.na(.), 0) %>%
+  rename(category=cat_sust, count=n)
+
+print(paste0(sum(counties.wind$count),' exposures in all ',length(unique(counties.wind$fips)),' counties in included years ',start_year,'-',end_year))
+```
+
+## Was a county ever exposed?
+```{r}
+counties.wind.treatment = counties.wind %>%
+  group_by(fips,category) %>%
+  tally(count) %>%
+  rename(treatment=n) %>%
+  mutate(treatment=ifelse(treatment>0,1,0))
+```
+
+## Once a county has been exposed, it is always exposed for rest of time series
+```{r}
+counties.wind.exposure = counties.wind %>%
+  group_by(fips,category) %>%
+  mutate(exposure = cumsum(count)) %>%
+  mutate(exposure = ifelse(exposure>0,1,0)) %>%
+  select(fips,year,category,exposure)
+```
+
+## Merge two above
+```{r}
+counties.wind.exposure.treatment = left_join(counties.wind.exposure,counties.wind.treatment) %>%
+  mutate(et=exposure*treatment)
+```
+
+## Save output 
+```{r}
+saveRDS(counties.wind.exposure.treatment,paste0(tc.github.processed.folder,'tc_annual_county_exposure_treatment_',start_year,'_',end_year,'.rds'))
+readr::write_csv(counties.wind.exposure.treatment,paste0(tc.github.processed.folder,'tc_annual_county_exposure_treatment_',start_year,'_',end_year,'.csv'))
+```
+å
