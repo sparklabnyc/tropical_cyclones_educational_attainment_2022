@@ -28,13 +28,14 @@ for(state_selected in states_included) {
 library(dplyr)
 
 processed.data <- subset(dat.total, select = c(covars_included))
+processed.data <- processed.data %>% mutate(cohort = as.factor(as.factor(sedacounty):as.factor(grade)))
 
 #Merge processed covariates with processed math and rla dataframes 
 processed.math <- readRDS('~/Git/tropical_cyclones_educational_attainment_2022/data/prepared_data/prepared_math/processed_math.rds')
 processed.rla <- readRDS('~/Git/tropical_cyclones_educational_attainment_2022/data/prepared_data/prepared_rla/processed_rla.rds')
 
-processed.math <- left_join(processed.math, processed.data)
-processed.rla <- left_join(processed.rla, processed.data)
+processed.math <- full_join(processed.math, processed.data, by = c('sedacounty', 'grade', 'year', 'cohort'))
+processed.rla <- full_join(processed.rla, processed.data, by = c('sedacounty', 'grade', 'year', 'cohort'))
 
 #Save data frames in the correct folders
 saveRDS(processed.data, paste0(prepared.covariates.folder, "processed_covariates.rds"))
