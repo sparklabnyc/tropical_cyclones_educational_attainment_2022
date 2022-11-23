@@ -19,6 +19,8 @@ a_04_prepare_covariates_data - prepare covariates data from annual tidied format
 
 a_05_prepare_tropical_cyclone_data - prepare tropical cyclone data
 
+a_06_prepare_hurricane_did_data - prepare hurricane DID data for initial DID model analysis
+
 ## Data exploration (data_exploration) list:
 
 b_01_plotting_scores_years_ggplot2 - prepare GCS data and plot change in score over years, faceted by grade
@@ -29,7 +31,7 @@ b_01_plotting_covariates_ggplot2 - prepare covariates data and plot change in ov
 
 ## Model running (models) list:
 
-c_XX - XX
+c_01_hurricane_did - XX
 
 ## Model processing (model_processing) list:
 

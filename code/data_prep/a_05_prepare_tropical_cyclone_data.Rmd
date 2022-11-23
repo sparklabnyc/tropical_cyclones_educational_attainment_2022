@@ -104,4 +104,3 @@ counties.wind.exposure.treatment = left_join(counties.wind.exposure,counties.win
 saveRDS(counties.wind.exposure.treatment,paste0(tc.github.processed.folder,'tc_annual_county_exposure_treatment_',start_year,'_',end_year,'.rds'))
 readr::write_csv(counties.wind.exposure.treatment,paste0(tc.github.processed.folder,'tc_annual_county_exposure_treatment_',start_year,'_',end_year,'.csv'))
 ```
-å
