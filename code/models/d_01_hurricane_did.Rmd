@@ -1,0 +1,43 @@
+---
+title: "Hurricane DID model"
+output: html_document
+---
+
+## Load packages and file locations etc.
+```{r include=FALSE}
+rm(list=ls())
+
+# 1a Declare root directory, folder locations and load essential stuff
+project.folder <- paste0(print(here::here()),'/')
+source(paste0(project.folder,'create_folder_structure.R'))
+source(paste0(file.locations.folder,'file_locations.R'))
+source(paste0(objects.folder,'objects.R'))
+source(paste0(functions.folder,'functions.R'))
+library(dplyr)
+```
+
+## Load math and rla data prepared for DID model
+```{r,message=FALSE}
+math.DID = readRDS(paste0(prepared.math.DID.folder, "math_DID.rds"))
+rla.DID = readRDS(paste0(prepared.rla.DID.folder, "rla_DID.rds"))
+```
+
+## Model specifications
+```{r,message=FALSE}
+# TO DO
+```
+
+## Functions to run models
+```{r,message=FALSE}
+# TO DO
+```
+
+## Run models
+```{r,message=FALSE}
+# TO DO
+```
+
+## Save models
+```{r,message=FALSE}
+# TO DO
+```
