@@ -1,0 +1,120 @@
+---
+title: "Hurricane DID model"
+output: html_document
+---
+
+## Load packages and file locations etc.
+```{r include=FALSE}
+rm(list=ls())
+
+# 1a Declare root directory, folder locations and load essential stuff
+project.folder <- paste0(print(here::here()),'/')
+source(paste0(project.folder,'create_folder_structure.R'))
+source(paste0(file.locations.folder,'file_locations.R'))
+source(paste0(objects.folder,'objects.R'))
+source(paste0(functions.folder,'functions.R'))
+```
+
+## Load packages
+```{r,message=FALSE}
+library(dplyr)
+library(splines)
+library(INLA)
+```
+
+## Load math and rla data prepared for DID model
+```{r,message=FALSE}
+math.DID = readRDS(paste0(prepared.math.DID.folder, "math_DID.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
+rla.DID = readRDS(paste0(prepared.rla.DID.folder, "rla_DID.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
+```
+
+## Which states ever had exposure to hurricanes?
+```{r,message=FALSE}
+states_to_include = math.DID %>% filter(et==1) %>% pull(state) %>% unique() 
+```
+
+## Filter for states which ever had exposure to hurricanes and isolate Florida
+```{r,message=FALSE}
+math.DID = math.DID %>% filter(state%in%states_to_include) %>% filter(state%in%c('12'))
+rla.DID = rla.DID %>% filter(state%in%states_to_include) %>% filter(state%in%c('12'))
+```
+
+## Define frequentist formula
+```{r,message=FALSE}
+fml.freq = gcs_mn_all ~ 
+                et + 
+                cohort + year + 
+                pernam + perasn + perhsp + perblk + 
+                perfl + perrl + perell + 
+                urban + suburb + town + rural +
+                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+```
+
+## Run frequentist math model
+```{r,message=FALSE}
+mod.math.freq = lm(fml.freq, data = math.DID)
+```
+
+## Run frequentist rla model
+```{r,message=FALSE}
+mod.rla.freq = lm(fml.freq, data = rla.DID)
+```
+
+## Summary of frequentist results
+```{r, message=FALSE}
+hurricane.math.freq = data.frame(type='freq',subject='math',
+                                 est=mod.math.freq$coefficients['et'],
+                                 ll=confint(mod.math.freq)['et',1],
+                                 ul=confint(mod.math.freq)['et',2])
+
+hurricane.rla.freq = data.frame(type='freq',subject='rla',
+                                 est=mod.rla.freq$coefficients['et'],
+                                 ll=confint(mod.rla.freq)['et',1],
+                                 ul=confint(mod.rla.freq)['et',2])
+
+hurricane.freq = data.table::rbindlist(list(hurricane.math.freq,hurricane.rla.freq))
+
+print(hurricane.freq)
+```
+
+## Define Bayesian formula
+```{r,message=FALSE}
+hyper_value = 0.001
+
+fml.bayes = gcs_mn_all ~ 
+                et + 
+                f(cohort,model="iid", hyper = list(prec = list(prior = "loggamma", param = c(1, hyper_value)))) +
+                f(year,model="iid", hyper = list(prec = list(prior = "loggamma", param = c(1, hyper_value)))) +
+                pernam + perasn + perhsp + perblk + 
+                perfl + perrl + perell + 
+                urban + suburb + town + rural +
+                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+```
+
+## Run Bayesian math model
+```{r,message=FALSE}
+mod.math.bayes = inla(fml.bayes, data = math.DID)
+```
+
+## Run Bayesian rla model
+```{r,message=FALSE}
+mod.rla.bayes = inla(fml.bayes, data = rla.DID)
+```
+
+## Summary of Bayesian results
+```{r, message=FALSE}
+hurricane.math.bayes = data.frame(type='bayes',subject='math',
+                                 est=mod.math.bayes$summary.fixed['et',]$mean,
+                                 ll=mod.math.bayes$summary.fixed['et',]$`0.025quant`,
+                                 ul=mod.math.bayes$summary.fixed['et',]$`0.975quant`)
+
+hurricane.rla.bayes = data.frame(type='bayes',subject='rla',
+                                 est=mod.rla.bayes$summary.fixed['et',]$mean,
+                                 ll=mod.rla.bayes$summary.fixed['et',]$`0.025quant`,
+                                 ul=mod.rla.bayes$summary.fixed['et',]$`0.975quant`)
+
+hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes,hurricane.rla.bayes))
+
+print(hurricane.bayes)
+```
+

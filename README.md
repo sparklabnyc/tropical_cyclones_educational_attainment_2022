@@ -31,7 +31,7 @@ b_01_plotting_covariates_ggplot2 - prepare covariates data and plot change in ov
 
 ## Model running (models) list:
 
-c_01_hurricane_did - XX
+c_01_hurricane_did_florida - initial model for ISEE NAC abstract for Florida
 
 ## Model processing (model_processing) list:
 

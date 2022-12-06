@@ -15,16 +15,18 @@ exposure.data <- readRDS('~/Git/tropical_cyclones_educational_attainment_2022/da
 #Filter exposure data into hurricanes only
 hurricane.data <- subset(exposure.data, category == "hurricane")
 
-#Rename fips to sedacounty and change to numeric variable
-hurricane.data <- hurricane.data %>% rename(sedacounty = fips)
+#Rename fips to sedacounty, generate state code, and change to numeric variable
+hurricane.data <- hurricane.data %>% rename(sedacounty = fips) %>% mutate(state=substr(sedacounty,1,2))
 hurricane.data$sedacounty <- as.numeric(hurricane.data$sedacounty)
 
 #Merge hurricane data with processed math and rla dataframes
 processed.math <- readRDS('~/Git/tropical_cyclones_educational_attainment_2022/data/prepared_data/prepared_math/processed_math.rds')
 processed.rla <- readRDS('~/Git/tropical_cyclones_educational_attainment_2022/data/prepared_data/prepared_rla/processed_rla.rds')
 
-math.DID <- full_join(processed.math, hurricane.data, by = c('sedacounty', 'year'))
-rla.DID <- full_join(processed.rla, hurricane.data, by = c('sedacounty', 'year'))
+math.DID <- full_join(processed.math, hurricane.data, by = c('sedacounty', 'year')) %>%
+  distinct() %>% relocate(state) %>% filter((is.na(subject)!=TRUE))
+rla.DID <- full_join(processed.rla, hurricane.data, by = c('sedacounty', 'year')) %>%
+  distinct() %>% relocate(state) %>% filter((is.na(subject)!=TRUE))
 
 #Save DID data in the appropriate folder 
 saveRDS(math.DID, paste0(prepared.math.DID.folder, "math_DID.rds"))
