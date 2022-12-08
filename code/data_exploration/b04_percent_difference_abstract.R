@@ -10,3 +10,9 @@ source(paste0(functions.folder,'functions.R'))
 library(dplyr)
 
 math_DID <- math_DID %>% group_by(state,grade) %>% summarise(grade_avg=mean(gcs_mn_all))
+
+3.410066 - 4.181332
+#-0.771266
+
+-0.10/-0.771266
+#0.129657
