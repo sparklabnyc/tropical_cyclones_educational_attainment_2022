@@ -21,13 +21,17 @@ a_05_prepare_tropical_cyclone_data - prepare tropical cyclone data
 
 a_06_prepare_hurricane_did_data - prepare hurricane DID data for initial DID model analysis
 
+a_07_prepare_moderator_data - prepare moderator variables for regression analyses
+
 ## Data exploration (data_exploration) list:
 
 b_01_plotting_scores_years_ggplot2 - prepare GCS data and plot change in score over years, faceted by grade
 
 b_02_plotting_scores_grades_ggplot2 - prepare GCS data and plot change in score over grades, faceted by years
 
-b_01_plotting_covariates_ggplot2 - prepare covariates data and plot change in over years, faceted by grade
+b_03_plotting_covariates_ggplot2 - prepare covariates data and plot change in over years, faceted by grade
+
+b_04_percent_difference_abstract - calculating the percent difference in Florida hurricane scores to report in the ISEE abstract
 
 ## Model running (models) list:
 
