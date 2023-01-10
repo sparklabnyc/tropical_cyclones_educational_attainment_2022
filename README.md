@@ -37,6 +37,8 @@ b_04_percent_difference_abstract - calculating the percent difference in Florida
 
 c_01_hurricane_did_florida - initial model for ISEE NAC abstract for Florida
 
+c_02_hurricane_did_national- national model with state-specific effects
+
 ## Model processing (model_processing) list:
 
 d_XX - XX
