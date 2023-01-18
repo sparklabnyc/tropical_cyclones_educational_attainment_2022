@@ -33,6 +33,8 @@ b_03_plotting_covariates_ggplot2 - prepare covariates data and plot change in ov
 
 b_04_percent_difference_abstract - calculating the percent difference in Florida hurricane scores to report in the ISEE abstract
 
+b_05_figure 1_maps - prepare code for Figure 1 maps showing locations of hurricanes and tropical cyclones
+
 ## Model running (models) list:
 
 c_01_hurricane_did_florida - initial model for ISEE NAC abstract for Florida
