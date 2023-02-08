@@ -41,6 +41,10 @@ c_01_hurricane_did_florida - initial model for ISEE NAC abstract for Florida
 
 c_02_hurricane_did_national- national model with state-specific effects
 
+c_03_hurricane_did_national_et_only - national model with state-specific effects, hurricanes only predictors
+
+c_04_hurricane_did_national_covar_only - national model with state-specific effects, covariates only predictors
+
 ## Model processing (model_processing) list:
 
 d_XX - XX

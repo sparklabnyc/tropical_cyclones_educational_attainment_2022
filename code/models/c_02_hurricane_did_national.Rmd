@@ -61,7 +61,7 @@ fml.bayes.overall = gcs_mn_all ~
                 f(year,model="iid", hyper = lg_prior) +
                 pernam + perasn + perhsp + perblk + 
                 perfl + perrl + perell + 
-                urban + suburb + town + rural +
+                urban + 
                 perecd + lninc50all + baplusall + povertyall + snapall + single_momall
 
 
@@ -71,7 +71,7 @@ fml.bayes.state = gcs_mn_all ~
                 f(year,model="iid", hyper = lg_prior) +
                 pernam + perasn + perhsp + perblk + 
                 perfl + perrl + perell + 
-                urban + suburb + town + rural +
+                urban + 
                 perecd + lninc50all + baplusall + povertyall + snapall + single_momall
 ```
 
