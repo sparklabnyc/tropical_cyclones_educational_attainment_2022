@@ -33,31 +33,32 @@ rla_DID <- rla_DID %>% mutate(perecd_quart = ntile(perecd, 4))
 rla_DID <- rla_DID %>% mutate(perecd_quart = as_factor(perecd_quart))
 
 #Create tertile variable for percent Black, Hispanic, and Native American students in the cohort in math data frame
-math_DID <- math_DID %>% mutate(minority = pernam + perhsp + pernam)
-math_DID <- math_DID %>% mutate(minority_tert = ntile(minority, 3)) 
+math_DID <- math_DID %>% mutate(minority = pernam + perhsp + perblk) 
+math_DID <- math_DID %>% group_by(year) %>% mutate(minority_tert = ntile(minority, 3)) 
 math_DID <- math_DID %>% mutate(minority_tert = as_factor(minority_tert))
 
 #Create tertile variable for percent Black, Hispanic, and Native American students in the cohort in RLA data frame
-rla_DID <- rla_DID %>% mutate(minority = pernam + perhsp + pernam)
-rla_DID <- rla_DID %>% mutate(minority_tert = ntile(minority, 3)) 
-rla_DID <- rla_DID %>% mutate(minority_tert = as_factor(minority_tert))
+rla_DID <- rla_DID %>% mutate(minority = pernam + perhsp + perblk) 
+rla_DID <- rla_DID %>% group_by(year) %>% mutate(minority_tert = ntile(minority, 3))
+rla_DID <- rla_DID %>% mutate(minority_tert = as_factor(minority_tert)) 
 
 #Create tertile variable for percent in county with BA in math data frame
-math_DID <- math_DID %>% mutate(college_tert = ntile(baplusall, 3)) 
+math_DID <- math_DID %>% group_by(year) %>% mutate(college_tert = ntile(baplusall, 3)) 
 math_DID <- math_DID %>% mutate(college_tert = as_factor(college_tert))
 
 #Create tertile variable for percent in county with BA in RLA data frame
-rla_DID <- rla_DID %>% mutate(college_tert = ntile(baplusall, 3)) 
+rla_DID <- rla_DID %>% group_by(year) %>% mutate(college_tert = ntile(baplusall, 3)) 
 rla_DID <- rla_DID %>% mutate(college_tert = as_factor(college_tert))
 
 #Create tertile variable for county poverty in math data frame
-math_DID <- math_DID %>% mutate(poverty_tert = ntile(povertyall, 3)) 
+math_DID <- math_DID %>% group_by(year) %>% mutate(poverty_tert = ntile(povertyall, 3)) 
 math_DID <- math_DID %>% mutate(poverty_tert = as_factor(poverty_tert))
 
 #Create tertile variable for county poverty in RLA data frame
-rla_DID <- rla_DID %>% mutate(poverty_tert = ntile(povertyall, 3)) 
+rla_DID <- rla_DID %>% group_by(year) %>% mutate(poverty_tert = ntile(povertyall, 3)) 
 rla_DID <- rla_DID %>% mutate(poverty_tert = as_factor(poverty_tert))
 
 #Save data frames as RDS files
 saveRDS(math_DID, paste0(prepared.math.DID.folder, "math_DID.rds"))
 saveRDS(rla_DID, paste0(prepared.rla.DID.folder, "rla_DID.rds"))
+

@@ -45,6 +45,8 @@ c_03_hurricane_did_national_et_only - national model with state-specific effects
 
 c_04_hurricane_did_national_covar_only - national model with state-specific effects, covariates only predictors
 
+c_05_hurricane_did_national_effect_modification - national model with state-specific effects, including effect modification
+
 ## Model processing (model_processing) list:
 
 d_XX - XX
