@@ -55,17 +55,8 @@ rla.DID = rla.DID %>% mutate(et2=et)
 hyper_value = 0.001
 lg_prior = list(prec = list(prior = "loggamma", param = c(1, hyper_value)))
 
-fml.bayes.overall = gcs_mn_all ~ 
+fml.bayes.fixed.interaction = gcs_mn_all ~ 
                 et*minority_tert +
-                f(cohort,model="iid", hyper = lg_prior) +
-                f(year,model="iid", hyper = lg_prior) +
-                perfl + perrl + perell + 
-                urban + 
-                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
-
-
-fml.bayes.minority_term = gcs_mn_all ~ 
-                f(minority_tert,et2,model="iid", hyper = lg_prior) +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
                 perfl + perrl + perell + 
@@ -75,71 +66,45 @@ fml.bayes.minority_term = gcs_mn_all ~
 
 ## Run Bayesian math models
 ```{r,message=FALSE}
-mod.math.bayes.overall = inla(fml.bayes.overall, data = math.DID)
-mod.math.bayes.state = inla(fml.bayes.state, data = math.DID)
+mod.math.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = math.DID)
 ```
 
-## Summary of overall math model
+## Summary of fixed interaction math model
 ```{r,message=FALSE}
-summary(mod.math.bayes.overall)
-```
-
-## Summary of state math model
-```{r,message=FALSE}
-summary(mod.math.bayes.state)
+summary(mod.math.bayes.fixed.interaction)
 ```
 
 ## Run Bayesian rla models
 ```{r,message=FALSE}
-mod.rla.bayes.overall = inla(fml.bayes.overall, data = rla.DID)
-mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID)
+mod.rla.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = rla.DID)
 ```
 
-## Summary of overall rla model
+## Summary of fixed interaction rla model
 ```{r,message=FALSE}
-summary(mod.rla.bayes.overall)
+summary(mod.rla.bayes.fixed.interaction)
 ```
 
-## Summary of state rla model
-```{r,message=FALSE}
-summary(mod.rla.bayes.state)
-```
-
-## Summary of Bayesian results (99 is overall result)
+## Summary of Bayesian results
 ```{r, message=FALSE}
-hurricane.math.bayes.overall = data.frame(type='bayes',subject='math',
-                                 state=99,
-                                 est=mod.math.bayes.overall$summary.fixed['et',]$mean,
-                                 ll=mod.math.bayes.overall$summary.fixed['et',]$`0.025quant`,
-                                 ul=mod.math.bayes.overall$summary.fixed['et',]$`0.975quant`)
+hurricane.math.bayes.fixed.interaction = data.frame(type='bayes',subject='math',
+                                 tertile=c(1,2,3),
+                                 est=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$mean,
+                                 ll=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
+                                 ul=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
-hurricane.math.bayes.state = data.frame(type='bayes',subject='math',
-                                  state=mod.math.bayes.state$summary.random$state$ID,
-                                  est=mod.math.bayes.state$summary.random$state$mean,
-                                  ll=mod.math.bayes.state$summary.random$state$`0.025quant`,
-                                  ul=mod.math.bayes.state$summary.random$state$`0.975quant`)
+hurricane.rla.bayes.fixed.interaction = data.frame(type='bayes',subject='rla',
+                                 tertile=c(1,2,3),
+                                 est=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$mean,
+                                 ll=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
+                                 ul=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
-hurricane.rla.bayes.overall = data.frame(type='bayes',subject='rla',
-                                 state=99,
-                                 est=mod.rla.bayes.overall$summary.fixed['et',]$mean,
-                                 ll=mod.rla.bayes.overall$summary.fixed['et',]$`0.025quant`,
-                                 ul=mod.rla.bayes.overall$summary.fixed['et',]$`0.975quant`)
-
-hurricane.rla.bayes.state = data.frame(type='bayes',subject='rla',
-                                  state=mod.rla.bayes.state$summary.random$state$ID,
-                                  est=mod.rla.bayes.state$summary.random$state$mean,
-                                  ll=mod.rla.bayes.state$summary.random$state$`0.025quant`,
-                                  ul=mod.rla.bayes.state$summary.random$state$`0.975quant`)
-
-hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.overall,
-                                             hurricane.math.bayes.state,
-                                             hurricane.rla.bayes.overall,
-                                             hurricane.rla.bayes.state))
+hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.fixed.interaction,
+                                             hurricane.rla.bayes.fixed.interaction))
 
 print(hurricane.bayes)
 ```
 
 ## Save Bayesian results
 ```{r,message=FALSE}
-readr::write_csv(hurricane.bayes,paste0(model.output.folder,'hurricane_did_national.csv'))
+readr::write_csv(hurricane.bayes,paste0(model.output.folder,'hurricane_did_national_race_teriile_interaction.csv'))
 ```
