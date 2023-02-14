@@ -9,6 +9,11 @@ source(paste0(functions.folder,'functions.R'))
 
 #Load packages
 library(dplyr)
+library(tidyverse)
+
+#Load data frames
+math_DID <- readRDS("~/Git/tropical_cyclones_educational_attainment_2022/data/prepared_DID_data/prepared_math_DID_data/math_DID.rds")
+rla_DID <- readRDS("~/Git/tropical_cyclones_educational_attainment_2022/data/prepared_DID_data/prepared_rla_DID_data/rla_DID.rds")
 
 #Generating enrollment percentile variable in math data frame
 math_DID <- math_DID %>% group_by(year) %>% mutate(percentile_enrollment=ntile(totenrl,100)) 
