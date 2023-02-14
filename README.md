@@ -35,6 +35,8 @@ b_04_percent_difference_abstract - calculating the percent difference in Florida
 
 b_05_figure 1_maps - prepare code for Figure 1 maps showing locations of hurricanes and tropical cyclones
 
+b_06_enrollment_percentiles - summarizing student enrollment percentiles
+
 ## Model running (models) list:
 
 c_01_hurricane_did_florida - initial model for ISEE NAC abstract for Florida
@@ -45,7 +47,13 @@ c_03_hurricane_did_national_et_only - national model with state-specific effects
 
 c_04_hurricane_did_national_covar_only - national model with state-specific effects, covariates only predictors
 
-c_05_hurricane_did_national_effect_modification - national model with state-specific effects, including effect modification
+c_05_hurricane_did_national_effect_modification_race - national model with state-specific effects, including race effect modification
+
+c_06_hurricane_did_national_effect_modification_college - national model with state-specific effects, including college education effect modification
+
+c_07_hurricane_did_national_effect_modification_poverty - national model with state-specific effects, including county poverty effect modification
+
+c_08_hurricane_did_national_effect_modification_ecd - national model with state-specific effects, including student economic disadvantage effect modification
 
 ## Model processing (model_processing) list:
 

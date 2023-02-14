@@ -1,5 +1,5 @@
 ---
-title: "Hurricane DID model national with effect modification"
+title: "Hurricane DID model national with effect modification; race"
 output: html_document
 ---
 
@@ -106,5 +106,5 @@ print(hurricane.bayes)
 
 ## Save Bayesian results
 ```{r,message=FALSE}
-readr::write_csv(hurricane.bayes,paste0(model.output.folder,'hurricane_did_national_race_teriile_interaction.csv'))
+readr::write_csv(hurricane.bayes,paste0(model.output.folder,'hurricane_did_national_race_tertile_interaction.csv'))
 ```

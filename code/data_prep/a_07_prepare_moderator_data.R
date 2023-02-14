@@ -58,6 +58,14 @@ math_DID <- math_DID %>% mutate(poverty_tert = as_factor(poverty_tert))
 rla_DID <- rla_DID %>% group_by(year) %>% mutate(poverty_tert = ntile(povertyall, 3)) 
 rla_DID <- rla_DID %>% mutate(poverty_tert = as_factor(poverty_tert))
 
+#Create tertile variable for student economic disadvantage in RLA data frame
+rla_DID <- rla_DID %>% group_by(year) %>% mutate(ecd_tert = ntile(perecd, 3)) 
+rla_DID <- rla_DID %>% mutate(ecd_tert = as_factor(ecd_tert))
+
+#Create tertile variable for student economic disadvantage in math data frame
+math_DID <- math_DID %>% group_by(year) %>% mutate(ecd_tert = ntile(perecd, 3)) 
+math_DID <- math_DID %>% mutate(ecd_tert = as_factor(ecd_tert))
+
 #Save data frames as RDS files
 saveRDS(math_DID, paste0(prepared.math.DID.folder, "math_DID.rds"))
 saveRDS(rla_DID, paste0(prepared.rla.DID.folder, "rla_DID.rds"))
