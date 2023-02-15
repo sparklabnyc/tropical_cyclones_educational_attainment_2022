@@ -48,6 +48,8 @@ plot(math_DID$tertile_college, math_DID$college_tert)
 #Generating midpoint of effect modification by college education for math 
 rla_DID <- rla_DID %>% dplyr::filter(grade==6, year ==2015) %>% mutate(tertile_college=ntile(baplusall, 3))
 
+summary = rla_DID %>% mutate(match=ifelse(tertile_college==college_tert,1,0)) %>% group_by(match) %>% tally()
+
 #Create scatterplot comparing midpoint tertile to whole sample tertile
 plot(rla_DID$tertile_college, rla_DID$college_tert)
 
