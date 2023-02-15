@@ -56,7 +56,7 @@ hyper_value = 0.001
 lg_prior = list(prec = list(prior = "loggamma", param = c(1, hyper_value)))
 
 fml.bayes.fixed.interaction = gcs_mn_all ~ 
-                et*minority_tert +
+                et*minority_tert + # f(state,et*minority_tert,model='iid', hyper=lg_prior) +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
                 perfl + perrl + perell + 
