@@ -66,6 +66,38 @@ rla_DID <- rla_DID %>% mutate(ecd_tert = as_factor(ecd_tert))
 math_DID <- math_DID %>% group_by(year) %>% mutate(ecd_tert = ntile(perecd, 3)) 
 math_DID <- math_DID %>% mutate(ecd_tert = as_factor(ecd_tert))
 
+#Create binary variable for percent Black, Hispanic, NA in math data frame
+summary(math_DID$minority) #0.18612
+math_DID <- math_DID %>% mutate(minority_binary = if_else(minority < 0.18612, 0, 1, missing = NULL))
+
+#Create binary variable for percent Black, Hispanic, NA in RLA data frame
+summary(rla_DID$minority) #0.19703
+rla_DID <- rla_DID %>% mutate(minority_binary = if_else(minority < 0.19703, 0, 1, missing = NULL))
+
+#Create binary variable for percent in county with BA in math data frame
+summary(math_DID$baplusall) #0.16813
+math_DID <- math_DID %>% mutate(college_binary = if_else(baplusall < 0.16813, 0, 1, missing = NULL))
+
+#Create binary variable for percent in county with BA in RLA data frame
+summary(rla_DID$baplusall) #0.16884
+rla_DID <- rla_DID %>% mutate(college_binary = if_else(baplusall < 0.16884, 0, 1, missing = NULL))
+
+#Create binary variable for percent in county in poverty in math data frame
+summary(math_DID$povertyall) #0.1620
+math_DID <- math_DID %>% mutate(poverty_binary = if_else(povertyall < 0.1620, 0, 1, missing = NULL))
+
+#Create binary variable for percent in county in poverty in RLA data frame
+summary(rla_DID$povertyall) #0.1617
+rla_DID <- rla_DID %>% mutate(poverty_binary = if_else(povertyall < 0.1617, 0, 1, missing = NULL))
+
+#Create binary variable for percent economically disadvantaged students in math data frame
+summary(math_DID$perecd) #0.56689
+math_DID <- math_DID %>% mutate(ecd_binary = if_else(perecd < 0.56689, 0, 1, missing = NULL))
+
+#Create binary variable for percent economically disadvantaged students in RLA data frame
+summary(rla_DID$perecd) #0.56579
+rla_DID <- rla_DID %>% mutate(ecd_binary = if_else(perecd < 0.56579, 0, 1, missing = NULL))
+
 #Save data frames as RDS files
 saveRDS(math_DID, paste0(prepared.math.DID.folder, "math_DID.rds"))
 saveRDS(rla_DID, paste0(prepared.rla.DID.folder, "rla_DID.rds"))

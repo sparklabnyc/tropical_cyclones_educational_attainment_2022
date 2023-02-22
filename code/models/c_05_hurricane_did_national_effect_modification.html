@@ -11,7 +11,7 @@
 
 
 
-<title>Hurricane DID model national with effect modification; race</title>
+<title>Hurricane DID model national with effect modification; race tertile</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,7 +349,7 @@ display: none;
 
 
 <h1 class="title toc-ignore">Hurricane DID model national with effect
-modification; race</h1>
+modification; race tertile</h1>
 
 </div>
 
@@ -392,8 +392,16 @@ rla.DID = rla.DID %&gt;% mutate(et2=et)</code></pre>
 <pre class="r"><code>hyper_value = 0.001
 lg_prior = list(prec = list(prior = &quot;loggamma&quot;, param = c(1, hyper_value)))
 
-fml.bayes.fixed.interaction = gcs_mn_all ~ 
-                et*minority_tert +
+fml.bayes.fixed.interaction = gcs_mn_all ~  
+                et*minority_tert + 
+                f(cohort,model=&quot;iid&quot;, hyper = lg_prior) +
+                f(year,model=&quot;iid&quot;, hyper = lg_prior) +
+                perfl + perrl + perell + 
+                urban + 
+                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+
+fml.bayes.fixed.interaction.state = gcs_mn_all ~  
+                f(state,et*minority_tert,model=&#39;iid&#39;, hyper=lg_prior) +
                 f(cohort,model=&quot;iid&quot;, hyper = lg_prior) +
                 f(year,model=&quot;iid&quot;, hyper = lg_prior) +
                 perfl + perrl + perell + 
@@ -427,7 +435,7 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.47, Running = 2.5, Post = 0.507, Total = 5.47 
+##     Pre = 2.8, Running = 3.16, Post = 0.499, Total = 6.46 
 ## Fixed effects:
 ##                     mean    sd 0.025quant 0.5quant 0.975quant   mode kld
 ## (Intercept)        4.146 0.606      2.957    4.146      5.335  4.146   0
@@ -436,7 +444,7 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
 ## minority_tert3    -0.099 0.034     -0.166   -0.099     -0.032 -0.099   0
 ## perfl             -0.364 0.039     -0.441   -0.364     -0.288 -0.364   0
 ## perrl             -0.181 0.139     -0.453   -0.181      0.091 -0.181   0
-## perell             0.399 0.231     -0.054    0.399      0.851  0.399   0
+## perell             0.399 0.231     -0.054    0.399      0.852  0.399   0
 ## urban              0.042 0.077     -0.109    0.042      0.194  0.042   0
 ## perecd            -0.180 0.036     -0.250   -0.180     -0.110 -0.180   0
 ## lninc50all         0.111 0.055      0.002    0.111      0.219  0.111   0
@@ -456,13 +464,13 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
 ##                                           mean     sd 0.025quant 0.5quant
 ## Precision for the Gaussian observations  4.626  0.035      4.559    4.626
 ## Precision for cohort                     0.306  0.007      0.292    0.306
-## Precision for year                      95.885 81.780     25.401   72.231
+## Precision for year                      94.299 78.543     25.531   71.664
 ##                                         0.975quant   mode
 ## Precision for the Gaussian observations      4.698  4.623
 ## Precision for cohort                         0.319  0.307
-## Precision for year                         314.893 45.549
+## Precision for year                         304.892 45.701
 ## 
-## Marginal log-Likelihood:  -38432.12 
+## Marginal log-Likelihood:  -38432.14 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -494,10 +502,10 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.25, Running = 2.42, Post = 0.547, Total = 5.21 
+##     Pre = 2.28, Running = 2.44, Post = 0.489, Total = 5.2 
 ## Fixed effects:
 ##                     mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)        5.034 0.501      4.052    5.034      6.017  5.035   0
+## (Intercept)        5.034 0.501      4.052    5.034      6.017  5.034   0
 ## et                 0.067 0.176     -0.278    0.067      0.412  0.067   0
 ## minority_tert2    -0.017 0.026     -0.068   -0.017      0.035 -0.017   0
 ## minority_tert3    -0.151 0.030     -0.209   -0.151     -0.093 -0.151   0
@@ -523,13 +531,13 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
 ##                                           mean     sd 0.025quant 0.5quant
 ## Precision for the Gaussian observations  6.025  0.042      5.941    6.025
 ## Precision for cohort                     0.323  0.007      0.309    0.324
-## Precision for year                      99.812 89.444     25.394   73.781
+## Precision for year                      99.101 87.939     25.449   73.536
 ##                                         0.975quant   mode
 ## Precision for the Gaussian observations      6.108  6.025
 ## Precision for cohort                         0.337  0.325
-## Precision for year                         338.588 45.438
+## Precision for year                         334.035 45.494
 ## 
-## Marginal log-Likelihood:  -35705.10 
+## Marginal log-Likelihood:  -35705.11 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -553,12 +561,12 @@ hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.fixed.interact
 
 print(hurricane.bayes)</code></pre>
 <pre><code>##     type subject tertile         est          ll          ul
-## 1: bayes    math       1  0.02866460 -0.36763551  0.42496623
-## 2: bayes    math       2 -0.02058397 -0.07964602  0.03847655
-## 3: bayes    math       3 -0.09904560 -0.16575930 -0.03233607
-## 4: bayes     rla       1  0.06657270 -0.27837180  0.41151883
-## 5: bayes     rla       2 -0.01663895 -0.06835112  0.03507165
-## 6: bayes     rla       3 -0.15066518 -0.20856046 -0.09277314</code></pre>
+## 1: bayes    math       1  0.02867234 -0.36763162  0.42497775
+## 2: bayes    math       2 -0.02058483 -0.07964723  0.03847610
+## 3: bayes    math       3 -0.09905140 -0.16576445 -0.03234238
+## 4: bayes     rla       1  0.06657565 -0.27836848  0.41152140
+## 5: bayes     rla       2 -0.01663975 -0.06835174  0.03507068
+## 6: bayes     rla       3 -0.15066776 -0.20856228 -0.09277641</code></pre>
 </div>
 <div id="save-bayesian-results" class="section level2">
 <h2>Save Bayesian results</h2>
