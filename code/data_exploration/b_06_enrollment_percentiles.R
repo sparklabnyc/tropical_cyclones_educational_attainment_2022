@@ -16,13 +16,11 @@ math_DID <- readRDS("~/Git/tropical_cyclones_educational_attainment_2022/data/pr
 rla_DID <- readRDS("~/Git/tropical_cyclones_educational_attainment_2022/data/prepared_DID_data/prepared_rla_DID_data/rla_DID.rds")
 
 #Generating enrollment percentile variable in math data frame
-math_DID_percentile <- math_DID %>% group_by(year) %>% mutate(percentile_enrollment=ntile(totenrl,100)) 
-
-math_DID_percentile <- math_DID_percentile %>% group_by(year) %>% mutate(percentile_enrollment=ntile(totenrl,100)) %>% distinct(percentile_enrollment,totenrl) %>% arrange(percentile_enrollment) %>%
+math_DID_percentile <- math_DID %>% group_by(year) %>% mutate(percentile_enrollment=ntile(totenrl,100)) %>% distinct(percentile_enrollment,totenrl) %>% arrange(percentile_enrollment) %>%
   filter(percentile_enrollment%in%c(5,95)) %>% group_by(year,percentile_enrollment) %>% summarise(totenrl_limit=max(totenrl)) %>% spread(percentile_enrollment,totenrl_limit) %>%
   rename(perc_5=`5`,perc_95=`95`)
 
 #Generating enrollment percentile variable in RLA data frame
-rla_DID <- rla_DID %>% group_by(year) %>% mutate(percentile_enrollment=ntile(totenrl,100))
-
-rla_DID <- rla_DID %>% group_by(year) %>% mutate(percentile_enrollment=ntile(totenrl,100)) %>% pull(percentile_enrollment,totenrl) %>% distinct_values()
+rla_DID_percentile <- rla_DID %>% group_by(year) %>% mutate(percentile_enrollment=ntile(totenrl,100)) %>% distinct(percentile_enrollment,totenrl) %>% arrange(percentile_enrollment) %>%
+  filter(percentile_enrollment%in%c(5,95)) %>% group_by(year,percentile_enrollment) %>% summarise(totenrl_limit=max(totenrl)) %>% spread(percentile_enrollment,totenrl_limit) %>%
+  rename(perc_5=`5`,perc_95=`95`)
