@@ -60,7 +60,7 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
                 perfl + perrl + perell + 
-                urban + perblk + perhisp + pernam + 
+                urban + perblk + perhsp + pernam + 
                 perecd + lninc50all + povertyall + snapall + single_momall
 ```
 
