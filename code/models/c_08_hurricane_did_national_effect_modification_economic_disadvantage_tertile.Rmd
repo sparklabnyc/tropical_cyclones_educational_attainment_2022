@@ -1,5 +1,5 @@
 ---
-title: "Hurricane DID model national with effect modification; race tertile"
+title: "Hurricane DID model national with effect modification; economic disadvantage tertile"
 output: html_document
 ---
 
@@ -55,41 +55,45 @@ rla.DID = rla.DID %>% mutate(et2=et)
 hyper_value = 0.001
 lg_prior = list(prec = list(prior = "loggamma", param = c(1, hyper_value)))
 
-fml.bayes.fixed.interaction = gcs_mn_all ~  
-                et*minority_tert + 
+fml.bayes.fixed.interaction = gcs_mn_all ~ 
+                et*ecd_tert +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
                 perfl + perrl + perell + 
-                urban + 
-                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+                urban + pernam + perblk + perhsp + 
+                lninc50all + baplusall + povertyall + snapall + single_momall
 
-fml.bayes.fixed.interaction.state = gcs_mn_all ~  
-                f(state,et*minority_tert,model='iid', hyper=lg_prior) +
+fml.bayes.fixed.interaction = gcs_mn_all ~ 
+                state*et*ecd_tert +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
                 perfl + perrl + perell + 
-                urban + 
-                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+                urban + pernam + perblk + perhsp + 
+                lninc50all + baplusall + povertyall + snapall + single_momall
 ```
 
 ## Run Bayesian math models
 ```{r,message=FALSE}
 mod.math.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = math.DID)
+mod.math.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = math.DID)
 ```
 
 ## Summary of fixed interaction math model
 ```{r,message=FALSE}
 summary(mod.math.bayes.fixed.interaction)
+summary(mod.math.bayes.fixed.interaction.state)
 ```
 
 ## Run Bayesian rla models
 ```{r,message=FALSE}
 mod.rla.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = rla.DID)
+mod.rla.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = rla.DID)
 ```
 
 ## Summary of fixed interaction rla model
 ```{r,message=FALSE}
 summary(mod.rla.bayes.fixed.interaction)
+summary(mod.rla.bayes.fixed.interaction.state)
 ```
 
 ## Summary of Bayesian results
@@ -100,11 +104,12 @@ hurricane.math.bayes.fixed.interaction = data.frame(type='bayes',subject='math',
                                  ll=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
                                  ul=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
-hurricane.math.bayes.state = data.frame(type='bayes',subject='math', #This chunk of code is not running
-                                  state=mod.math.bayes.state$summary.random$state$ID,
-                                  est=mod.math.bayes.state$summary.random$state$mean,
-                                  ll=mod.math.bayes.state$summary.random$state$`0.025quant`,
-                                  ul=mod.math.bayes.state$summary.random$state$`0.975quant`)
+hurricane.math.bayes.fixed.interaction.state = data.frame(type='bayes',subject='math',
+                                 tertile=c(1,2,3), #Lines 107-108 not running
+                                 state=mod.math.bayes.fixed.interaction.state$summary.random$state$ID, 
+                                 est=mod.math.bayes.fixed.interaction.state$summary.fixed[c(2:4),]$mean,
+                                 ll=mod.math.bayes.fixed.interaction.state$summary.fixed[c(2:4),]$`0.025quant`,
+                                 ul=mod.math.bayes.fixed.interaction.state$summary.fixed[c(2:4),]$`0.975quant`)
 
 hurricane.rla.bayes.fixed.interaction = data.frame(type='bayes',subject='rla',
                                  tertile=c(1,2,3),
@@ -112,19 +117,22 @@ hurricane.rla.bayes.fixed.interaction = data.frame(type='bayes',subject='rla',
                                  ll=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
                                  ul=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
-hurricane.rla.bayes.state = data.frame(type='bayes',subject='rla', #This chunk of code is not running 
-                                  state=mod.rla.bayes.state$summary.random$state$ID,
-                                  est=mod.rla.bayes.state$summary.random$state$mean,
-                                  ll=mod.rla.bayes.state$summary.random$state$`0.025quant`,
-                                  ul=mod.rla.bayes.state$summary.random$state$`0.975quant`)
+hurricane.rla.bayes.fixed.interaction.state = data.frame(type='bayes',subject='rla', 
+                                  tertile=c(1,2,3), #Lines 120-121 not running
+                                  state=mod.rla.bayes.fixed.interaction.state$summary.random$state$ID,
+                                  est=mod.rla.bayes.fixed.interaction.state$summary.random$state$mean,
+                                  ll=mod.rla.bayes.fixed.interaction.state$summary.random$state$`0.025quant`,
+                                  ul=mod.rla.bayes.fixed.interaction.state$summary.random$state$`0.975quant`)
 
 hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.fixed.interaction,
-                                             hurricane.rla.bayes.fixed.interaction))
+                                             hurricane.rla.bayes.fixed.interaction, 
+                                             hurricane.math.bayes.fixed.interaction.state, 
+                                             hurricane.rla.bayes.fixed.interaction.state))
 
 print(hurricane.bayes)
 ```
 
 ## Save Bayesian results
 ```{r,message=FALSE}
-readr::write_csv(hurricane.bayes,paste0(model.output.folder,'hurricane_did_national_race_tertile_interaction.csv'))
+readr::write_csv(hurricane.bayes,paste0(model.output.folder,'hurricane_did_national_ecd_tertile_interaction.csv'))
 ```

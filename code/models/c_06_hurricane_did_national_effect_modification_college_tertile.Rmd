@@ -1,5 +1,5 @@
 ---
-title: "Hurricane DID model national with effect modification; college"
+title: "Hurricane DID model national with effect modification; college tertile"
 output: html_document
 ---
 
@@ -62,26 +62,38 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
                 perfl + perrl + perell + 
                 urban + pernam + perblk + perhsp + 
                 perecd + lninc50all + povertyall + snapall + single_momall
+
+fml.bayes.fixed.interaction.state = gcs_mn_all ~  
+                state*et*college_tert +
+                f(cohort,model="iid", hyper = lg_prior) +
+                f(year,model="iid", hyper = lg_prior) +
+                perfl + perrl + perell + 
+                urban + pernam + perblk + perhsp + 
+                perecd + lninc50all + povertyall + snapall + single_momall
 ```
 
 ## Run Bayesian math models
 ```{r,message=FALSE}
 mod.math.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = math.DID)
+mod.math.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = math.DID)
 ```
 
 ## Summary of fixed interaction math model
 ```{r,message=FALSE}
 summary(mod.math.bayes.fixed.interaction)
+summary(mod.math.bayes.fixed.interaction.state)
 ```
 
 ## Run Bayesian rla models
 ```{r,message=FALSE}
 mod.rla.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = rla.DID)
+mod.rla.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = rla.DID)
 ```
 
 ## Summary of fixed interaction rla model
 ```{r,message=FALSE}
 summary(mod.rla.bayes.fixed.interaction)
+summary(mod.rla.bayes.fixed.interaction.state)
 ```
 
 ## Summary of Bayesian results
@@ -92,14 +104,30 @@ hurricane.math.bayes.fixed.interaction = data.frame(type='bayes',subject='math',
                                  ll=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
                                  ul=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
+hurricane.math.bayes.fixed.interaction.state = data.frame(type='bayes',subject='math',
+                                 tertile=c(1,2,3), #Lines 107-108 not running
+                                 state=mod.math.bayes.fixed.interaction.state$summary.random$state$ID, 
+                                 est=mod.math.bayes.fixed.interaction.state$summary.fixed[c(2:4),]$mean,
+                                 ll=mod.math.bayes.fixed.interaction.state$summary.fixed[c(2:4),]$`0.025quant`,
+                                 ul=mod.math.bayes.fixed.interaction.state$summary.fixed[c(2:4),]$`0.975quant`)
+
 hurricane.rla.bayes.fixed.interaction = data.frame(type='bayes',subject='rla',
                                  tertile=c(1,2,3),
                                  est=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$mean,
                                  ll=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
                                  ul=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
+hurricane.rla.bayes.fixed.interaction.state = data.frame(type='bayes',subject='rla', 
+                                  tertile=c(1,2,3), #Lines 120-121 not running
+                                  state=mod.rla.bayes.fixed.interaction.state$summary.random$state$ID,
+                                  est=mod.rla.bayes.fixed.interaction.state$summary.random$state$mean,
+                                  ll=mod.rla.bayes.fixed.interaction.state$summary.random$state$`0.025quant`,
+                                  ul=mod.rla.bayes.fixed.interaction.state$summary.random$state$`0.975quant`)
+
 hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.fixed.interaction,
-                                             hurricane.rla.bayes.fixed.interaction))
+                                             hurricane.rla.bayes.fixed.interaction,
+                                             hurricane.math.bayes.fixed.interaction.state,
+                                             hurricane.rla.bayes.fixed.interaction.state))
 
 print(hurricane.bayes)
 ```

@@ -1,5 +1,5 @@
 ---
-title: "Hurricane DID model national with effect modification; race binary"
+title: "Hurricane DID model national with effect modification; economic disadvantage binary"
 output: html_document
 ---
 
@@ -56,20 +56,20 @@ hyper_value = 0.001
 lg_prior = list(prec = list(prior = "loggamma", param = c(1, hyper_value)))
 
 fml.bayes.fixed.interaction = gcs_mn_all ~  
-                et*minority_binary + 
+                et*ecd_binary + 
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
                 perfl + perrl + perell + 
-                urban + 
-                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+                urban + perblk + perhisp + pernam + 
+                povertyall + lninc50all + baplusall + snapall + single_momall
 
-fml.bayes.fixed.interaction.state = gcs_mn_all ~  
-                state*et*minority_binary + 
+fml.bayes.fixed.interaction = gcs_mn_all ~  
+                state*et*ecd_binary + 
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
                 perfl + perrl + perell + 
-                urban + 
-                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+                urban + perblk + perhisp + pernam + 
+                povertyall + lninc50all + baplusall + snapall + single_momall
 ```
 
 ## Run Bayesian math models
@@ -123,14 +123,14 @@ hurricane.rla.bayes.fixed.interaction.state = data.frame(type='bayes',subject='r
                                   ul=mod.rla.bayes.fixed.interaction.state$summary.random$state$`0.975quant`)
 
 hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.fixed.interaction,
-                                             hurricane.rla.bayes.fixed.interaction, 
                                              hurricane.math.bayes.fixed.interaction.state, 
-                                             hurricane.rla.bayes.fixed.interaction.state))
+                                             hurricane.rla.bayes.fixed.interaction.state,
+                                             hurricane.rla.bayes.fixed.interaction))
 
 print(hurricane.bayes)
 ```
 
 ## Save Bayesian results
 ```{r,message=FALSE}
-readr::write_csv(hurricane.bayes,paste0(model.output.folder,'hurricane_did_national_race_binary_interaction.csv'))
+readr::write_csv(hurricane.bayes,paste0(model.output.folder,'hurricane_did_national_ecd_binary_interaction.csv'))
 ```
