@@ -116,6 +116,7 @@ hurricane.math.bayes.fixed.interaction = data.frame(type='bayes',subject='math',
                                  ll=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
                                  ul=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
+# ROBBIE TO FIX
 hurricane.math.bayes.fixed.interaction.state = data.frame(type='bayes',subject='math', 
                                   tertile=c(1,2,3), #Lines 119-120 aren't running               
                                   state=mod.math.bayes.fixed.interaction.state$summary.random$state$ID,
