@@ -41,6 +41,8 @@ b_06_enrollment_percentiles - summarizing student enrollment percentiles
 
 b_07_effect_modification_midpoints - generate effect modification midpoints, compare to tertiles
 
+b_08_figure 2_maps - prepare code for Figure 2 map showing distribution of county poverty tertiles
+
 ## Model running (models) list:
 
 c_01_hurricane_did_florida - initial model for ISEE NAC abstract for Florida
