@@ -71,14 +71,14 @@ us_aea = fortify(us_aea)
 
 ## Prepare poverty tertile map
 
-#tcs.all = cyclone.exposure %>% 
-  dplyr::group_by(fips) %>%
-  #dplyr::summarise(treatment=max(treatment)) %>%
-  dplyr::mutate(fips=as.numeric(fips)) %>%
-  #dplyr::mutate(treatment=ifelse(treatment==0,'No','Yes'))
+math_DID_poverty = math_DID %>% 
+  dplyr::filter(year==2009) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(fips=as.numeric(sedacounty)) %>%
+  dplyr::select(fips,poverty_tert)
 
 # merge tropical cyclone exposure data with map file and prepare for plotting in ggplot
-USA.df.merged = merge(USA.df,tcs.all,by.x='GEOID',by.y='fips',all.x=TRUE)
+USA.df.merged = merge(USA.df,math_DID_poverty,by.x='GEOID',by.y='fips',all.x=TRUE)
 USA.df.merged[is.na(USA.df.merged)] = 0
 USA.df.merged = with(USA.df.merged, USA.df.merged[order(id,order),])
 
@@ -86,7 +86,7 @@ USA.df.merged = with(USA.df.merged, USA.df.merged[order(id,order),])
 
 # save map plot output
 p = ggplot() +
-  geom_polygon(data=subset(USA.df.merged),aes(x=long,y=lat,group=group,fill=treatment),color='black',size=0.001) +
+  geom_polygon(data=subset(USA.df.merged),aes(x=long,y=lat,group=group,fill=poverty_tert),color='black',size=0.001) +
   geom_polygon(data=subset(us_aea),aes(x=long,y=lat,group=group),fill=NA,color='black',size=0.2) +
   guides(fill=guide_legend(title="County poverty rate tertiles, 2009")) +
   coord_fixed() +
@@ -101,12 +101,9 @@ p = ggplot() +
         legend.position = 'bottom', legend.background = element_rect(fill="white", size=.5, linetype="dotted")) +
   theme_map()
 
-pdf(paste0(tc.exploration.folder,'poverty_map',start_year,'_',end_year,'.pdf'),paper='a4r',height=0,width=0)
-print(p)
-dev.off()
-
 ## Plot Figure 2
 
+
 pdf(paste0(tc.exploration.folder,'poverty_map',start_year,'_',end_year,'.pdf'),paper='a4r',height=0,width=0)
-gridExtra::grid.arrange(p,q,nrow=1)
+print(p)
 dev.off()
