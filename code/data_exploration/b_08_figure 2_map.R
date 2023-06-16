@@ -104,6 +104,6 @@ p = ggplot() +
 ## Plot Figure 2
 
 
-pdf(paste0(tc.exploration.folder,'poverty_map',start_year,'_',end_year,'.pdf'),paper='a4r',height=0,width=0)
+pdf(paste0(tc.exploration.folder,'poverty_map',start_year.pdf'),paper='a4r',height=0,width=0)
 print(p)
 dev.off()
