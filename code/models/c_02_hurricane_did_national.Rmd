@@ -3,6 +3,8 @@ title: "Hurricane DID model national"
 output: html_document
 ---
 
+#Load
+
 ## Load packages and file locations etc.
 ```{r include=FALSE}
 rm(list=ls())
@@ -61,7 +63,7 @@ fml.bayes.overall = gcs_mn_all ~
                 f(year,model="iid", hyper = lg_prior) +
                 pernam + perasn + perhsp + perblk + 
                 perfl + perrl + perell + 
-                urban + 
+                urban + perspeced +
                 perecd + lninc50all + baplusall + povertyall + snapall + single_momall
 
 
@@ -70,7 +72,7 @@ fml.bayes.state = gcs_mn_all ~
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
                 pernam + perasn + perhsp + perblk + 
-                perfl + perrl + perell + 
+                perfl + perrl + perell + perspeced +
                 urban + 
                 perecd + lninc50all + baplusall + povertyall + snapall + single_momall
 ```

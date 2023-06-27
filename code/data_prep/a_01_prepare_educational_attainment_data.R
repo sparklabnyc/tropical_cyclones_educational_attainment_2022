@@ -7,6 +7,10 @@ source(paste0(file.locations.folder,'file_locations.R'))
 source(paste0(objects.folder,'objects.R'))
 source(paste0(functions.folder,'functions.R'))
 
+#loading the necessary packages
+library(dplyr)
+library(readr)
+
 # load the local educational attainment full csv 
 data_educational_attainment_full_raw_gcs = readr::read_csv(educational_attainment_full_local_file_gcs) 
 

@@ -69,6 +69,10 @@ c_11_hurricane_did_national_effect_modification_poverty_binary - national model 
 
 c_12_hurricane_did_national_effect_modification_ecd_binary - national model with state-specific effects, including binary student economic disadvantage effect modification
 
+c_13_hurricane_did_national_effect_modification_SES_tertile - national model with state-specific effects, including tertile SES composite effect modification
+
+c_14_hurricane_did_national_effect_modification_speced_tertile - national model with state-specific effects, including tertile special education effect modification
+
 ## Model processing (model_processing) list:
 
 d_XX - XX

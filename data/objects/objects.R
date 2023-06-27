@@ -17,6 +17,6 @@ states_included = c(1, 5, 9, 10, 11, 12, 13, 17, 18, 19, 20, 21, 22, 23, 24, 25,
 subjects_included = c('mth', 'rla')
 
 #Make a vector for the covariates
-covars_included = c('sedacounty', 'year', 'grade', 'urban', 'suburb', 'town', 'rural', 'pernam', 'perasn', 'perhsp', 
+covars_included = c('sedacounty', 'year', 'grade', 'urban', 'pernam', 'perasn', 'perhsp', 
                      'perblk', 'perwht', 'perfl', 'perrl', 'perell', 'totenrl', 'perecd', 'lninc50all', 
-                     'baplusall', 'povertyall', 'snapall', 'single_momall')
+                     'baplusall', 'povertyall', 'snapall', 'single_momall', 'perspeced', 'sesall')

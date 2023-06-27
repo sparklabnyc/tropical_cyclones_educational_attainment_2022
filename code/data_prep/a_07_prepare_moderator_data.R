@@ -14,23 +14,15 @@ library(tidyverse)
 math_DID <- readRDS(paste0(prepared.math.DID.folder, "math_DID.rds"))
 rla_DID <- readRDS(paste0(prepared.rla.DID.folder, "rla_DID.rds"))
 
-#Create quartile variable for percent minority students in the grade in math data frame
-math_DID <- math_DID %>% mutate(per_min = 1 - perwht)
-math_DID <- math_DID %>% mutate(permin_quart = ntile(per_min, 4)) 
-math_DID <- math_DID %>% mutate(permin_quart = as_factor(permin_quart))
-
 #Create quartile variable for percent students economically disadvantaged in the grade in math data frame
 math_DID <- math_DID %>% mutate(perecd_quart = ntile(perecd, 4)) 
 math_DID <- math_DID %>% mutate(perecd_quart = as_factor(perecd_quart))
 
-#Create quartile variable for percent minority students in the grade in RLA data frame
-rla_DID <- rla_DID %>% mutate(per_min = 1 - perwht)
-rla_DID <- rla_DID %>% mutate(permin_quart = ntile(per_min, 4)) 
-rla_DID <- rla_DID %>% mutate(permin_quart = as_factor(permin_quart))
-
 #Create quartile variable for percent students economically disadvantaged in the grade in RLA data frame
 rla_DID <- rla_DID %>% mutate(perecd_quart = ntile(perecd, 4)) 
 rla_DID <- rla_DID %>% mutate(perecd_quart = as_factor(perecd_quart))
+
+#PRESENTED MINORITY (WITHOUT ASIANS) TERTILE AT ISEE
 
 #Create tertile variable for percent Black, Hispanic, and Native American students in the cohort in math data frame
 math_DID <- math_DID %>% mutate(minority = pernam + perhsp + perblk) 
@@ -49,6 +41,8 @@ math_DID <- math_DID %>% mutate(college_tert = as_factor(college_tert))
 #Create tertile variable for percent in county with BA in RLA data frame
 rla_DID <- rla_DID %>% group_by(year) %>% mutate(college_tert = ntile(baplusall, 3)) 
 rla_DID <- rla_DID %>% mutate(college_tert = as_factor(college_tert))
+
+#PRESENTED POVERTY TERTILE AT ISEE
 
 #Create tertile variable for county poverty in math data frame
 math_DID <- math_DID %>% group_by(year) %>% mutate(poverty_tert = ntile(povertyall, 3)) 
@@ -97,6 +91,24 @@ math_DID <- math_DID %>% mutate(ecd_binary = if_else(perecd < 0.56689, 0, 1, mis
 #Create binary variable for percent economically disadvantaged students in RLA data frame
 summary(rla_DID$perecd) #0.56579
 rla_DID <- rla_DID %>% mutate(ecd_binary = if_else(perecd < 0.56579, 0, 1, missing = NULL))
+
+#THESE EFFECT MODIFICATION VARIABLES WERE CREATED AFTER ISEE PRESENTATION
+
+#Create tertile variable for percent special education in county in RLA data frame
+rla_DID <- rla_DID %>% group_by(year) %>% mutate(perspeced_tert = ntile(perspeced, 3)) 
+rla_DID <- rla_DID %>% mutate(perspeced_tert = as_factor(perspeced_tert))
+
+#Create tertile variable for percent special education in county in math data frame
+math_DID <- math_DID %>% group_by(year) %>% mutate(perspeced_tert = ntile(perspeced, 3)) 
+math_DID <- math_DID %>% mutate(perspeced_tert = as_factor(perspeced_tert))
+
+#Create tertile variable for county SES composite variable in math data frame
+math_DID <- math_DID %>% group_by(year) %>% mutate(sesall_tert = ntile(sesall, 3)) 
+math_DID <- math_DID %>% mutate(sesall_tert = as_factor(sesall_tert))
+
+#Create tertile variable for county SES composite variable in math data frame
+rla_DID <- rla_DID %>% group_by(year) %>% mutate(sesall_tert = ntile(sesall, 3)) 
+rla_DID <- rla_DID %>% mutate(sesall_tert = as_factor(sesall_tert))
 
 #Save data frames as RDS files
 saveRDS(math_DID, paste0(prepared.math.DID.folder, "math_DID.rds"))
