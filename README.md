@@ -55,11 +55,9 @@ c_04_hurricane_did_national_covar_only - national model with state-specific effe
 
 c_05_hurricane_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile
 
-c_06_hurricane_did_national_effect_modification_poverty_tertile - national model with state-specific effects, including county poverty effect modification by tertile
+c_06_hurricane_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile
 
-c_07_hurricane_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile
-
-c_08_hurricane_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile
+c_07_hurricane_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile
 
 ## Model processing (model_processing) list:
 

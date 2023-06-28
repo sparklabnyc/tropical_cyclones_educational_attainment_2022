@@ -66,15 +66,31 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
                 et*sesall_tert + 
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
-                perfl + perrl + perell + 
+                perfl + perrl + perell + pernam + perhsp + perblk +
                 urban + perspeced + perecd 
 
 fml.bayes.fixed.interaction.state = gcs_mn_all ~  
                 state*et*sesall_tert +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
-                perfl + perrl + perell + 
+                perfl + perrl + perell + pernam + perhsp + perblk + 
                 urban + perspeced + perecd
+
+fml.bayes.random.interaction.state = gcs_mn_all ~  
+                f(state_sesall_tert,et,model="iid", hyper = lg_prior) +
+                f(cohort,model="iid", hyper = lg_prior) +
+                f(year,model="iid", hyper = lg_prior) +
+                perfl + perrl + perell + pernam + perhsp + perblk + 
+                urban + perspeced + perecd
+```
+
+## Add combined state and tertile column 
+```{r,message=FALSE}
+math.DID = math.DID %>%
+  mutate(state_sesall_tert=as.factor(paste0(state,'_',sesall_tert)))
+
+rla.DID = rla.DID %>%
+  mutate(state_sesall_tert=as.factor(paste0(state,'_',sesall_tert)))
 ```
 
 ## Run Bayesian math models
@@ -82,6 +98,7 @@ fml.bayes.fixed.interaction.state = gcs_mn_all ~
 ```{r,message=FALSE}
 mod.math.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = math.DID)
 mod.math.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = math.DID)
+mod.math.bayes.random.interaction.state = inla(fml.bayes.random.interaction.state, data = math.DID)
 ```
 
 ## Summary of fixed interaction math model
@@ -89,6 +106,7 @@ mod.math.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state,
 ```{r,message=FALSE}
 summary(mod.math.bayes.fixed.interaction)
 summary(mod.math.bayes.fixed.interaction.state)
+summary(mod.math.bayes.random.interaction.state)
 ```
 
 ## Run Bayesian rla models
@@ -96,6 +114,7 @@ summary(mod.math.bayes.fixed.interaction.state)
 ```{r,message=FALSE}
 mod.rla.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = rla.DID)
 mod.rla.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = rla.DID)
+mod.rla.bayes.random.interaction.state = inla(fml.bayes.fixed.interaction.state, data = rla.DID)
 ```
 
 ## Summary of fixed interaction rla model
@@ -103,6 +122,7 @@ mod.rla.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, 
 ```{r,message=FALSE}
 summary(mod.rla.bayes.fixed.interaction)
 summary(mod.rla.bayes.fixed.interaction.state)
+summary(mod.rla.bayes.random.interaction.state)
 ```
 
 ## Summary of Bayesian results
@@ -114,13 +134,12 @@ hurricane.math.bayes.fixed.interaction = data.frame(type='bayes',subject='math',
                                  ll=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
                                  ul=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
-# ROBBIE TO FIX
-hurricane.math.bayes.fixed.interaction.state = data.frame(type='bayes',subject='math', 
-                                  tertile=c(1,2,3), #Lines 118-119 aren't running               
-                                  state=mod.math.bayes.fixed.interaction.state$summary.random$state$ID,
-                                  est=mod.math.bayes.fixed.interaction.state$summary.random$state$mean,
-                                  ll=mod.math.bayes.fixed.interaction.state$summary.random$state$`0.025quant`,
-                                  ul=mod.math.bayes.fixed.interaction.state$summary.random$state$`0.975quant`)
+hurricane.math.bayes.random.interaction.state = data.frame(type='bayes',subject='math',
+                                  #tertile=c(1,2,3),
+                                  state=mod.math.bayes.random.interaction.state$summary.random$state_sesall_tert$ID,
+                                  est=mod.math.bayes.random.interaction.state$summary.random$state_sesall_tert$mean,
+                                  ll=mod.math.bayes.random.interaction.state$summary.random$state_sesall_tert$`0.025quant`,
+                                  ul=mod.math.bayes.random.interaction.state$summary.random$state_sesall_tert$`0.975quant`)
 
 hurricane.rla.bayes.fixed.interaction = data.frame(type='bayes',subject='rla',
                                  tertile=c(1,2,3), 
@@ -128,17 +147,18 @@ hurricane.rla.bayes.fixed.interaction = data.frame(type='bayes',subject='rla',
                                  ll=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
                                  ul=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
-hurricane.rla.bayes.fixed.interaction.state = data.frame(type='bayes',subject='rla', 
-                                  tertile=c(1,2,3), #Lines 132-133 aren't running
-                                  state=mod.rla.bayes.fixed.interaction.state$summary.random$state$ID,
-                                  est=mod.rla.bayes.fixed.interaction.state$summary.random$state$mean,
-                                  ll=mod.rla.bayes.fixed.interaction.state$summary.random$state$`0.025quant`,
-                                  ul=mod.rla.bayes.fixed.interaction.state$summary.random$state$`0.975quant`)
+hurricane.rla.bayes.random.interaction.state = data.frame(type='bayes',subject='rla',
+                                  #tertile=c(1,2,3),
+                                  state=mod.math.bayes.random.interaction.state$summary.random$state_sesall_tert$ID,
+                                  est=mod.math.bayes.random.interaction.state$summary.random$state_sesall_tert$mean,
+                                  ll=mod.math.bayes.random.interaction.state$summary.random$state_sesall_tert$`0.025quant`,
+                                  ul=mod.math.bayes.random.interaction.state$summary.random$state_sesall_tert$`0.975quant`)
 
 hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.fixed.interaction,
                                              hurricane.rla.bayes.fixed.interaction,
-                                             hurricane.math.bayes.fixed.interaction.state,
-                                             hurricane.rla.bayes.fixed.interaction.state))
+                                             hurricane.math.bayes.random.interaction.state,
+                                             hurricane.rla.bayes.random.interaction.state
+))
 
 print(hurricane.bayes)
 ```

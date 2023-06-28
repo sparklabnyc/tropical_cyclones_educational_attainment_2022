@@ -397,23 +397,41 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
                 f(cohort,model=&quot;iid&quot;, hyper = lg_prior) +
                 f(year,model=&quot;iid&quot;, hyper = lg_prior) +
                 perfl + perrl + perell + 
-                urban + 
+                urban + perspeced +
                 perecd + lninc50all + baplusall + povertyall + snapall + single_momall
 
 fml.bayes.fixed.interaction.state = gcs_mn_all ~  
-                f(state,et*minority_tert,model=&#39;iid&#39;, hyper=lg_prior) +
+                state*et*minority_tert +
                 f(cohort,model=&quot;iid&quot;, hyper = lg_prior) +
                 f(year,model=&quot;iid&quot;, hyper = lg_prior) +
                 perfl + perrl + perell + 
-                urban + 
+                urban + perspeced +
+                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+
+fml.bayes.random.interaction.state = gcs_mn_all ~  
+                f(state_minority_tert,et,model=&quot;iid&quot;, hyper = lg_prior) +
+                f(cohort,model=&quot;iid&quot;, hyper = lg_prior) +
+                f(year,model=&quot;iid&quot;, hyper = lg_prior) +
+                perfl + perrl + perell + 
+                urban + perspeced +
                 perecd + lninc50all + baplusall + povertyall + snapall + single_momall</code></pre>
+</div>
+<div id="add-combined-state-and-tertile-column" class="section level2">
+<h2>Add combined state and tertile column</h2>
+<pre class="r"><code>math.DID = math.DID %&gt;%
+  mutate(state_minority_tert=as.factor(paste0(state,&#39;_&#39;,minority_tert)))
+
+rla.DID = rla.DID %&gt;%
+  mutate(state_minority_tert=as.factor(paste0(state,&#39;_&#39;,minority_tert)))</code></pre>
 </div>
 <div id="run-bayesian-math-models" class="section level2">
 <h2>Run Bayesian math models</h2>
-<pre class="r"><code>mod.math.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = math.DID)</code></pre>
+<pre class="r"><code>mod.math.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = math.DID)
+mod.math.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = math.DID)
+mod.math.bayes.random.interaction.state = inla(fml.bayes.random.interaction.state, data = math.DID)</code></pre>
 </div>
-<div id="summary-of-fixed-interaction-math-model" class="section level2">
-<h2>Summary of fixed interaction math model</h2>
+<div id="summary-of-fixed-and-random-interaction-math-model" class="section level2">
+<h2>Summary of fixed and random interaction math model</h2>
 <pre class="r"><code>summary(mod.math.bayes.fixed.interaction)</code></pre>
 <pre><code>## 
 ## Call:
@@ -435,25 +453,26 @@ fml.bayes.fixed.interaction.state = gcs_mn_all ~
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.8, Running = 3.16, Post = 0.499, Total = 6.46 
+##     Pre = 2.55, Running = 2.55, Post = 0.502, Total = 5.6 
 ## Fixed effects:
 ##                     mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)        4.146 0.606      2.957    4.146      5.335  4.146   0
-## et                 0.029 0.202     -0.368    0.029      0.425  0.029   0
-## minority_tert2    -0.021 0.030     -0.080   -0.021      0.038 -0.021   0
-## minority_tert3    -0.099 0.034     -0.166   -0.099     -0.032 -0.099   0
-## perfl             -0.364 0.039     -0.441   -0.364     -0.288 -0.364   0
-## perrl             -0.181 0.139     -0.453   -0.181      0.091 -0.181   0
-## perell             0.399 0.231     -0.054    0.399      0.852  0.399   0
-## urban              0.042 0.077     -0.109    0.042      0.194  0.042   0
-## perecd            -0.180 0.036     -0.250   -0.180     -0.110 -0.180   0
-## lninc50all         0.111 0.055      0.002    0.111      0.219  0.111   0
-## baplusall          2.246 0.174      1.904    2.246      2.588  2.246   0
-## povertyall        -0.796 0.163     -1.116   -0.796     -0.476 -0.796   0
-## snapall           -0.279 0.144     -0.561   -0.279      0.002 -0.279   0
-## single_momall     -0.380 0.157     -0.688   -0.380     -0.072 -0.380   0
-## et:minority_tert2 -0.056 0.206     -0.460   -0.056      0.348 -0.056   0
-## et:minority_tert3 -0.007 0.204     -0.407   -0.007      0.392 -0.007   0
+## (Intercept)        4.089 0.607      2.899    4.089      5.279  4.089   0
+## et                 0.029 0.202     -0.367    0.029      0.425  0.029   0
+## minority_tert2    -0.020 0.030     -0.079   -0.020      0.039 -0.020   0
+## minority_tert3    -0.098 0.034     -0.164   -0.098     -0.031 -0.098   0
+## perfl             -0.367 0.039     -0.443   -0.367     -0.290 -0.367   0
+## perrl             -0.191 0.139     -0.463   -0.191      0.081 -0.191   0
+## perell             0.433 0.232     -0.021    0.433      0.887  0.433   0
+## urban              0.044 0.077     -0.107    0.044      0.195  0.044   0
+## perspeced          0.385 0.169      0.054    0.385      0.715  0.385   0
+## perecd            -0.182 0.036     -0.252   -0.182     -0.112 -0.182   0
+## lninc50all         0.112 0.055      0.004    0.112      0.221  0.112   0
+## baplusall          2.219 0.175      1.877    2.219      2.562  2.219   0
+## povertyall        -0.797 0.163     -1.117   -0.797     -0.477 -0.797   0
+## snapall           -0.293 0.144     -0.575   -0.293     -0.011 -0.293   0
+## single_momall     -0.374 0.157     -0.682   -0.374     -0.066 -0.374   0
+## et:minority_tert2 -0.057 0.206     -0.461   -0.057      0.347 -0.057   0
+## et:minority_tert3 -0.008 0.204     -0.407   -0.008      0.392 -0.008   0
 ## 
 ## Random effects:
 ##   Name     Model
@@ -461,23 +480,151 @@ fml.bayes.fixed.interaction.state = gcs_mn_all ~
 ##    year IID model
 ## 
 ## Model hyperparameters:
-##                                           mean     sd 0.025quant 0.5quant
-## Precision for the Gaussian observations  4.626  0.035      4.559    4.626
-## Precision for cohort                     0.306  0.007      0.292    0.306
-## Precision for year                      94.299 78.543     25.531   71.664
+##                                            mean      sd 0.025quant 0.5quant
+## Precision for the Gaussian observations   4.626   0.034      4.560    4.626
+## Precision for cohort                      0.306   0.007      0.293    0.306
+## Precision for year                      219.427 448.688     25.276  104.247
 ##                                         0.975quant   mode
-## Precision for the Gaussian observations      4.698  4.623
+## Precision for the Gaussian observations      4.696  4.623
 ## Precision for cohort                         0.319  0.307
-## Precision for year                         304.892 45.701
+## Precision for year                        1150.954 43.849
 ## 
-## Marginal log-Likelihood:  -38432.14 
+## Marginal log-Likelihood:  -38434.38 
+##  is computed 
+## Posterior summaries for the linear predictor and the fitted values are computed
+## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
+<pre class="r"><code>summary(mod.math.bayes.fixed.interaction.state)</code></pre>
+<pre><code>## 
+## Call:
+##    c(&quot;inla.core(formula = formula, family = family, contrasts = contrasts, 
+##    &quot;, &quot; data = data, quantiles = quantiles, E = E, offset = offset, &quot;, &quot; 
+##    scale = scale, weights = weights, Ntrials = Ntrials, strata = strata, 
+##    &quot;, &quot; lp.scale = lp.scale, link.covariates = link.covariates, verbose = 
+##    verbose, &quot;, &quot; lincomb = lincomb, selection = selection, control.compute 
+##    = control.compute, &quot;, &quot; control.predictor = control.predictor, 
+##    control.family = control.family, &quot;, &quot; control.inla = control.inla, 
+##    control.fixed = control.fixed, &quot;, &quot; control.mode = control.mode, 
+##    control.expert = control.expert, &quot;, &quot; control.hazard = control.hazard, 
+##    control.lincomb = control.lincomb, &quot;, &quot; control.update = 
+##    control.update, control.lp.scale = control.lp.scale, &quot;, &quot; 
+##    control.pardiso = control.pardiso, only.hyperparam = only.hyperparam, 
+##    &quot;, &quot; inla.call = inla.call, inla.arg = inla.arg, num.threads = 
+##    num.threads, &quot;, &quot; blas.num.threads = blas.num.threads, keep = keep, 
+##    working.directory = working.directory, &quot;, &quot; silent = silent, inla.mode 
+##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
+##    .parent.frame)&quot;) 
+## Time used:
+##     Pre = 2.36, Running = 2.65, Post = 0.534, Total = 5.54 
+## Fixed effects:
+##                           mean     sd 0.025quant 0.5quant 0.975quant   mode kld
+## (Intercept)              3.770  0.610      2.573    3.770      4.967  3.770   0
+## state                    0.012  0.003      0.007    0.012      0.017  0.012   0
+## et                       0.186 18.194    -35.495    0.186     35.868  0.186   0
+## minority_tert2          -0.057  0.057     -0.168   -0.057      0.054 -0.057   0
+## minority_tert3          -0.221  0.065     -0.348   -0.221     -0.095 -0.221   0
+## perfl                   -0.350  0.039     -0.426   -0.350     -0.273 -0.350   0
+## perrl                   -0.180  0.139     -0.452   -0.180      0.092 -0.180   0
+## perell                   0.052  0.235     -0.408    0.052      0.512  0.052   0
+## urban                    0.043  0.077     -0.108    0.043      0.194  0.043   0
+## perspeced                0.371  0.168      0.040    0.371      0.701  0.371   0
+## perecd                  -0.169  0.036     -0.239   -0.169     -0.099 -0.169   0
+## lninc50all               0.108  0.055     -0.001    0.108      0.217  0.108   0
+## baplusall                2.216  0.174      1.874    2.216      2.558  2.216   0
+## povertyall              -0.800  0.163     -1.120   -0.800     -0.481 -0.800   0
+## snapall                 -0.286  0.144     -0.569   -0.286     -0.004 -0.286   0
+## single_momall           -0.285  0.157     -0.593   -0.285      0.024 -0.285   0
+## state:et                -0.013  1.516     -2.987   -0.013      2.961 -0.013   0
+## state:minority_tert2     0.001  0.002     -0.003    0.001      0.005  0.001   0
+## state:minority_tert3     0.004  0.002      0.000    0.004      0.008  0.004   0
+## et:minority_tert2        0.228 18.194    -35.454    0.228     35.910  0.228   0
+## et:minority_tert3       -0.040 18.194    -35.722   -0.040     35.642 -0.040   0
+## state:et:minority_tert2 -0.003  1.516     -2.977   -0.003      2.971 -0.003   0
+## state:et:minority_tert3  0.007  1.516     -2.967    0.007      2.980  0.007   0
+## 
+## Random effects:
+##   Name     Model
+##     cohort IID model
+##    year IID model
+## 
+## Model hyperparameters:
+##                                           mean    sd 0.025quant 0.5quant
+## Precision for the Gaussian observations  4.635 0.034      4.568    4.635
+## Precision for cohort                     0.311 0.007      0.298    0.311
+## Precision for year                      52.781 2.680     46.812   53.139
+##                                         0.975quant   mode
+## Precision for the Gaussian observations      4.703  4.634
+## Precision for cohort                         0.324  0.311
+## Precision for year                          56.948 54.592
+## 
+## Marginal log-Likelihood:  -38422.43 
+##  is computed 
+## Posterior summaries for the linear predictor and the fitted values are computed
+## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
+<pre class="r"><code>summary(mod.math.bayes.random.interaction.state)</code></pre>
+<pre><code>## 
+## Call:
+##    c(&quot;inla.core(formula = formula, family = family, contrasts = contrasts, 
+##    &quot;, &quot; data = data, quantiles = quantiles, E = E, offset = offset, &quot;, &quot; 
+##    scale = scale, weights = weights, Ntrials = Ntrials, strata = strata, 
+##    &quot;, &quot; lp.scale = lp.scale, link.covariates = link.covariates, verbose = 
+##    verbose, &quot;, &quot; lincomb = lincomb, selection = selection, control.compute 
+##    = control.compute, &quot;, &quot; control.predictor = control.predictor, 
+##    control.family = control.family, &quot;, &quot; control.inla = control.inla, 
+##    control.fixed = control.fixed, &quot;, &quot; control.mode = control.mode, 
+##    control.expert = control.expert, &quot;, &quot; control.hazard = control.hazard, 
+##    control.lincomb = control.lincomb, &quot;, &quot; control.update = 
+##    control.update, control.lp.scale = control.lp.scale, &quot;, &quot; 
+##    control.pardiso = control.pardiso, only.hyperparam = only.hyperparam, 
+##    &quot;, &quot; inla.call = inla.call, inla.arg = inla.arg, num.threads = 
+##    num.threads, &quot;, &quot; blas.num.threads = blas.num.threads, keep = keep, 
+##    working.directory = working.directory, &quot;, &quot; silent = silent, inla.mode 
+##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
+##    .parent.frame)&quot;) 
+## Time used:
+##     Pre = 2.46, Running = 2.74, Post = 0.52, Total = 5.72 
+## Fixed effects:
+##                 mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+## (Intercept)    3.864 0.608      2.673    3.864      5.056  3.864   0
+## perfl         -0.353 0.039     -0.430   -0.353     -0.276 -0.353   0
+## perrl         -0.135 0.139     -0.408   -0.135      0.138 -0.135   0
+## perell         0.339 0.231     -0.114    0.339      0.793  0.339   0
+## urban          0.032 0.077     -0.119    0.032      0.183  0.032   0
+## perspeced      0.393 0.169      0.063    0.393      0.724  0.393   0
+## perecd        -0.190 0.036     -0.261   -0.190     -0.120 -0.190   0
+## lninc50all     0.127 0.056      0.018    0.127      0.236  0.127   0
+## baplusall      2.222 0.175      1.880    2.222      2.565  2.222   0
+## povertyall    -0.787 0.163     -1.107   -0.787     -0.467 -0.787   0
+## snapall       -0.321 0.144     -0.603   -0.321     -0.038 -0.321   0
+## single_momall -0.379 0.157     -0.687   -0.379     -0.070 -0.379   0
+## 
+## Random effects:
+##   Name     Model
+##     state_minority_tert IID model
+##    cohort IID model
+##    year IID model
+## 
+## Model hyperparameters:
+##                                            mean      sd 0.025quant 0.5quant
+## Precision for the Gaussian observations   4.635   0.035      4.565    4.635
+## Precision for state_minority_tert        56.455  38.026     11.525   47.396
+## Precision for cohort                      0.304   0.007      0.292    0.304
+## Precision for year                      106.510 103.249     25.318   76.292
+##                                         0.975quant   mode
+## Precision for the Gaussian observations      4.703  4.637
+## Precision for state_minority_tert          154.492 30.396
+## Precision for cohort                         0.318  0.303
+## Precision for year                         380.104 45.267
+## 
+## Marginal log-Likelihood:  -38402.14 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
 </div>
 <div id="run-bayesian-rla-models" class="section level2">
 <h2>Run Bayesian rla models</h2>
-<pre class="r"><code>mod.rla.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = rla.DID)</code></pre>
+<pre class="r"><code>mod.rla.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = rla.DID)
+mod.rla.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = rla.DID)
+mod.rla.bayes.random.interaction.state = inla(fml.bayes.random.interaction.state, data = rla.DID)</code></pre>
 </div>
 <div id="summary-of-fixed-interaction-rla-model" class="section level2">
 <h2>Summary of fixed interaction rla model</h2>
@@ -502,25 +649,26 @@ fml.bayes.fixed.interaction.state = gcs_mn_all ~
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.28, Running = 2.44, Post = 0.489, Total = 5.2 
+##     Pre = 2.34, Running = 2.44, Post = 0.534, Total = 5.32 
 ## Fixed effects:
 ##                     mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)        5.034 0.501      4.052    5.034      6.017  5.034   0
-## et                 0.067 0.176     -0.278    0.067      0.412  0.067   0
-## minority_tert2    -0.017 0.026     -0.068   -0.017      0.035 -0.017   0
-## minority_tert3    -0.151 0.030     -0.209   -0.151     -0.093 -0.151   0
-## perfl              0.092 0.033      0.028    0.092      0.156  0.092   0
-## perrl              0.454 0.116      0.227    0.454      0.682  0.454   0
-## perell            -1.809 0.192     -2.186   -1.809     -1.433 -1.809   0
-## urban              0.125 0.066     -0.005    0.125      0.255  0.125   0
-## perecd            -0.755 0.030     -0.814   -0.755     -0.695 -0.755   0
-## lninc50all         0.023 0.046     -0.067    0.023      0.112  0.023   0
-## baplusall          2.041 0.147      1.753    2.041      2.328  2.041   0
-## povertyall        -0.104 0.134     -0.367   -0.104      0.159 -0.104   0
-## snapall            0.181 0.120     -0.054    0.181      0.416  0.181   0
-## single_momall     -0.324 0.129     -0.578   -0.324     -0.070 -0.324   0
-## et:minority_tert2 -0.096 0.179     -0.447   -0.096      0.255 -0.096   0
-## et:minority_tert3 -0.036 0.177     -0.384   -0.036      0.311 -0.036   0
+## (Intercept)        4.862 0.501      3.879    4.862      5.845  4.862   0
+## et                 0.068 0.176     -0.276    0.068      0.413  0.068   0
+## minority_tert2    -0.014 0.026     -0.066   -0.014      0.037 -0.014   0
+## minority_tert3    -0.145 0.030     -0.203   -0.145     -0.087 -0.145   0
+## perfl              0.086 0.033      0.023    0.086      0.150  0.086   0
+## perrl              0.432 0.116      0.205    0.432      0.660  0.432   0
+## perell            -1.714 0.192     -2.092   -1.714     -1.337 -1.714   0
+## urban              0.127 0.066     -0.003    0.127      0.257  0.127   0
+## perspeced          1.017 0.145      0.733    1.017      1.301  1.017   0
+## perecd            -0.759 0.030     -0.818   -0.759     -0.699 -0.759   0
+## lninc50all         0.029 0.046     -0.061    0.029      0.119  0.029   0
+## baplusall          1.974 0.147      1.686    1.974      2.262  1.974   0
+## povertyall        -0.109 0.134     -0.372   -0.109      0.154 -0.109   0
+## snapall            0.139 0.120     -0.096    0.139      0.374  0.139   0
+## single_momall     -0.311 0.129     -0.564   -0.311     -0.057 -0.311   0
+## et:minority_tert2 -0.098 0.179     -0.449   -0.098      0.253 -0.098   0
+## et:minority_tert3 -0.037 0.177     -0.385   -0.037      0.310 -0.037   0
 ## 
 ## Random effects:
 ##   Name     Model
@@ -529,15 +677,141 @@ fml.bayes.fixed.interaction.state = gcs_mn_all ~
 ## 
 ## Model hyperparameters:
 ##                                           mean     sd 0.025quant 0.5quant
-## Precision for the Gaussian observations  6.025  0.042      5.941    6.025
-## Precision for cohort                     0.323  0.007      0.309    0.324
-## Precision for year                      99.101 87.939     25.449   73.536
+## Precision for the Gaussian observations  6.032  0.044       5.94    6.034
+## Precision for cohort                     0.324  0.007       0.31    0.323
+## Precision for year                      93.483 69.149      28.13   74.038
 ##                                         0.975quant   mode
-## Precision for the Gaussian observations      6.108  6.025
-## Precision for cohort                         0.337  0.325
-## Precision for year                         334.035 45.494
+## Precision for the Gaussian observations      6.114  6.041
+## Precision for cohort                         0.339  0.322
+## Precision for year                         279.370 49.832
 ## 
-## Marginal log-Likelihood:  -35705.11 
+## Marginal log-Likelihood:  -35685.56 
+##  is computed 
+## Posterior summaries for the linear predictor and the fitted values are computed
+## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
+<pre class="r"><code>summary(mod.rla.bayes.fixed.interaction.state)</code></pre>
+<pre><code>## 
+## Call:
+##    c(&quot;inla.core(formula = formula, family = family, contrasts = contrasts, 
+##    &quot;, &quot; data = data, quantiles = quantiles, E = E, offset = offset, &quot;, &quot; 
+##    scale = scale, weights = weights, Ntrials = Ntrials, strata = strata, 
+##    &quot;, &quot; lp.scale = lp.scale, link.covariates = link.covariates, verbose = 
+##    verbose, &quot;, &quot; lincomb = lincomb, selection = selection, control.compute 
+##    = control.compute, &quot;, &quot; control.predictor = control.predictor, 
+##    control.family = control.family, &quot;, &quot; control.inla = control.inla, 
+##    control.fixed = control.fixed, &quot;, &quot; control.mode = control.mode, 
+##    control.expert = control.expert, &quot;, &quot; control.hazard = control.hazard, 
+##    control.lincomb = control.lincomb, &quot;, &quot; control.update = 
+##    control.update, control.lp.scale = control.lp.scale, &quot;, &quot; 
+##    control.pardiso = control.pardiso, only.hyperparam = only.hyperparam, 
+##    &quot;, &quot; inla.call = inla.call, inla.arg = inla.arg, num.threads = 
+##    num.threads, &quot;, &quot; blas.num.threads = blas.num.threads, keep = keep, 
+##    working.directory = working.directory, &quot;, &quot; silent = silent, inla.mode 
+##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
+##    .parent.frame)&quot;) 
+## Time used:
+##     Pre = 2.51, Running = 2.55, Post = 0.593, Total = 5.65 
+## Fixed effects:
+##                           mean     sd 0.025quant 0.5quant 0.975quant   mode kld
+## (Intercept)              4.911  0.505      3.921    4.911      5.901  4.911   0
+## state                   -0.004  0.002     -0.008   -0.004      0.001 -0.004   0
+## et                       0.092 18.194    -35.590    0.092     35.774  0.092   0
+## minority_tert2          -0.033  0.052     -0.134   -0.033      0.069 -0.033   0
+## minority_tert3          -0.183  0.058     -0.296   -0.183     -0.069 -0.183   0
+## perfl                    0.093  0.033      0.029    0.093      0.156  0.093   0
+## perrl                    0.446  0.116      0.219    0.446      0.674  0.446   0
+## perell                  -1.660  0.195     -2.041   -1.660     -1.278 -1.660   0
+## urban                    0.120  0.066     -0.010    0.120      0.250  0.120   0
+## perspeced                0.998  0.145      0.713    0.998      1.282  0.998   0
+## perecd                  -0.763  0.030     -0.822   -0.763     -0.703 -0.763   0
+## lninc50all               0.035  0.046     -0.055    0.035      0.125  0.035   0
+## baplusall                1.979  0.147      1.691    1.979      2.267  1.979   0
+## povertyall              -0.106  0.134     -0.369   -0.106      0.157 -0.106   0
+## snapall                  0.129  0.120     -0.106    0.129      0.365  0.129   0
+## single_momall           -0.318  0.130     -0.573   -0.318     -0.064 -0.318   0
+## state:et                -0.002  1.516     -2.975   -0.002      2.972 -0.002   0
+## state:minority_tert2     0.001  0.002     -0.003    0.001      0.004  0.001   0
+## state:minority_tert3     0.001  0.002     -0.002    0.001      0.005  0.001   0
+## et:minority_tert2        0.115 18.194    -35.567    0.115     35.797  0.115   0
+## et:minority_tert3       -0.023 18.194    -35.705   -0.023     35.658 -0.023   0
+## state:et:minority_tert2 -0.007  1.516     -2.980   -0.007      2.967 -0.007   0
+## state:et:minority_tert3  0.000  1.516     -2.974    0.000      2.973  0.000   0
+## 
+## Random effects:
+##   Name     Model
+##     cohort IID model
+##    year IID model
+## 
+## Model hyperparameters:
+##                                            mean      sd 0.025quant 0.5quant
+## Precision for the Gaussian observations   6.032   0.042       5.95    6.032
+## Precision for cohort                      0.325   0.007       0.31    0.325
+## Precision for year                      110.220 112.867      24.56   77.111
+##                                         0.975quant   mode
+## Precision for the Gaussian observations      6.115  6.032
+## Precision for cohort                         0.338  0.326
+## Precision for year                         407.177 44.609
+## 
+## Marginal log-Likelihood:  -35728.62 
+##  is computed 
+## Posterior summaries for the linear predictor and the fitted values are computed
+## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
+<pre class="r"><code>summary(mod.rla.bayes.random.interaction.state)</code></pre>
+<pre><code>## 
+## Call:
+##    c(&quot;inla.core(formula = formula, family = family, contrasts = contrasts, 
+##    &quot;, &quot; data = data, quantiles = quantiles, E = E, offset = offset, &quot;, &quot; 
+##    scale = scale, weights = weights, Ntrials = Ntrials, strata = strata, 
+##    &quot;, &quot; lp.scale = lp.scale, link.covariates = link.covariates, verbose = 
+##    verbose, &quot;, &quot; lincomb = lincomb, selection = selection, control.compute 
+##    = control.compute, &quot;, &quot; control.predictor = control.predictor, 
+##    control.family = control.family, &quot;, &quot; control.inla = control.inla, 
+##    control.fixed = control.fixed, &quot;, &quot; control.mode = control.mode, 
+##    control.expert = control.expert, &quot;, &quot; control.hazard = control.hazard, 
+##    control.lincomb = control.lincomb, &quot;, &quot; control.update = 
+##    control.update, control.lp.scale = control.lp.scale, &quot;, &quot; 
+##    control.pardiso = control.pardiso, only.hyperparam = only.hyperparam, 
+##    &quot;, &quot; inla.call = inla.call, inla.arg = inla.arg, num.threads = 
+##    num.threads, &quot;, &quot; blas.num.threads = blas.num.threads, keep = keep, 
+##    working.directory = working.directory, &quot;, &quot; silent = silent, inla.mode 
+##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
+##    .parent.frame)&quot;) 
+## Time used:
+##     Pre = 2.45, Running = 2.78, Post = 0.575, Total = 5.8 
+## Fixed effects:
+##                 mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+## (Intercept)    4.814 0.502      3.829    4.814      5.798  4.814   0
+## perfl          0.086 0.033      0.022    0.086      0.150  0.086   0
+## perrl          0.441 0.116      0.213    0.441      0.669  0.441   0
+## perell        -1.799 0.192     -2.176   -1.799     -1.421 -1.799   0
+## urban          0.094 0.066     -0.036    0.094      0.224  0.094   0
+## perspeced      1.051 0.145      0.767    1.051      1.335  1.051   0
+## perecd        -0.766 0.030     -0.826   -0.766     -0.706 -0.766   0
+## lninc50all     0.026 0.046     -0.064    0.026      0.116  0.026   0
+## baplusall      1.981 0.147      1.693    1.981      2.270  1.981   0
+## povertyall    -0.118 0.134     -0.382   -0.118      0.145 -0.118   0
+## snapall        0.110 0.120     -0.125    0.110      0.346  0.110   0
+## single_momall -0.315 0.130     -0.569   -0.315     -0.061 -0.315   0
+## 
+## Random effects:
+##   Name     Model
+##     state_minority_tert IID model
+##    cohort IID model
+##    year IID model
+## 
+## Model hyperparameters:
+##                                          mean     sd 0.025quant 0.5quant
+## Precision for the Gaussian observations  6.03  0.043      5.949     6.03
+## Precision for state_minority_tert       65.36 47.801     13.918    52.90
+## Precision for cohort                     0.32  0.007      0.306     0.32
+## Precision for year                      89.57 68.757     26.206    70.06
+##                                         0.975quant   mode
+## Precision for the Gaussian observations      6.117  6.025
+## Precision for state_minority_tert          191.223 33.947
+## Precision for cohort                         0.333  0.321
+## Precision for year                         274.401 46.345
+## 
+## Marginal log-Likelihood:  -35692.95 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -550,23 +824,87 @@ fml.bayes.fixed.interaction.state = gcs_mn_all ~
                                  ll=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
                                  ul=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
+hurricane.math.bayes.random.interaction.state = data.frame(type=&#39;bayes&#39;,subject=&#39;math&#39;,
+                                  #tertile=c(1,2,3),
+                                  state=mod.math.bayes.random.interaction.state$summary.random$state_minority_tert$ID,
+                                  est=mod.math.bayes.random.interaction.state$summary.random$state_minority_tert$mean,
+                                  ll=mod.math.bayes.random.interaction.state$summary.random$state_minority_tert$`0.025quant`,
+                                  ul=mod.math.bayes.random.interaction.state$summary.random$state_minority_tert$`0.975quant`)
+
 hurricane.rla.bayes.fixed.interaction = data.frame(type=&#39;bayes&#39;,subject=&#39;rla&#39;,
-                                 tertile=c(1,2,3),
+                                 tertile=c(1,2,3), 
                                  est=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$mean,
                                  ll=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
                                  ul=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
 
+hurricane.rla.bayes.random.interaction.state = data.frame(type=&#39;bayes&#39;,subject=&#39;rla&#39;,
+                                  #tertile=c(1,2,3),
+                                  state=mod.math.bayes.random.interaction.state$summary.random$state_minority_tert$ID,
+                                  est=mod.math.bayes.random.interaction.state$summary.random$state_minority_tert$mean,
+                                  ll=mod.math.bayes.random.interaction.state$summary.random$state_minority_tert$`0.025quant`,
+                                  ul=mod.math.bayes.random.interaction.state$summary.random$state_minority_tert$`0.975quant`)
+
 hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.fixed.interaction,
-                                             hurricane.rla.bayes.fixed.interaction))
+                                             hurricane.rla.bayes.fixed.interaction,
+                                             hurricane.math.bayes.random.interaction.state,
+                                             hurricane.rla.bayes.random.interaction.state
+))
 
 print(hurricane.bayes)</code></pre>
-<pre><code>##     type subject tertile         est          ll          ul
-## 1: bayes    math       1  0.02867234 -0.36763162  0.42497775
-## 2: bayes    math       2 -0.02058483 -0.07964723  0.03847610
-## 3: bayes    math       3 -0.09905140 -0.16576445 -0.03234238
-## 4: bayes     rla       1  0.06657565 -0.27836848  0.41152140
-## 5: bayes     rla       2 -0.01663975 -0.06835174  0.03507068
-## 6: bayes     rla       3 -0.15066776 -0.20856228 -0.09277641</code></pre>
+<pre><code>##      type subject tertile           est            ll          ul
+##  1: bayes    math       1  2.911103e-02 -3.671446e-01  0.42536969
+##  2: bayes    math       2 -2.042401e-02 -7.948092e-02  0.03863098
+##  3: bayes    math       3 -9.776421e-02 -1.644894e-01 -0.03104496
+##  4: bayes     rla       1  6.827619e-02 -2.763954e-01  0.41295036
+##  5: bayes     rla       2 -1.422043e-02 -6.589683e-02  0.03745428
+##  6: bayes     rla       3 -1.452375e-01 -2.031022e-01 -0.08737699
+##  7: bayes    math     1_1 -1.168966e-17 -4.005546e-01  0.40055462
+##  8: bayes    math     1_2  2.640557e-01  2.158355e-02  0.53798787
+##  9: bayes    math     1_3 -3.685005e-02 -3.007201e-01  0.21455077
+## 10: bayes    math    12_1  1.743847e-02 -2.482938e-01  0.29023002
+## 11: bayes    math    12_2  1.516291e-01  3.712616e-05  0.31156579
+## 12: bayes    math    12_3  1.670707e-01  7.505738e-02  0.26043853
+## 13: bayes    math    13_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 14: bayes    math    13_2  3.307445e-01  2.462255e-02  0.68334915
+## 15: bayes    math    13_3 -7.889130e-02 -1.862071e-01  0.02700792
+## 16: bayes    math    22_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 17: bayes    math    22_2 -2.785862e-02 -3.280355e-01  0.24597530
+## 18: bayes    math    22_3 -1.178480e-01 -3.914183e-01  0.11960752
+## 19: bayes    math    34_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 20: bayes    math    34_2 -1.645297e-01 -4.014723e-01  0.04670819
+## 21: bayes    math    34_3 -1.168966e-17 -4.005546e-01  0.40055462
+## 22: bayes    math    37_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 23: bayes    math    37_2 -2.067459e-01 -3.591053e-01 -0.06136507
+## 24: bayes    math    37_3  5.656596e-02 -1.097244e-01  0.22836997
+## 25: bayes    math    45_2 -1.168966e-17 -4.005546e-01  0.40055462
+## 26: bayes    math    45_3 -1.704074e-01 -4.021630e-01  0.03702545
+## 27: bayes    math    48_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 28: bayes    math    48_2 -1.227984e-01 -2.946961e-01  0.03748809
+## 29: bayes    math    48_3 -7.374399e-02 -1.897475e-01  0.03756064
+## 30: bayes     rla     1_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 31: bayes     rla     1_2  2.640557e-01  2.158355e-02  0.53798787
+## 32: bayes     rla     1_3 -3.685005e-02 -3.007201e-01  0.21455077
+## 33: bayes     rla    12_1  1.743847e-02 -2.482938e-01  0.29023002
+## 34: bayes     rla    12_2  1.516291e-01  3.712616e-05  0.31156579
+## 35: bayes     rla    12_3  1.670707e-01  7.505738e-02  0.26043853
+## 36: bayes     rla    13_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 37: bayes     rla    13_2  3.307445e-01  2.462255e-02  0.68334915
+## 38: bayes     rla    13_3 -7.889130e-02 -1.862071e-01  0.02700792
+## 39: bayes     rla    22_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 40: bayes     rla    22_2 -2.785862e-02 -3.280355e-01  0.24597530
+## 41: bayes     rla    22_3 -1.178480e-01 -3.914183e-01  0.11960752
+## 42: bayes     rla    34_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 43: bayes     rla    34_2 -1.645297e-01 -4.014723e-01  0.04670819
+## 44: bayes     rla    34_3 -1.168966e-17 -4.005546e-01  0.40055462
+## 45: bayes     rla    37_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 46: bayes     rla    37_2 -2.067459e-01 -3.591053e-01 -0.06136507
+## 47: bayes     rla    37_3  5.656596e-02 -1.097244e-01  0.22836997
+## 48: bayes     rla    45_2 -1.168966e-17 -4.005546e-01  0.40055462
+## 49: bayes     rla    45_3 -1.704074e-01 -4.021630e-01  0.03702545
+## 50: bayes     rla    48_1 -1.168966e-17 -4.005546e-01  0.40055462
+## 51: bayes     rla    48_2 -1.227984e-01 -2.946961e-01  0.03748809
+## 52: bayes     rla    48_3 -7.374399e-02 -1.897475e-01  0.03756064
+##      type subject tertile           est            ll          ul</code></pre>
 </div>
 <div id="save-bayesian-results" class="section level2">
 <h2>Save Bayesian results</h2>
