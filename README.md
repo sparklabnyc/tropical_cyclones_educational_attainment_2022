@@ -45,19 +45,19 @@ b_08_figure 2_maps - prepare code for Figure 2 map showing distribution of count
 
 ## Model running (models) list:
 
-c_01_hurricane_did_florida - initial model for ISEE NAC abstract for Florida
+c_01_hurricane_did_national- national model with state-specific effects
 
-c_02_hurricane_did_national- national model with state-specific effects
+c_02_hurricane_did_national_et_only - national model with state-specific effects, hurricanes only predictors
 
-c_03_hurricane_did_national_et_only - national model with state-specific effects, hurricanes only predictors
+c_03_hurricane_did_national_covar_only - national model with state-specific effects, covariates only predictors
 
-c_04_hurricane_did_national_covar_only - national model with state-specific effects, covariates only predictors
+c_04_hurricane_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile
 
-c_05_hurricane_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile
+c_05_hurricane_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile
 
-c_06_hurricane_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile
+c_06_hurricane_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile
 
-c_07_hurricane_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile
+c_07_hurricane_did_national_SES_specialed_sensitivity - national model with state-specific effects, effect modification between SES and special education
 
 ## Model processing (model_processing) list:
 
