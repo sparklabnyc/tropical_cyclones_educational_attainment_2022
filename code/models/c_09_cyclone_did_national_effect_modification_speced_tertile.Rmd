@@ -1,0 +1,175 @@
+---
+title: "Cyclone DID model national with effect modification; special education tertiles"
+output: html_document
+---
+
+## Load packages and file locations etc.
+
+```{r include=FALSE}
+rm(list=ls())
+
+# 1a Declare root directory, folder locations and load essential stuff
+project.folder <- paste0(print(here::here()),'/')
+source(paste0(project.folder,'create_folder_structure.R'))
+source(paste0(file.locations.folder,'file_locations.R'))
+source(paste0(objects.folder,'objects.R'))
+source(paste0(functions.folder,'functions.R'))
+```
+
+## Load packages
+
+```{r,message=FALSE}
+library(dplyr)
+library(splines)
+library(INLA)
+```
+
+## Load math and rla data prepared for DID model
+
+```{r,message=FALSE}
+math.DID = readRDS(paste0(prepared.math.DID.folder, "math_DID_cyclones.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
+rla.DID = readRDS(paste0(prepared.rla.DID.folder, "rla_DID_cyclones.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
+```
+
+## Which states ever had exposure to hurricanes?
+
+```{r,message=FALSE}
+states_to_include = math.DID %>% filter(et==1) %>% pull(state) %>% unique()
+states_to_include = as.character(states_to_include)
+```
+
+## Filter for states which ever had exposure to hurricanes
+
+```{r,message=FALSE}
+math.DID = math.DID %>% 
+  filter(state%in%states_to_include) %>% 
+  mutate(state=as.numeric(as.character(state)))
+rla.DID = rla.DID %>% 
+  filter(state%in%states_to_include) %>% 
+  mutate(state=as.numeric(as.character(state)))
+```
+
+## Prepare variables for INLA
+
+```{r,message=FALSE}
+math.DID = math.DID %>% mutate(et2=et)
+rla.DID = rla.DID %>% mutate(et2=et)
+```
+
+## Define Bayesian formula
+
+```{r,message=FALSE}
+hyper_value = 0.001
+lg_prior = list(prec = list(prior = "loggamma", param = c(1, hyper_value)))
+
+fml.bayes.fixed.interaction = gcs_mn_all ~  
+                et*perspeced_tert + 
+                f(cohort,model="iid", hyper = lg_prior) +
+                f(year,model="iid", hyper = lg_prior) +
+                perfl + perrl + perell + pernam + 
+                perhsp + perblk + urban + sesall + 
+                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+
+fml.bayes.fixed.interaction.state = gcs_mn_all ~  
+                state*et*perspeced_tert +
+                f(cohort,model="iid", hyper = lg_prior) +
+                f(year,model="iid", hyper = lg_prior) +
+                perfl + perrl + perell + pernam + 
+                perhsp + perblk + urban + sesall + 
+                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+
+fml.bayes.random.interaction.state = gcs_mn_all ~  
+                f(state_perspeced_tert,et,model="iid", hyper = lg_prior) +
+                f(cohort,model="iid", hyper = lg_prior) +
+                f(year,model="iid", hyper = lg_prior) +
+                perfl + perrl + perell + pernam + 
+                perhsp + perblk + urban + sesall +
+                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+  
+```
+
+## Add combined state and tertile column 
+```{r,message=FALSE}
+math.DID = math.DID %>%
+  mutate(state_perspeced_tert=as.factor(paste0(state,'_',perspeced_tert)))
+
+rla.DID = rla.DID %>%
+  mutate(state_perspeced_tert=as.factor(paste0(state,'_',perspeced_tert)))
+```
+
+
+## Run Bayesian math models
+
+```{r,message=FALSE}
+mod.math.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = math.DID)
+mod.math.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = math.DID)
+mod.math.bayes.random.interaction.state = inla(fml.bayes.random.interaction.state, data = math.DID)
+```
+
+## Summary of fixed interaction math model
+
+```{r,message=FALSE}
+summary(mod.math.bayes.fixed.interaction)
+summary(mod.math.bayes.fixed.interaction.state)
+summary(mod.math.bayes.random.interaction.state)
+```
+
+## Run Bayesian rla models
+
+```{r,message=FALSE}
+mod.rla.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = rla.DID)
+mod.rla.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = rla.DID)
+mod.rla.bayes.random.interaction.state = inla(fml.bayes.random.interaction.state, data = rla.DID)
+```
+
+## Summary of fixed interaction rla model
+
+```{r,message=FALSE}
+summary(mod.rla.bayes.fixed.interaction)
+summary(mod.rla.bayes.fixed.interaction.state)
+summary(mod.rla.bayes.random.interaction.state)
+```
+
+## Summary of Bayesian results
+
+```{r, message=FALSE}
+cyclone.math.bayes.fixed.interaction = data.frame(type='bayes',subject='math',
+                                 tertile=c(1,2,3),
+                                 est=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$mean,
+                                 ll=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
+                                 ul=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
+
+cyclone.math.bayes.random.interaction.state = data.frame(type='bayes',subject='math',
+                                  #tertile=c(1,2,3),
+                                  state=mod.math.bayes.random.interaction.state$summary.random$state_perspeced_tert$ID,
+                                  est=mod.math.bayes.random.interaction.state$summary.random$state_perspeced_tert$mean,
+                                  ll=mod.math.bayes.random.interaction.state$summary.random$state_perspeced_tert$`0.025quant`,
+                                  ul=mod.math.bayes.random.interaction.state$summary.random$state_perspeced_tert$`0.975quant`)
+
+cyclone.rla.bayes.fixed.interaction = data.frame(type='bayes',subject='rla',
+                                 tertile=c(1,2,3), 
+                                 est=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$mean,
+                                 ll=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
+                                 ul=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
+
+cyclone.rla.bayes.random.interaction.state = data.frame(type='bayes',subject='rla',
+                                  #tertile=c(1,2,3),
+                                  state=mod.math.bayes.random.interaction.state$summary.random$state_perspeced_tert$ID,
+                                  est=mod.math.bayes.random.interaction.state$summary.random$state_perspeced_tert$mean,
+                                  ll=mod.math.bayes.random.interaction.state$summary.random$state_perspeced_tert$`0.025quant`,
+                                  ul=mod.math.bayes.random.interaction.state$summary.random$state_perspeced_tert$`0.975quant`)
+
+cyclone.bayes = data.table::rbindlist(list(cyclone.math.bayes.fixed.interaction,
+                                             cyclone.rla.bayes.fixed.interaction,
+                                             cyclone.math.bayes.random.interaction.state,
+                                             cyclone.rla.bayes.random.interaction.state
+))
+
+print(cyclone.bayes)
+```
+
+## Save Bayesian results
+
+```{r,message=FALSE}
+readr::write_csv(cyclone.bayes,paste0(model.output.folder,'cyclone_did_national_specialed_tertile_interaction.csv'))
+```

@@ -26,8 +26,8 @@ library(INLA)
 
 ## Load math and rla data prepared for DID model
 ```{r,message=FALSE}
-math.DID = readRDS(paste0(prepared.math.DID.folder, "math_DID.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
-rla.DID = readRDS(paste0(prepared.rla.DID.folder, "rla_DID.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
+math.DID = readRDS(paste0(prepared.math.DID.folder, "math_DID_hurricanes.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
+rla.DID = readRDS(paste0(prepared.rla.DID.folder, "rla_DID_hurricanes.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
 ```
 
 ## Which states ever had exposure to hurricanes?
@@ -61,9 +61,9 @@ fml.bayes.overall = gcs_mn_all ~
                 et +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
-                pernam + perasn + perhsp + perblk + 
+                pernam + perasn + perhsp + perblk +  
                 perfl + perrl + perell + 
-                urban + perspeced +
+                urban + perspeced + sesall +
                 perecd + lninc50all + baplusall + povertyall + snapall + single_momall
 
 
@@ -73,7 +73,7 @@ fml.bayes.state = gcs_mn_all ~
                 f(year,model="iid", hyper = lg_prior) +
                 pernam + perasn + perhsp + perblk + 
                 perfl + perrl + perell + perspeced +
-                urban + 
+                urban + sesall +
                 perecd + lninc50all + baplusall + povertyall + snapall + single_momall
 ```
 

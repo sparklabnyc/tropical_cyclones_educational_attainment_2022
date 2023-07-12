@@ -29,5 +29,5 @@ rla.DID <- full_join(processed.rla, hurricane.data, by = c('sedacounty', 'year')
   distinct() %>% relocate(state) %>% filter((is.na(subject)!=TRUE))
 
 #Save DID data in the appropriate folder 
-saveRDS(math.DID, paste0(prepared.math.DID.folder, "math_DID.rds"))
-saveRDS(rla.DID, paste0(prepared.rla.DID.folder, "rla_DID.rds"))
+saveRDS(math.DID, paste0(prepared.math.DID.folder, "math_DID_hurricanes.rds"))
+saveRDS(rla.DID, paste0(prepared.rla.DID.folder, "rla_DID_hurricanes.rds"))

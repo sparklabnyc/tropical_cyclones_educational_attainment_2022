@@ -21,9 +21,11 @@ a_05_prepare_tropical_cyclone_data - prepare tropical cyclone data
 
 a_06_prepare_hurricane_did_data - prepare hurricane DID data for initial DID model analysis
 
-a_07_prepare_moderator_data - prepare moderator variables for regression analyses
+a_07_prepare_tc_did_data - prepare tropical cyclone DID data for DID model analysis
 
-a_08_data_truncation - prepared math and RLA data frames excluding missing test scores and enrollment below 5th and above 95th percentiles
+a_08_prepare_moderator_data - prepare moderator variables for regression analyses
+
+a_09_data_truncation - prepared math and RLA data frames excluding missing test scores and enrollment below 5th and above 95th percentiles
 
 ## Data exploration (data_exploration) list:
 
@@ -37,27 +39,45 @@ b_04_percent_difference_abstract - calculating the percent difference in Florida
 
 b_05_figure 1_maps - prepare code for Figure 1 maps showing locations of hurricanes and tropical cyclones
 
-b_06_enrollment_percentiles - summarizing student enrollment percentiles
+b_06_effect_modification_midpoints - generate effect modification midpoints, compare to tertiles
 
-b_07_effect_modification_midpoints - generate effect modification midpoints, compare to tertiles
-
-b_08_figure 2_maps - prepare code for Figure 2 map showing distribution of county poverty tertiles
+b_07_figure 2_maps - prepare code for Figure 2 map showing distribution of county poverty tertiles
 
 ## Model running (models) list:
 
-c_01_hurricane_did_national- national model with state-specific effects
+c_01_hurricane_did_national- national model with state-specific effects for hurricanes only
 
-c_02_hurricane_did_national_et_only - national model with state-specific effects, hurricanes only predictors
+c_02_hurricane_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile for hurricanes only
 
-c_03_hurricane_did_national_covar_only - national model with state-specific effects, covariates only predictors
+c_03_hurricane_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile for hurricanes only
 
-c_04_hurricane_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile
+c_04_hurricane_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile for hurricanes only
 
-c_05_hurricane_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile
+c_05_hurricane_did_national_SES_specialed_sensitivity - national model with state-specific effects, effect modification between SES and special education
 
-c_06_hurricane_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile
+c_06_cyclone_did_national - national model with state-specific effects for all tropical cyclones
 
-c_07_hurricane_did_national_SES_specialed_sensitivity - national model with state-specific effects, effect modification between SES and special education
+c_07_cylcone_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile for hurricanes only
+
+c_08_cyclone_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile for hurricanes only
+
+c_09_cyclone_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile for hurricanes only
+
+c_10_hurricane_truncated_did_national- national model with state-specific effects for hurricanes only; truncated
+
+c_11_hurricane_truncated_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile for hurricanes only; truncated
+
+c_12_hurricane_truncated_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile for hurricanes only; truncated
+
+c_13_hurricane_truncated_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile for hurricanes only; truncated
+
+c_14_cyclone_truncated_did_national - national model with state-specific effects for all tropical cyclones; truncated
+
+c_15_cyclone_truncated_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile for hurricanes only; truncated
+
+c_16_cyclone_truncated_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile for hurricanes only; truncated
+
+c_17_cyclone_truncated_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile for hurricanes only; truncated
 
 ## Model processing (model_processing) list:
 
