@@ -66,21 +66,21 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
                 et*sesall_tert + 
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
-                perfl + perrl + perell + pernam + perhsp + perblk +
+                perfl + perrl + perell + pernam + perhsp + perblk + perasn + 
                 urban + perspeced + perecd 
 
 fml.bayes.fixed.interaction.state = gcs_mn_all ~  
                 state*et*sesall_tert +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
-                perfl + perrl + perell + pernam + perhsp + perblk + 
+                perfl + perrl + perell + pernam + perhsp + perblk + perasn + 
                 urban + perspeced + perecd
 
 fml.bayes.random.interaction.state = gcs_mn_all ~  
                 f(state_sesall_tert,et,model="iid", hyper = lg_prior) +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
-                perfl + perrl + perell + pernam + perhsp + perblk + 
+                perfl + perrl + perell + pernam + perhsp + perblk + perasn + 
                 urban + perspeced + perecd
 ```
 

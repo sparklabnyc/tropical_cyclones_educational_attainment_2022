@@ -61,7 +61,7 @@ fml.bayes.overall = gcs_mn_all ~
                 et +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
-                pernam + perasn + perhsp + perblk + 
+                pernam + perasn + perhsp + perblk + perasn + 
                 perfl + perrl + perell + 
                 urban + perspeced + sesall + 
                 perecd + lninc50all + baplusall + povertyall + snapall + single_momall
@@ -71,7 +71,7 @@ fml.bayes.state = gcs_mn_all ~
                 f(state,et2,model="iid", hyper = lg_prior) +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
-                pernam + perasn + perhsp + perblk + 
+                pernam + perasn + perhsp + perblk + perasn + 
                 perfl + perrl + perell + perspeced +
                 urban + sesall + 
                 perecd + lninc50all + baplusall + povertyall + snapall + single_momall

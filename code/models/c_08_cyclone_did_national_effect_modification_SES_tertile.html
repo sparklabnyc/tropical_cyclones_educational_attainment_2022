@@ -396,21 +396,21 @@ fml.bayes.fixed.interaction = gcs_mn_all ~
                 et*sesall_tert + 
                 f(cohort,model=&quot;iid&quot;, hyper = lg_prior) +
                 f(year,model=&quot;iid&quot;, hyper = lg_prior) +
-                perfl + perrl + perell + pernam + perhsp + perblk +
+                perfl + perrl + perell + pernam + perhsp + perblk + perasn + 
                 urban + perspeced + perecd 
 
 fml.bayes.fixed.interaction.state = gcs_mn_all ~  
                 state*et*sesall_tert +
                 f(cohort,model=&quot;iid&quot;, hyper = lg_prior) +
                 f(year,model=&quot;iid&quot;, hyper = lg_prior) +
-                perfl + perrl + perell + pernam + perhsp + perblk + 
+                perfl + perrl + perell + pernam + perhsp + perblk + perasn + 
                 urban + perspeced + perecd
 
 fml.bayes.random.interaction.state = gcs_mn_all ~  
                 f(state_sesall_tert,et,model=&quot;iid&quot;, hyper = lg_prior) +
                 f(cohort,model=&quot;iid&quot;, hyper = lg_prior) +
                 f(year,model=&quot;iid&quot;, hyper = lg_prior) +
-                perfl + perrl + perell + pernam + perhsp + perblk + 
+                perfl + perrl + perell + pernam + perhsp + perblk + perasn + 
                 urban + perspeced + perecd</code></pre>
 </div>
 <div id="add-combined-state-and-tertile-column" class="section level2">
@@ -450,24 +450,25 @@ mod.math.bayes.random.interaction.state = inla(fml.bayes.random.interaction.stat
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.8, Running = 8.3, Post = 0.759, Total = 11.9 
+##     Pre = 2.95, Running = 8.79, Post = 0.797, Total = 12.5 
 ## Fixed effects:
 ##                   mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)      5.688 0.034      5.621    5.688      5.754  5.688   0
-## et              -0.001 0.005     -0.011   -0.001      0.009 -0.001   0
+## (Intercept)      5.657 0.034      5.591    5.657      5.724  5.657   0
+## et              -0.001 0.005     -0.011   -0.001      0.010 -0.001   0
 ## sesall_tert2     0.020 0.005      0.009    0.020      0.031  0.020   0
-## sesall_tert3     0.032 0.008      0.017    0.032      0.048  0.032   0
-## perfl            0.022 0.018     -0.014    0.022      0.057  0.022   0
-## perrl            0.301 0.051      0.201    0.301      0.401  0.301   0
-## perell          -0.481 0.113     -0.702   -0.481     -0.260 -0.481   0
-## pernam          -0.569 0.188     -0.938   -0.569     -0.199 -0.569   0
-## perhsp          -0.914 0.051     -1.014   -0.914     -0.815 -0.914   0
-## perblk          -1.716 0.048     -1.810   -1.716     -1.622 -1.716   0
-## urban            0.064 0.031      0.003    0.064      0.126  0.064   0
-## perspeced        0.886 0.061      0.766    0.886      1.005  0.886   0
-## perecd          -0.322 0.017     -0.356   -0.322     -0.288 -0.322   0
-## et:sesall_tert2 -0.005 0.007     -0.019   -0.005      0.009 -0.005   0
-## et:sesall_tert3  0.002 0.007     -0.013    0.002      0.016  0.002   0
+## sesall_tert3     0.033 0.008      0.017    0.033      0.048  0.033   0
+## perfl            0.025 0.018     -0.011    0.025      0.061  0.025   0
+## perrl            0.306 0.051      0.206    0.306      0.406  0.306   0
+## perell          -0.550 0.113     -0.771   -0.550     -0.329 -0.550   0
+## pernam          -0.585 0.188     -0.954   -0.585     -0.215 -0.585   0
+## perhsp          -0.916 0.051     -1.015   -0.916     -0.817 -0.916   0
+## perblk          -1.716 0.048     -1.810   -1.716     -1.623 -1.716   0
+## perasn           2.175 0.215      1.753    2.175      2.597  2.175   0
+## urban            0.051 0.031     -0.011    0.051      0.112  0.051   0
+## perspeced        0.887 0.061      0.768    0.887      1.007  0.887   0
+## perecd          -0.316 0.017     -0.350   -0.316     -0.282 -0.316   0
+## et:sesall_tert2 -0.006 0.007     -0.020   -0.006      0.008 -0.006   0
+## et:sesall_tert3  0.001 0.007     -0.014    0.001      0.015  0.001   0
 ## 
 ## Random effects:
 ##   Name     Model
@@ -476,15 +477,15 @@ mod.math.bayes.random.interaction.state = inla(fml.bayes.random.interaction.stat
 ## 
 ## Model hyperparameters:
 ##                                            mean      sd 0.025quant 0.5quant
-## Precision for the Gaussian observations   5.397   0.015      5.370    5.396
-## Precision for cohort                      0.312   0.004      0.304    0.313
-## Precision for year                      165.436 117.053     51.550  132.922
-##                                         0.975quant   mode
-## Precision for the Gaussian observations      5.429  5.392
-## Precision for cohort                         0.321  0.313
-## Precision for year                         479.909 91.251
+## Precision for the Gaussian observations   5.395   0.015      5.369    5.394
+## Precision for cohort                      0.314   0.004      0.305    0.314
+## Precision for year                      176.630 118.244     57.187  144.390
+##                                         0.975quant    mode
+## Precision for the Gaussian observations      5.427   5.390
+## Precision for cohort                         0.323   0.315
+## Precision for year                         493.623 101.555
 ## 
-## Marginal log-Likelihood:  -137990.44 
+## Marginal log-Likelihood:  -137944.36 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -509,28 +510,29 @@ mod.math.bayes.random.interaction.state = inla(fml.bayes.random.interaction.stat
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.97, Running = 9.04, Post = 0.876, Total = 12.9 
+##     Pre = 3.08, Running = 10, Post = 0.839, Total = 13.9 
 ## Fixed effects:
 ##                         mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)            5.487 0.049      5.391    5.487      5.583  5.487   0
+## (Intercept)            5.457 0.049      5.361    5.457      5.554  5.457   0
 ## state                  0.007 0.001      0.004    0.007      0.009  0.007   0
-## et                     0.017 0.011     -0.005    0.017      0.038  0.017   0
+## et                     0.018 0.011     -0.003    0.018      0.040  0.018   0
 ## sesall_tert2           0.014 0.011     -0.007    0.014      0.035  0.014   0
-## sesall_tert3           0.052 0.017      0.019    0.052      0.085  0.052   0
-## perfl                  0.024 0.018     -0.012    0.024      0.060  0.024   0
-## perrl                  0.299 0.051      0.199    0.299      0.400  0.299   0
-## perell                -0.490 0.113     -0.711   -0.490     -0.269 -0.490   0
-## pernam                -0.565 0.188     -0.934   -0.565     -0.195 -0.565   0
-## perhsp                -0.948 0.051     -1.048   -0.948     -0.848 -0.948   0
-## perblk                -1.685 0.048     -1.780   -1.685     -1.591 -1.685   0
-## urban                  0.063 0.031      0.002    0.063      0.124  0.063   0
-## perspeced              0.882 0.061      0.763    0.882      1.002  0.882   0
-## perecd                -0.323 0.017     -0.357   -0.323     -0.289 -0.323   0
+## sesall_tert3           0.054 0.017      0.021    0.054      0.087  0.054   0
+## perfl                  0.027 0.018     -0.009    0.027      0.063  0.027   0
+## perrl                  0.304 0.051      0.204    0.304      0.404  0.304   0
+## perell                -0.559 0.113     -0.780   -0.559     -0.338 -0.559   0
+## pernam                -0.581 0.188     -0.950   -0.581     -0.211 -0.581   0
+## perhsp                -0.949 0.051     -1.050   -0.949     -0.849 -0.949   0
+## perblk                -1.686 0.048     -1.780   -1.686     -1.591 -1.686   0
+## perasn                 2.179 0.215      1.757    2.179      2.601  2.179   0
+## urban                  0.049 0.031     -0.012    0.049      0.110  0.049   0
+## perspeced              0.884 0.061      0.765    0.884      1.003  0.884   0
+## perecd                -0.317 0.017     -0.351   -0.317     -0.283 -0.317   0
 ## state:et              -0.001 0.000     -0.001   -0.001      0.000 -0.001   0
 ## state:sesall_tert2     0.000 0.000      0.000    0.000      0.001  0.000   0
 ## state:sesall_tert3    -0.001 0.001     -0.002   -0.001      0.000 -0.001   0
-## et:sesall_tert2        0.019 0.016     -0.012    0.019      0.050  0.019   0
-## et:sesall_tert3        0.025 0.018     -0.010    0.025      0.059  0.025   0
+## et:sesall_tert2        0.018 0.016     -0.013    0.018      0.049  0.018   0
+## et:sesall_tert3        0.023 0.018     -0.012    0.023      0.057  0.023   0
 ## state:et:sesall_tert2 -0.001 0.001     -0.002   -0.001      0.000 -0.001   0
 ## state:et:sesall_tert3 -0.001 0.001     -0.002   -0.001      0.000 -0.001   0
 ## 
@@ -541,15 +543,15 @@ mod.math.bayes.random.interaction.state = inla(fml.bayes.random.interaction.stat
 ## 
 ## Model hyperparameters:
 ##                                            mean      sd 0.025quant 0.5quant
-## Precision for the Gaussian observations   5.395   0.015      5.369    5.394
-## Precision for cohort                      0.313   0.004      0.304    0.313
-## Precision for year                      177.491 119.777     57.108  144.743
+## Precision for the Gaussian observations   5.396   0.015      5.370    5.395
+## Precision for cohort                      0.315   0.004      0.306    0.315
+## Precision for year                      173.583 112.887     57.493  143.119
 ##                                         0.975quant    mode
-## Precision for the Gaussian observations      5.427   5.390
-## Precision for cohort                         0.321   0.313
-## Precision for year                         498.701 101.465
+## Precision for the Gaussian observations      5.428   5.391
+## Precision for cohort                         0.323   0.315
+## Precision for year                         475.804 101.858
 ## 
-## Marginal log-Likelihood:  -138026.10 
+## Marginal log-Likelihood:  -137979.86 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -574,19 +576,20 @@ mod.math.bayes.random.interaction.state = inla(fml.bayes.random.interaction.stat
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.9, Running = 7.26, Post = 0.792, Total = 11 
+##     Pre = 2.86, Running = 9.1, Post = 0.717, Total = 12.7 
 ## Fixed effects:
 ##               mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)  5.710 0.048      5.616    5.710      5.805  5.710   0
-## perfl        0.022 0.018     -0.014    0.022      0.058  0.022   0
-## perrl        0.306 0.051      0.206    0.306      0.406  0.306   0
-## perell      -0.467 0.113     -0.688   -0.467     -0.246 -0.467   0
-## pernam      -0.585 0.188     -0.954   -0.585     -0.216 -0.585   0
-## perhsp      -0.920 0.051     -1.019   -0.920     -0.820 -0.920   0
-## perblk      -1.724 0.048     -1.818   -1.724     -1.630 -1.724   0
-## urban        0.066 0.031      0.005    0.066      0.128  0.066   0
-## perspeced    0.895 0.061      0.775    0.895      1.014  0.895   0
-## perecd      -0.333 0.017     -0.367   -0.333     -0.299 -0.333   0
+## (Intercept)  5.681 0.038      5.606    5.681      5.757  5.681   0
+## perfl        0.024 0.018     -0.012    0.024      0.061  0.024   0
+## perrl        0.310 0.051      0.210    0.310      0.410  0.310   0
+## perell      -0.532 0.113     -0.753   -0.532     -0.310 -0.532   0
+## pernam      -0.602 0.189     -0.972   -0.602     -0.233 -0.602   0
+## perhsp      -0.919 0.051     -1.019   -0.919     -0.820 -0.919   0
+## perblk      -1.727 0.048     -1.821   -1.727     -1.633 -1.727   0
+## perasn       2.183 0.216      1.761    2.183      2.606  2.183   0
+## urban        0.054 0.031     -0.008    0.054      0.115  0.054   0
+## perspeced    0.897 0.061      0.777    0.897      1.017  0.897   0
+## perecd      -0.328 0.017     -0.362   -0.328     -0.294 -0.328   0
 ## 
 ## Random effects:
 ##   Name     Model
@@ -595,18 +598,18 @@ mod.math.bayes.random.interaction.state = inla(fml.bayes.random.interaction.stat
 ##    year IID model
 ## 
 ## Model hyperparameters:
-##                                            mean     sd 0.025quant 0.5quant
-## Precision for the Gaussian observations   5.427  0.018      5.390    5.427
-## Precision for state_sesall_tert          68.183 18.847     44.277   64.294
-## Precision for cohort                      0.319  0.012      0.303    0.317
-## Precision for year                      105.175 98.049     26.638   76.575
+##                                            mean      sd 0.025quant 0.5quant
+## Precision for the Gaussian observations   5.395   0.015      5.370    5.394
+## Precision for state_sesall_tert          76.876  20.611     50.296   72.697
+## Precision for cohort                      0.314   0.004      0.305    0.314
+## Precision for year                      136.910 109.319     39.001  105.621
 ##                                         0.975quant   mode
-## Precision for the Gaussian observations      5.462  5.428
-## Precision for state_sesall_tert            116.771 54.728
-## Precision for cohort                         0.347  0.309
-## Precision for year                         366.196 46.176
+## Precision for the Gaussian observations      5.427  5.390
+## Precision for state_sesall_tert            129.732 62.370
+## Precision for cohort                         0.322  0.314
+## Precision for year                         430.639 68.541
 ## 
-## Marginal log-Likelihood:  -137934.82 
+## Marginal log-Likelihood:  -137886.38 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -640,24 +643,25 @@ mod.rla.bayes.random.interaction.state = inla(fml.bayes.fixed.interaction.state,
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.71, Running = 7.27, Post = 0.582, Total = 10.6 
+##     Pre = 2.85, Running = 8.38, Post = 0.88, Total = 12.1 
 ## Fixed effects:
 ##                   mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)      6.067 0.045      5.980    6.067      6.155  6.067   0
+## (Intercept)      6.038 0.036      5.966    6.038      6.110  6.038   0
 ## et              -0.007 0.005     -0.016   -0.007      0.002 -0.007   0
 ## sesall_tert2    -0.022 0.005     -0.031   -0.022     -0.013 -0.022   0
-## sesall_tert3    -0.006 0.007     -0.019   -0.006      0.008 -0.006   0
-## perfl            0.088 0.016      0.056    0.088      0.119  0.088   0
-## perrl            0.308 0.046      0.218    0.308      0.397  0.308   0
-## perell          -1.155 0.098     -1.347   -1.155     -0.963 -1.155   0
-## pernam          -0.847 0.169     -1.179   -0.847     -0.516 -0.847   0
-## perhsp          -1.508 0.043     -1.594   -1.508     -1.423 -1.508   0
-## perblk          -1.916 0.043     -2.001   -1.916     -1.832 -1.916   0
-## urban            0.005 0.024     -0.042    0.005      0.051  0.005   0
-## perspeced        0.518 0.055      0.411    0.518      0.626  0.518   0
-## perecd          -0.541 0.015     -0.570   -0.541     -0.512 -0.541   0
-## et:sesall_tert2  0.005 0.006     -0.007    0.005      0.017  0.005   0
-## et:sesall_tert3  0.019 0.007      0.006    0.019      0.032  0.019   0
+## sesall_tert3    -0.006 0.007     -0.019   -0.006      0.007 -0.006   0
+## perfl            0.091 0.016      0.060    0.091      0.123  0.091   0
+## perrl            0.313 0.046      0.224    0.313      0.403  0.313   0
+## perell          -1.225 0.098     -1.418   -1.225     -1.032 -1.225   0
+## pernam          -0.862 0.169     -1.194   -0.862     -0.531 -0.862   0
+## perhsp          -1.503 0.043     -1.588   -1.503     -1.418 -1.503   0
+## perblk          -1.915 0.043     -1.999   -1.915     -1.830 -1.915   0
+## perasn           1.973 0.185      1.609    1.973      2.337  1.973   0
+## urban           -0.001 0.024     -0.048   -0.001      0.045 -0.001   0
+## perspeced        0.520 0.055      0.412    0.520      0.628  0.520   0
+## perecd          -0.536 0.015     -0.565   -0.536     -0.507 -0.536   0
+## et:sesall_tert2  0.005 0.006     -0.008    0.005      0.017  0.005   0
+## et:sesall_tert3  0.018 0.007      0.005    0.018      0.031  0.018   0
 ## 
 ## Random effects:
 ##   Name     Model
@@ -665,16 +669,16 @@ mod.rla.bayes.random.interaction.state = inla(fml.bayes.fixed.interaction.state,
 ##    year IID model
 ## 
 ## Model hyperparameters:
-##                                             mean       sd 0.025quant 0.5quant
-## Precision for the Gaussian observations    6.366 4.10e-02      6.306    6.359
-## Precision for cohort                       0.332 6.00e-03      0.319    0.332
-## Precision for year                      7674.828 4.36e+04     49.519  461.692
+##                                            mean     sd 0.025quant 0.5quant
+## Precision for the Gaussian observations   6.392  0.060      6.309    6.381
+## Precision for cohort                      0.334  0.006      0.322    0.335
+## Precision for year                      108.097 62.396     38.526   92.198
 ##                                         0.975quant   mode
-## Precision for the Gaussian observations   6.46e+00  6.331
-## Precision for cohort                      3.41e-01  0.335
-## Precision for year                        5.62e+04 68.615
+## Precision for the Gaussian observations      6.535  6.337
+## Precision for cohort                         0.344  0.337
+## Precision for year                         273.352 68.987
 ## 
-## Marginal log-Likelihood:  -135566.17 
+## Marginal log-Likelihood:  -135514.99 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -699,28 +703,29 @@ mod.rla.bayes.random.interaction.state = inla(fml.bayes.fixed.interaction.state,
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 3.03, Running = 9.03, Post = 0.7, Total = 12.8 
+##     Pre = 2.85, Running = 9.33, Post = 0.898, Total = 13.1 
 ## Fixed effects:
 ##                         mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)            6.052 0.050      5.954    6.052      6.150  6.052   0
+## (Intercept)            6.024 0.050      5.927    6.024      6.122  6.024   0
 ## state                  0.000 0.001     -0.002    0.000      0.003  0.000   0
-## et                    -0.021 0.010     -0.040   -0.021     -0.002 -0.021   0
+## et                    -0.020 0.010     -0.039   -0.020     -0.001 -0.020   0
 ## sesall_tert2          -0.034 0.010     -0.053   -0.034     -0.015 -0.034   0
-## sesall_tert3           0.022 0.015     -0.007    0.022      0.052  0.022   0
-## perfl                  0.089 0.016      0.057    0.089      0.120  0.089   0
-## perrl                  0.303 0.046      0.214    0.303      0.393  0.303   0
-## perell                -1.151 0.098     -1.344   -1.151     -0.959 -1.151   0
-## pernam                -0.841 0.169     -1.173   -0.841     -0.510 -0.841   0
-## perhsp                -1.506 0.044     -1.591   -1.506     -1.420 -1.506   0
-## perblk                -1.914 0.043     -1.999   -1.914     -1.829 -1.914   0
-## urban                  0.003 0.024     -0.044    0.003      0.050  0.003   0
-## perspeced              0.519 0.055      0.411    0.519      0.627  0.519   0
-## perecd                -0.540 0.015     -0.569   -0.540     -0.511 -0.540   0
-## state:et               0.001 0.000      0.000    0.001      0.001  0.001   0
+## sesall_tert3           0.024 0.015     -0.006    0.024      0.053  0.024   0
+## perfl                  0.092 0.016      0.060    0.092      0.123  0.092   0
+## perrl                  0.309 0.046      0.220    0.309      0.399  0.309   0
+## perell                -1.221 0.098     -1.414   -1.221     -1.028 -1.221   0
+## pernam                -0.856 0.169     -1.187   -0.856     -0.524 -0.856   0
+## perhsp                -1.501 0.044     -1.586   -1.501     -1.415 -1.501   0
+## perblk                -1.912 0.043     -1.997   -1.912     -1.827 -1.912   0
+## perasn                 1.974 0.185      1.611    1.974      2.338  1.974   0
+## urban                 -0.003 0.024     -0.050   -0.003      0.043 -0.003   0
+## perspeced              0.521 0.055      0.413    0.521      0.628  0.521   0
+## perecd                -0.535 0.015     -0.565   -0.535     -0.506 -0.535   0
+## state:et               0.000 0.000      0.000    0.000      0.001  0.000   0
 ## state:sesall_tert2     0.000 0.000      0.000    0.000      0.001  0.000   0
 ## state:sesall_tert3    -0.001 0.000     -0.002   -0.001      0.000 -0.001   0
-## et:sesall_tert2        0.061 0.014      0.034    0.061      0.088  0.061   0
-## et:sesall_tert3        0.041 0.015      0.010    0.041      0.071  0.041   0
+## et:sesall_tert2        0.060 0.014      0.033    0.060      0.087  0.060   0
+## et:sesall_tert3        0.039 0.015      0.008    0.039      0.069  0.039   0
 ## state:et:sesall_tert2 -0.002 0.000     -0.003   -0.002     -0.001 -0.002   0
 ## state:et:sesall_tert3 -0.001 0.000     -0.002   -0.001      0.000 -0.001   0
 ## 
@@ -731,15 +736,15 @@ mod.rla.bayes.random.interaction.state = inla(fml.bayes.fixed.interaction.state,
 ## 
 ## Model hyperparameters:
 ##                                            mean     sd 0.025quant 0.5quant
-## Precision for the Gaussian observations   6.371  0.045      6.308    6.364
-## Precision for cohort                      0.332  0.006      0.319    0.332
-## Precision for year                      105.497 58.326     38.740   90.980
+## Precision for the Gaussian observations   6.372  0.044      6.309    6.365
+## Precision for cohort                      0.334  0.006      0.321    0.335
+## Precision for year                      106.527 59.824     38.738   91.498
 ##                                         0.975quant   mode
-## Precision for the Gaussian observations      6.476  6.332
-## Precision for cohort                         0.341  0.335
-## Precision for year                         259.235 69.273
+## Precision for the Gaussian observations      6.476  6.334
+## Precision for cohort                         0.344  0.337
+## Precision for year                         264.525 69.215
 ## 
-## Marginal log-Likelihood:  -135617.43 
+## Marginal log-Likelihood:  -135566.10 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -764,28 +769,29 @@ mod.rla.bayes.random.interaction.state = inla(fml.bayes.fixed.interaction.state,
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.94, Running = 9.02, Post = 0.734, Total = 12.7 
+##     Pre = 3.02, Running = 9.93, Post = 0.78, Total = 13.7 
 ## Fixed effects:
 ##                         mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)            6.052 0.056      5.942    6.052      6.162  6.052   0
+## (Intercept)            6.024 0.050      5.927    6.024      6.122  6.024   0
 ## state                  0.000 0.001     -0.002    0.000      0.003  0.000   0
-## et                    -0.021 0.010     -0.040   -0.021     -0.002 -0.021   0
-## sesall_tert2          -0.034 0.010     -0.053   -0.034     -0.015 -0.034   0
-## sesall_tert3           0.022 0.015     -0.007    0.022      0.052  0.022   0
-## perfl                  0.088 0.016      0.057    0.088      0.120  0.088   0
-## perrl                  0.304 0.046      0.214    0.304      0.393  0.304   0
-## perell                -1.151 0.098     -1.344   -1.151     -0.959 -1.151   0
-## pernam                -0.841 0.169     -1.173   -0.841     -0.510 -0.841   0
-## perhsp                -1.507 0.044     -1.593   -1.507     -1.421 -1.507   0
-## perblk                -1.914 0.043     -1.998   -1.914     -1.829 -1.914   0
-## urban                  0.003 0.024     -0.044    0.003      0.050  0.003   0
-## perspeced              0.519 0.055      0.411    0.519      0.627  0.519   0
-## perecd                -0.541 0.015     -0.570   -0.541     -0.512 -0.541   0
-## state:et               0.001 0.000      0.000    0.001      0.001  0.001   0
+## et                    -0.020 0.010     -0.039   -0.020     -0.001 -0.020   0
+## sesall_tert2          -0.034 0.010     -0.052   -0.034     -0.015 -0.034   0
+## sesall_tert3           0.024 0.015     -0.006    0.024      0.053  0.024   0
+## perfl                  0.092 0.016      0.060    0.092      0.123  0.092   0
+## perrl                  0.309 0.046      0.220    0.309      0.398  0.309   0
+## perell                -1.221 0.098     -1.414   -1.221     -1.028 -1.221   0
+## pernam                -0.856 0.169     -1.187   -0.856     -0.524 -0.856   0
+## perhsp                -1.501 0.044     -1.586   -1.501     -1.415 -1.501   0
+## perblk                -1.912 0.043     -1.997   -1.912     -1.827 -1.912   0
+## perasn                 1.975 0.185      1.611    1.975      2.338  1.975   0
+## urban                 -0.003 0.024     -0.050   -0.003      0.043 -0.003   0
+## perspeced              0.521 0.055      0.413    0.521      0.628  0.521   0
+## perecd                -0.535 0.015     -0.565   -0.535     -0.506 -0.535   0
+## state:et               0.000 0.000      0.000    0.000      0.001  0.000   0
 ## state:sesall_tert2     0.000 0.000      0.000    0.000      0.001  0.000   0
 ## state:sesall_tert3    -0.001 0.000     -0.002   -0.001      0.000 -0.001   0
-## et:sesall_tert2        0.061 0.014      0.034    0.061      0.088  0.061   0
-## et:sesall_tert3        0.041 0.015      0.010    0.041      0.071  0.041   0
+## et:sesall_tert2        0.060 0.014      0.033    0.060      0.087  0.060   0
+## et:sesall_tert3        0.039 0.015      0.008    0.039      0.069  0.039   0
 ## state:et:sesall_tert2 -0.002 0.000     -0.003   -0.002     -0.001 -0.002   0
 ## state:et:sesall_tert3 -0.001 0.000     -0.002   -0.001      0.000 -0.001   0
 ## 
@@ -795,16 +801,16 @@ mod.rla.bayes.random.interaction.state = inla(fml.bayes.fixed.interaction.state,
 ##    year IID model
 ## 
 ## Model hyperparameters:
-##                                             mean       sd 0.025quant 0.5quant
-## Precision for the Gaussian observations 6.37e+00 4.00e-02      6.307    6.359
-## Precision for cohort                    3.32e-01 6.00e-03      0.319    0.332
-## Precision for year                      4.66e+04 1.36e+05     55.887 1704.526
+##                                            mean     sd 0.025quant 0.5quant
+## Precision for the Gaussian observations   6.384  0.053      6.310    6.374
+## Precision for cohort                      0.334  0.006      0.321    0.335
+## Precision for year                      107.776 61.882     38.551   92.052
 ##                                         0.975quant   mode
-## Precision for the Gaussian observations   6.46e+00  6.332
-## Precision for cohort                      3.41e-01  0.335
-## Precision for year                        3.47e+05 46.524
+## Precision for the Gaussian observations      6.509  6.338
+## Precision for cohort                         0.344  0.337
+## Precision for year                         271.577 69.027
 ## 
-## Marginal log-Likelihood:  -135617.39 
+## Marginal log-Likelihood:  -135566.11 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -845,17 +851,17 @@ cyclone.bayes = data.table::rbindlist(list(cyclone.math.bayes.fixed.interaction,
 
 print(cyclone.bayes)</code></pre>
 <pre><code>##       type subject tertile           est           ll           ul
-##   1: bayes    math       1 -0.0010528046 -0.011213315  0.009107708
-##   2: bayes    math       2  0.0200346260  0.009341174  0.030728147
-##   3: bayes    math       3  0.0324671903  0.017104415  0.047830046
-##   4: bayes     rla       1 -0.0070117433 -0.015967361  0.001943895
-##   5: bayes     rla       2 -0.0218354072 -0.031089572 -0.012581223
+##   1: bayes    math       1 -0.0006558650 -0.010816515  0.009504783
+##   2: bayes    math       2  0.0198454775  0.009152587  0.030538417
+##   3: bayes    math       3  0.0325871487  0.017226149  0.047948190
+##   4: bayes     rla       1 -0.0067221937 -0.015679831  0.002235427
+##   5: bayes     rla       2 -0.0219900572 -0.031245731 -0.012734483
 ##  ---                                                              
-## 164: bayes     rla    54_3  0.0372578829 -0.083377430  0.158248214
-## 165: bayes     rla     9_3  0.0007431865 -0.055647410  0.057129454
-## 166: bayes     rla     9_2 -0.0478090688 -0.164310052  0.068332250
-## 167: bayes     rla    44_1 -0.0401949368 -0.192465458  0.111169003
-## 168: bayes     rla    11_3  0.1342844238 -0.030910122  0.305171273</code></pre>
+## 164: bayes     rla    54_3  0.0386089582 -0.083240611  0.161137713
+## 165: bayes     rla     9_3  0.0001675433 -0.056454716  0.056782118
+## 166: bayes     rla     9_2 -0.0479117717 -0.165826044  0.069328144
+## 167: bayes     rla    44_1 -0.0418636643 -0.197231018  0.111878087
+## 168: bayes     rla    11_3  0.1388536185 -0.030015564  0.315311300</code></pre>
 </div>
 <div id="save-bayesian-results" class="section level2">
 <h2>Save Bayesian results</h2>
