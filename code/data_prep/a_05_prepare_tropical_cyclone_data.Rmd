@@ -104,3 +104,45 @@ counties.wind.exposure.treatment = left_join(counties.wind.exposure,counties.win
 saveRDS(counties.wind.exposure.treatment,paste0(tc.github.processed.folder,'tc_annual_county_exposure_treatment_',start_year,'_',end_year,'.rds'))
 readr::write_csv(counties.wind.exposure.treatment,paste0(tc.github.processed.folder,'tc_annual_county_exposure_treatment_',start_year,'_',end_year,'.csv'))
 ```
+
+# Lagged version below
+
+## Create lagged version of county wind records
+```{r}
+counties.wind.lagged = counties.wind %>%
+  group_by(fips,category) %>%
+  mutate(count_lag1 =  lag(count)) %>%
+  rename(count_lag0 = count,
+         count = count_lag1) %>% 
+  mutate(count = ifelse(is.na(count), 0, count))
+```
+
+## Was a county ever exposed?
+```{r}
+counties.wind.treatment.lagged = counties.wind.lagged %>%
+  group_by(fips,category) %>%
+  tally(count) %>%
+  rename(treatment=n) %>%
+  mutate(treatment=ifelse(treatment>0,1,0))
+```
+
+## Once a county has been exposed, it is always exposed for rest of time series
+```{r}
+counties.wind.exposure.lagged = counties.wind.lagged %>%
+  group_by(fips,category) %>%
+  mutate(exposure = cumsum(count)) %>%
+  mutate(exposure = ifelse(exposure>0,1,0)) %>%
+  select(fips,year,category,exposure)
+```
+
+## Merge two above
+```{r}
+counties.wind.exposure.treatment.lagged = left_join(counties.wind.exposure.lagged,counties.wind.treatment.lagged) %>%
+  mutate(et=exposure*treatment)
+```
+
+## Save output 
+```{r}
+saveRDS(counties.wind.exposure.treatment.lagged,paste0(tc.github.processed.folder,'tc_annual_county_exposure_treatment_lagged_',start_year,'_',end_year,'.rds'))
+readr::write_csv(counties.wind.exposure.treatment.lagged,paste0(tc.github.processed.folder,'tc_annual_county_exposure_treatment_lagged_',start_year,'_',end_year,'.csv'))
+```

@@ -297,23 +297,17 @@ overflow-y: auto;
 border: 1px solid #ddd;
 border-radius: 4px;
 }
-.tabset-dropdown > .nav-tabs > li.active:before {
-content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+content: "\e259";
 font-family: 'Glyphicons Halflings';
 display: inline-block;
 padding: 10px;
 border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-content: "";
-border: none;
-}
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-content: "";
+content: "\e258";
 font-family: 'Glyphicons Halflings';
-display: inline-block;
-padding: 10px;
-border-right: 1px solid #ddd;
+border: none;
 }
 .tabset-dropdown > .nav-tabs > li.active {
 display: block;
@@ -431,7 +425,7 @@ complete.grid = expand.grid(year=years, fips=fips, cat_sust=cat_susts)
 counties.wind = left_join(complete.grid, counties.wind) %&gt;%
   replace(is.na(.), 0) %&gt;%
   rename(category=cat_sust, count=n)</code></pre>
-<pre><code>## Joining, by = c(&quot;year&quot;, &quot;fips&quot;, &quot;cat_sust&quot;)</code></pre>
+<pre><code>## Joining with `by = join_by(year, fips, cat_sust)`</code></pre>
 <pre class="r"><code>print(paste0(sum(counties.wind$count),&#39; exposures in all &#39;,length(unique(counties.wind$fips)),&#39; counties in included years &#39;,start_year,&#39;-&#39;,end_year))</code></pre>
 <pre><code>## [1] &quot;2216 exposures in all 3143 counties in included years 2008-2019&quot;</code></pre>
 </div>
@@ -456,12 +450,52 @@ time series</h2>
 <h2>Merge two above</h2>
 <pre class="r"><code>counties.wind.exposure.treatment = left_join(counties.wind.exposure,counties.wind.treatment) %&gt;%
   mutate(et=exposure*treatment)</code></pre>
-<pre><code>## Joining, by = c(&quot;fips&quot;, &quot;category&quot;)</code></pre>
+<pre><code>## Joining with `by = join_by(fips, category)`</code></pre>
 </div>
 <div id="save-output" class="section level2">
 <h2>Save output</h2>
 <pre class="r"><code>saveRDS(counties.wind.exposure.treatment,paste0(tc.github.processed.folder,&#39;tc_annual_county_exposure_treatment_&#39;,start_year,&#39;_&#39;,end_year,&#39;.rds&#39;))
 readr::write_csv(counties.wind.exposure.treatment,paste0(tc.github.processed.folder,&#39;tc_annual_county_exposure_treatment_&#39;,start_year,&#39;_&#39;,end_year,&#39;.csv&#39;))</code></pre>
+</div>
+<div id="lagged-version-below" class="section level1">
+<h1>Lagged version below</h1>
+<div id="create-lagged-version-of-county-wind-records" class="section level2">
+<h2>Create lagged version of county wind records</h2>
+<pre class="r"><code>counties.wind.lagged = counties.wind %&gt;%
+  group_by(fips,category) %&gt;%
+  mutate(count_lag1 =  lag(count)) %&gt;%
+  rename(count_lag0 = count,
+         count = count_lag1) %&gt;% 
+  mutate(count = ifelse(is.na(count), 0, count))</code></pre>
+</div>
+<div id="was-a-county-ever-exposed-1" class="section level2">
+<h2>Was a county ever exposed?</h2>
+<pre class="r"><code>counties.wind.treatment.lagged = counties.wind.lagged %&gt;%
+  group_by(fips,category) %&gt;%
+  tally(count) %&gt;%
+  rename(treatment=n) %&gt;%
+  mutate(treatment=ifelse(treatment&gt;0,1,0))</code></pre>
+</div>
+<div id="once-a-county-has-been-exposed-it-is-always-exposed-for-rest-of-time-series-1" class="section level2">
+<h2>Once a county has been exposed, it is always exposed for rest of
+time series</h2>
+<pre class="r"><code>counties.wind.exposure.lagged = counties.wind.lagged %&gt;%
+  group_by(fips,category) %&gt;%
+  mutate(exposure = cumsum(count)) %&gt;%
+  mutate(exposure = ifelse(exposure&gt;0,1,0)) %&gt;%
+  select(fips,year,category,exposure)</code></pre>
+</div>
+<div id="merge-two-above-1" class="section level2">
+<h2>Merge two above</h2>
+<pre class="r"><code>counties.wind.exposure.treatment.lagged = left_join(counties.wind.exposure.lagged,counties.wind.treatment.lagged) %&gt;%
+  mutate(et=exposure*treatment)</code></pre>
+<pre><code>## Joining with `by = join_by(fips, category)`</code></pre>
+</div>
+<div id="save-output-1" class="section level2">
+<h2>Save output</h2>
+<pre class="r"><code>saveRDS(counties.wind.exposure.treatment.lagged,paste0(tc.github.processed.folder,&#39;tc_annual_county_exposure_treatment_lagged_&#39;,start_year,&#39;_&#39;,end_year,&#39;.rds&#39;))
+readr::write_csv(counties.wind.exposure.treatment.lagged,paste0(tc.github.processed.folder,&#39;tc_annual_county_exposure_treatment_lagged_&#39;,start_year,&#39;_&#39;,end_year,&#39;.csv&#39;))</code></pre>
+</div>
 </div>
 
 
