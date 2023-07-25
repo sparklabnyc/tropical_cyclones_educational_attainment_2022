@@ -69,9 +69,9 @@ fml.bayes.overall = gcs_mn_all ~
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
                 pernam + perasn + perhsp + perblk +  
-                perfl + perrl + perell + 
-                urban + perspeced + sesall +
-                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+                perfl + perell + 
+                urban + perspeced +
+                perecd + baplusall + povertyall + snapall + single_momall
 
 
 fml.bayes.state = gcs_mn_all ~ 
@@ -79,9 +79,9 @@ fml.bayes.state = gcs_mn_all ~
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
                 pernam + perasn + perhsp + perblk + 
-                perfl + perrl + perell + perspeced +
-                urban + sesall +
-                perecd + lninc50all + baplusall + povertyall + snapall + single_momall
+                perfl + perell + perspeced +
+                urban +
+                perecd + baplusall + povertyall + snapall + single_momall
 ```
 
 ## Run Bayesian math models
