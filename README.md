@@ -27,6 +27,10 @@ a_08_prepare_moderator_data - prepare moderator variables for regression analyse
 
 a_09_data_truncation - prepared math and RLA data frames excluding missing test scores and enrollment below 5th and above 95th percentiles
 
+a_10_prepared_hurricane_lagged_did_data - prepare lagged hurricane DID data for lagged DID model analysis
+
+a_11_prepare_tc_lagged_did_data - prepare lagged tropical cyclone DID data for lagged DID model analysis
+
 ## Data exploration (data_exploration) list:
 
 b_01_plotting_scores_years_ggplot2 - prepare GCS data and plot change in score over years, faceted by grade
@@ -78,6 +82,10 @@ c_15_cyclone_truncated_did_national_effect_modification_race_tertile - national 
 c_16_cyclone_truncated_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile for hurricanes only; truncated
 
 c_17_cyclone_truncated_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile for hurricanes only; truncated
+
+c_18_hurricane_did_lagged - national model with state-specific effects for hurricanes; lagged
+
+c_19_tc_did_lagged - national model with state-specific effects for all tropical cyclones; lagged
 
 ## Model processing (model_processing) list:
 
