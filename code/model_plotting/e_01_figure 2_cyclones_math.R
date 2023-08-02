@@ -33,4 +33,5 @@ fp <- ggplot(data=results, aes(x=state, y=est, ymin=ll, ymax=ul)) +
 #Save forest plot
 pdf(paste0(plot.output.folder,'cyclones_math_states','.pdf'))
 print(fp)
+dev.off()
 

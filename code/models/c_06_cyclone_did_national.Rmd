@@ -123,6 +123,12 @@ cyclone.math.bayes.state = data.frame(type='bayes',subject='math',
                                   ll=mod.math.bayes.state$summary.random$state$`0.025quant`,
                                   ul=mod.math.bayes.state$summary.random$state$`0.975quant`)
 
+cyclone.math.bayes.overall.fixed = data.frame(type='bayes',subject='math',
+                                 state=99,
+                                 est=mod.math.bayes.overall$summary.fixed$mean,
+                                 ll=mod.math.bayes.overall$summary.fixed$`0.025quant`,
+                                 ul=mod.math.bayes.overall$summary.fixed$`0.975quant`)
+
 cyclone.rla.bayes.overall = data.frame(type='bayes',subject='rla',
                                  state=99,
                                  est=mod.rla.bayes.overall$summary.fixed['et',]$mean,
@@ -135,10 +141,18 @@ cyclone.rla.bayes.state = data.frame(type='bayes',subject='rla',
                                   ll=mod.rla.bayes.state$summary.random$state$`0.025quant`,
                                   ul=mod.rla.bayes.state$summary.random$state$`0.975quant`)
 
+cyclone.rla.bayes.overall.fixed = data.frame(type='bayes',subject='rla',
+                                 state=99,
+                                 est=mod.rla.bayes.overall$summary.fixed$mean,
+                                 ll=mod.rla.bayes.overall$summary.fixed$`0.025quant`,
+                                 ul=mod.rla.bayes.overall$summary.fixed$`0.975quant`)
+
 cyclone.bayes = data.table::rbindlist(list(cyclone.math.bayes.overall,
                                              cyclone.math.bayes.state,
+                                             cyclone.math.bayes.overall.fixed,
                                              cyclone.rla.bayes.overall,
-                                             cyclone.rla.bayes.state))
+                                             cyclone.rla.bayes.state,
+                                             cyclone.rla.bayes.overall.fixed))
 
 print(cyclone.bayes)
 ```
