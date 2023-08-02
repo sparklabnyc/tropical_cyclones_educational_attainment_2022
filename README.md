@@ -61,7 +61,7 @@ c_05_hurricane_did_national_SES_specialed_sensitivity - national model with stat
 
 c_06_cyclone_did_national - national model with state-specific effects for all tropical cyclones
 
-c_07_cylcone_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile for hurricanes only
+c_07_cyclone_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile for hurricanes only
 
 c_08_cyclone_did_national_effect_modification_SES_tertile - national model with state-specific effects, including SES composite effect modification by tertile for hurricanes only
 
@@ -93,4 +93,4 @@ d_XX - XX
 
 ## Model running (model_plotting) list:
 
-e_XX - XX
+e_01_figure 2_cyclones_math - Forest plot of state-specific tropical cyclone math model
