@@ -93,4 +93,10 @@ d_XX - XX
 
 ## Model running (model_plotting) list:
 
-e_01_figure 2_cyclones_math - Forest plot of state-specific tropical cyclone math model
+e_01_figure 2a_cyclones_math - Forest plot of state-specific tropical cyclone math model, state results
+
+e_02_figure 2b_cyclones_math - Forest plot of state-specific tropical cyclone math model, covariate results
+
+e_03_figure 3a_cyclones_rla - Forest plot of state-specific tropical cyclone rla model, state results
+
+e_04_figure 3b_cyclones_rla - Forest plot of state-specific tropical cyclone rla model, covariate results

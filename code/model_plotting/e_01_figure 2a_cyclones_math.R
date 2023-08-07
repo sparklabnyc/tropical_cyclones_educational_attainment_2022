@@ -1,37 +1,54 @@
+```{r}
 rm(list=ls())
+```
 
 # Declare root directory, folder locations, local file locations, objects, and functions
+```{r}
 project.folder = paste0(print(here::here()),'/')
 source(paste0(project.folder,'create_folder_structure.R'))
 source(paste0(file.locations.folder,'file_locations.R'))
 source(paste0(objects.folder,'objects.R'))
 source(paste0(functions.folder,'functions.R'))
+```
 
 #Loading packages
+```{r}
 library(ggplot2)
+```
 
 # Loading CSV of state results
+```{r}
 results <- read_csv("~/Git/tropical_cyclones_educational_attainment_2022/output/model_output/cyclones_did_national.csv")
+```
 
 #Restricting data frame to math only 
-results <- results %>% dplyr::filter(subject == "math")
+```{r}
+results <- results %>% dplyr::filter(subject == "math") %>% filter(!state %in% c('0', 'B'))
 
 glimpse(results)
 str(results)
+```
 
 #Convert state to character variable
+```{r}
 results$state <- as.factor(results$state)
+```
 
 #Forest plot 
-fp <- ggplot(data=results, aes(x=state, y=est, ymin=ll, ymax=ul)) +
+```{r}
+fp <- ggplot(data=results, aes(x=code, y=est, ymin=ll, ymax=ul)) +
   geom_pointrange() + 
   geom_hline(yintercept=0, lty=2) +  
   coord_flip() +  
   xlab("State") + ylab("Effect Estimate (95% CrI)") +
   theme_bw()  
+```
 
 #Save forest plot
+```{r}
 pdf(paste0(plot.output.folder,'cyclones_math_states','.pdf'))
 print(fp)
 dev.off()
+```
+
 

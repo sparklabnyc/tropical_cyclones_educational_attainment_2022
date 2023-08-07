@@ -3,8 +3,6 @@ title: "Cyclone DID model national"
 output: html_document
 ---
 
-#Load
-
 ## Load packages and file locations etc.
 ```{r include=FALSE}
 rm(list=ls())
@@ -64,7 +62,7 @@ fml.bayes.overall = gcs_mn_all ~
                 pernam + perasn + perhsp + perblk + perasn + 
                 perfl + perell + 
                 urban + perspeced +  
-                perecd + baplusall + povertyall + snapall + single_momall
+                perecd + baplusall + povertyall +  single_momall
 
 
 fml.bayes.state = gcs_mn_all ~ 
@@ -74,7 +72,7 @@ fml.bayes.state = gcs_mn_all ~
                 pernam + perasn + perhsp + perblk + perasn + 
                 perfl + perell + perspeced +
                 urban + 
-                perecd + baplusall + povertyall + snapall + single_momall
+                perecd + baplusall + povertyall + single_momall
 ```
 
 ## Run Bayesian math models
@@ -123,11 +121,11 @@ cyclone.math.bayes.state = data.frame(type='bayes',subject='math',
                                   ll=mod.math.bayes.state$summary.random$state$`0.025quant`,
                                   ul=mod.math.bayes.state$summary.random$state$`0.975quant`)
 
-cyclone.math.bayes.overall.fixed = data.frame(type='bayes',subject='math',
-                                 state=99,
-                                 est=mod.math.bayes.overall$summary.fixed$mean,
-                                 ll=mod.math.bayes.overall$summary.fixed$`0.025quant`,
-                                 ul=mod.math.bayes.overall$summary.fixed$`0.975quant`)
+cyclone.math.bayes.state.fixed = data.frame(type='bayes',subject='math',
+                                 #state=99,
+                                 est=mod.math.bayes.state$summary.fixed$mean,
+                                 ll=mod.math.bayes.state$summary.fixed$`0.025quant`,
+                                 ul=mod.math.bayes.state$summary.fixed$`0.975quant`)
 
 cyclone.rla.bayes.overall = data.frame(type='bayes',subject='rla',
                                  state=99,
@@ -141,18 +139,19 @@ cyclone.rla.bayes.state = data.frame(type='bayes',subject='rla',
                                   ll=mod.rla.bayes.state$summary.random$state$`0.025quant`,
                                   ul=mod.rla.bayes.state$summary.random$state$`0.975quant`)
 
-cyclone.rla.bayes.overall.fixed = data.frame(type='bayes',subject='rla',
-                                 state=99,
-                                 est=mod.rla.bayes.overall$summary.fixed$mean,
-                                 ll=mod.rla.bayes.overall$summary.fixed$`0.025quant`,
-                                 ul=mod.rla.bayes.overall$summary.fixed$`0.975quant`)
+cyclone.rla.bayes.state.fixed = data.frame(type='bayes',subject='rla',
+                                 #state=99,
+                                 est=mod.rla.bayes.state$summary.fixed$mean,
+                                 ll=mod.rla.bayes.state$summary.fixed$`0.025quant`,
+                                 ul=mod.rla.bayes.state$summary.fixed$`0.975quant`)
 
 cyclone.bayes = data.table::rbindlist(list(cyclone.math.bayes.overall,
                                              cyclone.math.bayes.state,
-                                             cyclone.math.bayes.overall.fixed,
+                                            cyclone.math.bayes.state.fixed,
                                              cyclone.rla.bayes.overall,
                                              cyclone.rla.bayes.state,
-                                             cyclone.rla.bayes.overall.fixed))
+                                           cyclone.rla.bayes.state.fixed),
+                                            fill = TRUE)
 
 print(cyclone.bayes)
 ```
