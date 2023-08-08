@@ -71,7 +71,7 @@ fml.bayes.overall = gcs_mn_all ~
                 pernam + perasn + perhsp + perblk +  
                 perfl + perell + 
                 urban + perspeced +
-                perecd + baplusall + povertyall + snapall + single_momall
+                perecd + baplusall + povertyall + single_momall
 
 
 fml.bayes.state = gcs_mn_all ~ 
@@ -81,7 +81,7 @@ fml.bayes.state = gcs_mn_all ~
                 pernam + perasn + perhsp + perblk + 
                 perfl + perell + perspeced +
                 urban +
-                perecd + baplusall + povertyall + snapall + single_momall
+                perecd + baplusall + povertyall + single_momall
 ```
 
 ## Run Bayesian math models
@@ -137,6 +137,11 @@ hurricane.math.bayes.state = data.frame(type='bayes',subject='math',
                                   ll=mod.math.bayes.state$summary.random$state$`0.025quant`,
                                   ul=mod.math.bayes.state$summary.random$state$`0.975quant`)
 
+hurricane.math.bayes.state.fixed = data.frame(type='bayes',subject='math',
+                                 est=mod.math.bayes.state$summary.fixed$mean,
+                                 ll=mod.math.bayes.state$summary.fixed$`0.025quant`,
+                                 ul=mod.math.bayes.state$summary.fixed$`0.975quant`)
+
 hurricane.rla.bayes.overall = data.frame(type='bayes',subject='rla',
                                  state=99,
                                  est=mod.rla.bayes.overall$summary.fixed['et',]$mean,
@@ -149,10 +154,18 @@ hurricane.rla.bayes.state = data.frame(type='bayes',subject='rla',
                                   ll=mod.rla.bayes.state$summary.random$state$`0.025quant`,
                                   ul=mod.rla.bayes.state$summary.random$state$`0.975quant`)
 
+hurricane.rla.bayes.state.fixed = data.frame(type='bayes',subject='rla',
+                                 est=mod.rla.bayes.state$summary.fixed$mean,
+                                 ll=mod.rla.bayes.state$summary.fixed$`0.025quant`,
+                                 ul=mod.rla.bayes.state$summary.fixed$`0.975quant`)
+
 hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.overall,
                                              hurricane.math.bayes.state,
+                                             hurricane.math.bayes.state.fixed,
                                              hurricane.rla.bayes.overall,
-                                             hurricane.rla.bayes.state))
+                                             hurricane.rla.bayes.state, 
+                                             hurricane.rla.bayes.state.fixed), 
+                                             fill = TRUE)
 
 print(hurricane.bayes)
 ```

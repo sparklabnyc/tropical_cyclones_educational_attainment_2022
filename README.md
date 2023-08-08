@@ -100,3 +100,11 @@ e_02_figure 2b_cyclones_math - Forest plot of state-specific tropical cyclone ma
 e_03_figure 3a_cyclones_rla - Forest plot of state-specific tropical cyclone rla model, state results
 
 e_04_figure 3b_cyclones_rla - Forest plot of state-specific tropical cyclone rla model, covariate results
+
+e_05_figure 4a_hurricanes_math - Forest plot of state-specific hurricane math model, state results
+
+e_06_figure 4b_hurricanes_math - Forest plot of state-specific hurricane math model, covariate results
+
+e_07_figure 5a_hurricanes_rla - Forest plot of state-specific hurricanes rla model, state results
+
+e_08_figure 5b_hurricanes_rla - Forest plot of state-specific hurricanes rla model, covariate results

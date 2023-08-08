@@ -23,7 +23,7 @@ results <- read_csv("~/Git/tropical_cyclones_educational_attainment_2022/output/
 
 #Restricting data frame to math only 
 ```{r}
-results <- results %>% dplyr::filter(subject == "math") %>% filter(!state %in% c('0', 'B'))
+results <- results %>% dplyr::filter(subject == "math") %>% filter(!state %in% c('0'))
 
 glimpse(results)
 str(results)

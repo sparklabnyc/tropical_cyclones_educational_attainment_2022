@@ -122,7 +122,6 @@ cyclone.math.bayes.state = data.frame(type='bayes',subject='math',
                                   ul=mod.math.bayes.state$summary.random$state$`0.975quant`)
 
 cyclone.math.bayes.state.fixed = data.frame(type='bayes',subject='math',
-                                 #state=99,
                                  est=mod.math.bayes.state$summary.fixed$mean,
                                  ll=mod.math.bayes.state$summary.fixed$`0.025quant`,
                                  ul=mod.math.bayes.state$summary.fixed$`0.975quant`)
@@ -140,7 +139,6 @@ cyclone.rla.bayes.state = data.frame(type='bayes',subject='rla',
                                   ul=mod.rla.bayes.state$summary.random$state$`0.975quant`)
 
 cyclone.rla.bayes.state.fixed = data.frame(type='bayes',subject='rla',
-                                 #state=99,
                                  est=mod.rla.bayes.state$summary.fixed$mean,
                                  ll=mod.rla.bayes.state$summary.fixed$`0.025quant`,
                                  ul=mod.rla.bayes.state$summary.fixed$`0.975quant`)
