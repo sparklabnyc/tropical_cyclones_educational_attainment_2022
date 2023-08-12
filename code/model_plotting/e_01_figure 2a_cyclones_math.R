@@ -14,6 +14,8 @@ source(paste0(functions.folder,'functions.R'))
 #Loading packages
 ```{r}
 library(ggplot2)
+library(readr)
+library(tidyverse)
 ```
 
 # Loading CSV of state results
@@ -21,7 +23,7 @@ library(ggplot2)
 results <- read_csv("~/Git/tropical_cyclones_educational_attainment_2022/output/model_output/cyclones_did_national.csv")
 ```
 
-#Restricting data frame to math only 
+#Restricting data frame to math and states only 
 ```{r}
 results <- results %>% dplyr::filter(subject == "math") %>% filter(!state %in% c('0'))
 
@@ -29,20 +31,22 @@ glimpse(results)
 str(results)
 ```
 
-#Convert state to character variable
+# Create factor with desired order
 ```{r}
-results$state <- as.factor(results$state)
+results$code <- factor(results$code, levels = results$code)
 ```
 
-#Forest plot 
+# Forest plot trying again 
 ```{r}
-fp <- ggplot(data=results, aes(x=code, y=est, ymin=ll, ymax=ul)) +
+fp <- ggplot(data = results, aes(x = est, xmin = ll, xmax = ul, y = code)) + 
   geom_pointrange() + 
-  geom_hline(yintercept=0, lty=2) +  
-  coord_flip() +  
-  xlab("State") + ylab("Effect Estimate (95% CrI)") +
-  theme_bw()  
+  geom_vline(xintercept = 0, lty = 2) + 
+  xlab("Estimated Average Grade Scores (95% CrI") + ylab("State") + 
+  scale_y_discrete(limits = rev(levels(results$code))) + 
+  theme_bw() + 
+  theme(panel.grid = element_blank())
 ```
+
 
 #Save forest plot
 ```{r}
