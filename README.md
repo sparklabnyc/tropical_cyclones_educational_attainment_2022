@@ -17,7 +17,7 @@ a_03_prepare_county_cohort_data - prepare county cohort data from annual tidied 
 
 a_04_prepare_covariates_data - prepare covariates data from annual tidied format to format ready for modeling
 
-a_05_prepare_tropical_cyclone_data - prepare tropical cyclone data
+a_05_prepare_tropical_cyclone_data - prepare tropical cyclone data both regular and lagged
 
 a_06_prepare_hurricane_did_data - prepare hurricane DID data for initial DID model analysis
 
@@ -27,9 +27,13 @@ a_08_prepare_moderator_data - prepare moderator variables for regression analyse
 
 a_09_data_truncation - prepared math and RLA data frames excluding missing test scores and enrollment below 5th and above 95th percentiles
 
-a_10_prepared_hurricane_lagged_did_data - prepare lagged hurricane DID data for lagged DID model analysis
+a_10_prepare_hurricane_lagged_did_data - prepare lagged hurricane data for lagged DID model analysis
 
 a_11_prepare_tc_lagged_did_data - prepare lagged tropical cyclone DID data for lagged DID model analysis
+
+a_12_prepare_tc_once_data - prepare tropical cyclone data to isolate only one exposure
+
+a_13_prepare_hurricane_once_data_did - merging hurricane data for only one exposure with data for analysis
 
 ## Data exploration (data_exploration) list:
 
