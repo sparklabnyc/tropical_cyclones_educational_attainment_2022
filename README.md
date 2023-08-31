@@ -35,6 +35,8 @@ a_12_prepare_tc_once_data - prepare tropical cyclone data to isolate only one ex
 
 a_13_prepare_hurricane_once_data_did - merging hurricane data for only one exposure with data for analysis
 
+a_14_prepare_tc_once_data_did - merging tropical cyclone data for only one exposure with data for analysis
+
 ## Data exploration (data_exploration) list:
 
 b_01_plotting_scores_years_ggplot2 - prepare GCS data and plot change in score over years, faceted by grade
@@ -71,7 +73,7 @@ c_08_cyclone_did_national_effect_modification_SES_tertile - national model with 
 
 c_09_cyclone_did_national_effect_modification_speced_tertile - national model with state-specific effects, including special education effect modification by tertile for hurricanes only
 
-c_10_hurricane_truncated_did_national- national model with state-specific effects for hurricanes only; truncated
+c_10_tc_did_lagged- national model with state-specific effects for tropical cyclones; lagged
 
 c_11_hurricane_truncated_did_national_effect_modification_race_tertile - national model with state-specific effects, including student race effect modification by tertile for hurricanes only; truncated
 
@@ -89,7 +91,9 @@ c_17_cyclone_truncated_did_national_effect_modification_speced_tertile - nationa
 
 c_18_hurricane_did_lagged - national model with state-specific effects for hurricanes; lagged
 
-c_19_tc_did_lagged - national model with state-specific effects for all tropical cyclones; lagged
+c_19_hurricane_did_once - national model with state-specific effects for hurricanes only; in counties with only one hurricane in the timeframe
+
+c_20_cyclone_did_once - national model with state-specific effects for tropical cyclones; in counties with only one tropical cyclone in the timeframe
 
 ## Model processing (model_processing) list:
 

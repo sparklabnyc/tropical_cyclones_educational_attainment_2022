@@ -1,0 +1,184 @@
+---
+title: "Tropical cyclone DID model for only one exposure"
+output: html_document
+---
+
+#Load
+
+## Load packages and file locations etc.
+
+```{r include=FALSE}
+rm(list=ls())
+
+# 1a Declare root directory, folder locations and load essential stuff
+project.folder <- paste0(print(here::here()),'/')
+source(paste0(project.folder,'create_folder_structure.R'))
+source(paste0(file.locations.folder,'file_locations.R'))
+source(paste0(objects.folder,'objects.R'))
+source(paste0(functions.folder,'functions.R'))
+```
+
+## Load packages
+
+```{r,message=FALSE}
+library(dplyr)
+library(splines)
+library(INLA)
+```
+
+## Load math and rla data prepared for DID model
+
+```{r,message=FALSE}
+math.DID = readRDS(paste0(prepared.math.DID.folder, "math_DID_cyclones_once.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
+rla.DID = readRDS(paste0(prepared.rla.DID.folder, "rla_DID_cyclones_once.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
+```
+
+## Which states ever had exposure to hurricanes?
+
+```{r,message=FALSE}
+states_to_include = math.DID %>% filter(et==1) %>% pull(state) %>% unique()
+states_to_include = as.character(states_to_include)
+```
+
+## Filter for states which ever had exposure to hurricanes
+
+```{r,message=FALSE}
+math.DID = math.DID %>% 
+  filter(state%in%states_to_include) %>% 
+  mutate(state=as.numeric(as.character(state)))
+rla.DID = rla.DID %>% 
+  filter(state%in%states_to_include) %>% 
+  mutate(state=as.numeric(as.character(state)))
+```
+
+## Filter out counties that had more than one exposure to hurricanes
+```{r}
+math.DID = math.DID %>% filter(et==0 | et == 1)
+rla.DID = rla.DID %>% filter(et == 0 | et == 1)
+```
+
+
+## Prepare variables for INLA
+
+```{r,message=FALSE}
+math.DID = math.DID %>% mutate(et2=et)
+rla.DID = rla.DID %>% mutate(et2=et)
+```
+
+## Define Bayesian formula
+
+```{r,message=FALSE}
+hyper_value = 0.001
+lg_prior = list(prec = list(prior = "loggamma", param = c(1, hyper_value)))
+
+fml.bayes.overall = gcs_mn_all ~ 
+                et +
+                f(cohort,model="iid", hyper = lg_prior) +
+                f(year,model="iid", hyper = lg_prior) +
+                pernam + perasn + perhsp + perblk +  
+                perfl + perell + 
+                urban + perspeced +
+                perecd + baplusall + povertyall + single_momall
+
+
+fml.bayes.state = gcs_mn_all ~ 
+                f(state,et2,model="iid", hyper = lg_prior) +
+                f(cohort,model="iid", hyper = lg_prior) +
+                f(year,model="iid", hyper = lg_prior) +
+                pernam + perasn + perhsp + perblk + 
+                perfl + perell + perspeced +
+                urban +
+                perecd + baplusall + povertyall + single_momall
+```
+
+## Run Bayesian math models
+
+```{r,message=FALSE}
+mod.math.bayes.overall = inla(fml.bayes.overall, data = math.DID)
+mod.math.bayes.state = inla(fml.bayes.state, data = math.DID)
+```
+
+## Summary of overall math model
+
+```{r,message=FALSE}
+summary(mod.math.bayes.overall)
+```
+
+## Summary of state math model
+
+```{r,message=FALSE}
+summary(mod.math.bayes.state)
+```
+
+## Run Bayesian rla models
+
+```{r,message=FALSE}
+mod.rla.bayes.overall = inla(fml.bayes.overall, data = rla.DID)
+mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID)
+```
+
+## Summary of overall rla model
+
+```{r,message=FALSE}
+summary(mod.rla.bayes.overall)
+```
+
+## Summary of state rla model
+
+```{r,message=FALSE}
+summary(mod.rla.bayes.state)
+```
+
+## Summary of Bayesian results (99 is overall result)
+
+```{r, message=FALSE}
+cyclone.math.bayes.overall = data.frame(type='bayes',subject='math',
+                                 state=99,
+                                 est=mod.math.bayes.overall$summary.fixed['et',]$mean,
+                                 ll=mod.math.bayes.overall$summary.fixed['et',]$`0.025quant`,
+                                 ul=mod.math.bayes.overall$summary.fixed['et',]$`0.975quant`)
+
+cyclone.math.bayes.state = data.frame(type='bayes',subject='math',
+                                  state=mod.math.bayes.state$summary.random$state$ID,
+                                  est=mod.math.bayes.state$summary.random$state$mean,
+                                  ll=mod.math.bayes.state$summary.random$state$`0.025quant`,
+                                  ul=mod.math.bayes.state$summary.random$state$`0.975quant`)
+
+cyclone.math.bayes.state.fixed = data.frame(type='bayes',subject='math',
+                                 est=mod.math.bayes.state$summary.fixed$mean,
+                                 ll=mod.math.bayes.state$summary.fixed$`0.025quant`,
+                                 ul=mod.math.bayes.state$summary.fixed$`0.975quant`)
+
+cyclone.rla.bayes.overall = data.frame(type='bayes',subject='rla',
+                                 state=99,
+                                 est=mod.rla.bayes.overall$summary.fixed['et',]$mean,
+                                 ll=mod.rla.bayes.overall$summary.fixed['et',]$`0.025quant`,
+                                 ul=mod.rla.bayes.overall$summary.fixed['et',]$`0.975quant`)
+
+cyclone.rla.bayes.state = data.frame(type='bayes',subject='rla',
+                                  state=mod.rla.bayes.state$summary.random$state$ID,
+                                  est=mod.rla.bayes.state$summary.random$state$mean,
+                                  ll=mod.rla.bayes.state$summary.random$state$`0.025quant`,
+                                  ul=mod.rla.bayes.state$summary.random$state$`0.975quant`)
+
+cyclone.rla.bayes.state.fixed = data.frame(type='bayes',subject='rla',
+                                 est=mod.rla.bayes.state$summary.fixed$mean,
+                                 ll=mod.rla.bayes.state$summary.fixed$`0.025quant`,
+                                 ul=mod.rla.bayes.state$summary.fixed$`0.975quant`)
+
+cyclone.bayes = data.table::rbindlist(list(cyclone.math.bayes.overall,
+                                             cyclone.math.bayes.state,
+                                             cyclone.math.bayes.state.fixed,
+                                             cyclone.rla.bayes.overall,
+                                             cyclone.rla.bayes.state, 
+                                             cyclone.rla.bayes.state.fixed), 
+                                             fill = TRUE)
+
+print(cyclone.bayes)
+```
+
+## Save Bayesian results
+
+```{r,message=FALSE}
+readr::write_csv(cyclone.bayes,paste0(model.output.folder,'cyclone_did_national_once.csv'))
+```
