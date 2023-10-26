@@ -3,8 +3,6 @@ title: "Hurricane DID model national"
 output: html_document
 ---
 
-#Load
-
 ## Load packages and file locations etc.
 
 ```{r include=FALSE}
@@ -103,6 +101,11 @@ summary(mod.math.bayes.overall)
 summary(mod.math.bayes.state)
 ```
 
+## Save math model as RDS file
+```{r}
+saveRDS(mod.math.bayes.state, paste0(model.processing.folder, "math_model.rds"))
+```
+
 ## Run Bayesian rla models
 
 ```{r,message=FALSE}
@@ -121,6 +124,13 @@ summary(mod.rla.bayes.overall)
 ```{r,message=FALSE}
 summary(mod.rla.bayes.state)
 ```
+
+## Save RLA model as RDS file
+
+```{r}
+saveRDS(mod.rla.bayes.state, paste0(model.processing.folder, "rla_model.rds"))
+```
+
 
 ## Summary of Bayesian results (99 is overall result)
 

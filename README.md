@@ -97,7 +97,9 @@ c_20_cyclone_did_once - national model with state-specific effects for tropical 
 
 ## Model processing (model_processing) list:
 
-d_XX - XX
+d_01_posterior probability_math - calculating posterior probabilities for the state-specific math hurricane model
+
+d_02_posterior probability_rla - calculating posterior probabilities for the state-specific RLA hurricane model
 
 ## Model running (model_plotting) list:
 

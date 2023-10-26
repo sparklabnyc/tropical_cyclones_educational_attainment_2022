@@ -1,0 +1,17 @@
+## Load packages and file locations etc.
+
+```{r include=FALSE}
+rm(list=ls())
+
+project.folder <- paste0(print(here::here()),'/')
+source(paste0(project.folder,'create_folder_structure.R'))
+source(paste0(file.locations.folder,'file_locations.R'))
+source(paste0(objects.folder,'objects.R'))
+source(paste0(functions.folder,'functions.R'))
+```
+
+#Load math model RDS file
+```{r}
+math.model = readRDS((paste0(model.processing.folder, "math_model.rds")))
+```
+

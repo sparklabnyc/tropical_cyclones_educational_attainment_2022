@@ -1,0 +1,17 @@
+## Load packages and file locations etc.
+
+```{r include=FALSE}
+rm(list=ls())
+
+# 1a Declare root directory, folder locations and load essential stuff
+project.folder <- paste0(print(here::here()),'/')
+source(paste0(project.folder,'create_folder_structure.R'))
+source(paste0(file.locations.folder,'file_locations.R'))
+source(paste0(objects.folder,'objects.R'))
+source(paste0(functions.folder,'functions.R'))
+```
+
+#Load RLA model RDS file
+```{r}
+rla.model = readRDS((paste0(model.processing.folder, "rla_model.rds")))
+```
