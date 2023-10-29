@@ -105,7 +105,7 @@ summary(mod.math.bayes.state)
 
 ## Save math model as RDS file
 ```{r}
-saveRDS(mod.math.bayes.state, paste0(model.processing.folder, "math_model.rds"))
+saveRDS(mod.math.bayes.state, paste0(full.model.output.folder, "math_model.rds"))
 ```
 
 ## Run Bayesian rla models
@@ -132,7 +132,7 @@ summary(mod.rla.bayes.state)
 ## Save RLA model as RDS file
 
 ```{r}
-saveRDS(mod.rla.bayes.state, paste0(model.processing.folder, "rla_model.rds"))
+saveRDS(mod.rla.bayes.state, paste0(full.model.output.folder, "rla_model.rds"))
 ```
 
 
