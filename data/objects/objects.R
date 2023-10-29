@@ -20,3 +20,6 @@ subjects_included = c('mth', 'rla')
 covars_included = c('sedacounty', 'year', 'grade', 'urban', 'pernam', 'perasn', 'perhsp', 
                      'perblk', 'perwht', 'perfl', 'perrl', 'perell', 'totenrl', 'perecd', 'lninc50all', 
                      'baplusall', 'povertyall', 'snapall', 'single_momall', 'perspeced', 'sesall')
+
+# number of draws from model for posterior probability assessment
+num_draws = 5000

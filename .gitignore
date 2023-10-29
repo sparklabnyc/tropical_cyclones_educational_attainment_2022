@@ -40,3 +40,6 @@ vignettes/*.pdf
 
 # .DS_Store
 .DS_Store
+
+# large model files
+code/model_processing/*.rds

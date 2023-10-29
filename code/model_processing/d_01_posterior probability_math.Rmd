@@ -1,5 +1,9 @@
-## Load packages and file locations etc.
+---
+title: "Hurricane DID model national process posterior probabilities"
+output: html_document
+---
 
+## Load packages and file locations etc.
 ```{r include=FALSE}
 rm(list=ls())
 
@@ -10,8 +14,44 @@ source(paste0(objects.folder,'objects.R'))
 source(paste0(functions.folder,'functions.R'))
 ```
 
-#Load math model RDS file
+# Packages
+```{r}
+library(INLA)
+library(dplyr)
+```
+
+# Load math model RDS file
 ```{r}
 math.model = readRDS((paste0(model.processing.folder, "math_model.rds")))
 ```
 
+# Make draws of model parameters
+```{r}
+draws.model = inla.posterior.sample(num_draws, math.model, seed=1234)
+```
+
+# Define parameters of interest
+# Robbie: Gabriella, Please check if these are all the terms you need, then correct if not
+```{r}
+mod.terms = c('state','pernam','perasn','perblk',
+              'perfl', 'perell', 'perspeced','urban',
+              'perecd', 'baplusall', 'povertyall', 'single_momall')
+```
+
+# Summarise each parameter of interest
+```{r}
+draws.terms.of.interest = as.data.frame(inla.posterior.sample.eval(mod.terms, draws.model))
+
+draws.terms.of.interest.summary = draws.terms.of.interest %>%
+  mutate(count_positive = rowSums(. > 0)) %>%
+  mutate(posterior_prob_positive = round(count_positive/num_draws,2)) %>%
+  mutate(posterior_prob_negative = 1-posterior_prob_positive) %>%
+  select(count_positive,posterior_prob_positive,posterior_prob_negative)
+```
+
+# Print to display
+
+Each row is a parameters of interest. But remember that if a term is a random effect, e.g., `state`, it will have several terms which derive from it.
+```{r}
+print(draws.terms.of.interest.summary)
+```

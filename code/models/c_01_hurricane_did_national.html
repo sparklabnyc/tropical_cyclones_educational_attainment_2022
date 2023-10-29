@@ -353,7 +353,6 @@ display: none;
 </div>
 
 
-<p>#Load</p>
 <div id="load-packages-and-file-locations-etc." class="section level2">
 <h2>Load packages and file locations etc.</h2>
 </div>
@@ -399,7 +398,7 @@ fml.bayes.overall = gcs_mn_all ~
                 pernam + perasn + perhsp + perblk +  
                 perfl + perell + 
                 urban + perspeced +
-                perecd + baplusall + povertyall + snapall + single_momall
+                perecd + baplusall + povertyall + single_momall
 
 
 fml.bayes.state = gcs_mn_all ~ 
@@ -409,12 +408,14 @@ fml.bayes.state = gcs_mn_all ~
                 pernam + perasn + perhsp + perblk + 
                 perfl + perell + perspeced +
                 urban +
-                perecd + baplusall + povertyall + snapall + single_momall</code></pre>
+                perecd + baplusall + povertyall + single_momall</code></pre>
 </div>
 <div id="run-bayesian-math-models" class="section level2">
 <h2>Run Bayesian math models</h2>
-<pre class="r"><code>mod.math.bayes.overall = inla(fml.bayes.overall, data = math.DID)
-mod.math.bayes.state = inla(fml.bayes.state, data = math.DID)</code></pre>
+<pre class="r"><code>mod.math.bayes.overall = inla(fml.bayes.overall, data = math.DID, 
+                              control.compute=list(config = TRUE))
+mod.math.bayes.state = inla(fml.bayes.state, data = math.DID,
+                            control.compute=list(config = TRUE))</code></pre>
 </div>
 <div id="summary-of-overall-math-model" class="section level2">
 <h2>Summary of overall math model</h2>
@@ -439,24 +440,23 @@ mod.math.bayes.state = inla(fml.bayes.state, data = math.DID)</code></pre>
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.69, Running = 3.13, Post = 0.445, Total = 6.27 
+##     Pre = 1.79, Running = 2.17, Post = 0.356, Total = 4.32 
 ## Fixed effects:
 ##                 mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)    5.680 0.080      5.524    5.680      5.836  5.680   0
-## et             0.002 0.025     -0.047    0.002      0.051  0.002   0
-## pernam        -1.144 0.419     -1.966   -1.144     -0.321 -1.144   0
-## perasn         2.852 0.458      1.954    2.852      3.750  2.852   0
-## perhsp        -0.950 0.084     -1.115   -0.950     -0.784 -0.950   0
-## perblk        -1.995 0.086     -2.163   -1.995     -1.827 -1.995   0
-## perfl         -0.291 0.035     -0.360   -0.291     -0.222 -0.291   0
-## perell         0.620 0.241      0.148    0.620      1.092  0.620   0
-## urban          0.126 0.076     -0.024    0.126      0.276  0.126   0
-## perspeced      0.322 0.168     -0.008    0.322      0.652  0.322   0
-## perecd        -0.056 0.035     -0.124   -0.056      0.013 -0.056   0
-## baplusall      2.053 0.170      1.719    2.053      2.386  2.053   0
-## povertyall    -0.842 0.146     -1.128   -0.842     -0.556 -0.842   0
-## snapall       -0.246 0.142     -0.525   -0.246      0.033 -0.246   0
-## single_momall  0.049 0.156     -0.258    0.049      0.355  0.049   0
+## (Intercept)    5.669 0.079      5.513    5.669      5.825  5.669   0
+## et             0.000 0.025     -0.049    0.000      0.049  0.000   0
+## pernam        -1.146 0.419     -1.968   -1.146     -0.324 -1.146   0
+## perasn         2.868 0.458      1.971    2.868      3.766  2.868   0
+## perhsp        -0.952 0.084     -1.117   -0.952     -0.786 -0.952   0
+## perblk        -1.998 0.086     -2.166   -1.998     -1.830 -1.998   0
+## perfl         -0.299 0.035     -0.367   -0.299     -0.230 -0.299   0
+## perell         0.606 0.240      0.135    0.606      1.078  0.606   0
+## urban          0.128 0.076     -0.022    0.128      0.278  0.128   0
+## perspeced      0.307 0.168     -0.022    0.307      0.636  0.307   0
+## perecd        -0.056 0.035     -0.125   -0.056      0.012 -0.056   0
+## baplusall      2.078 0.169      1.746    2.078      2.410  2.078   0
+## povertyall    -0.925 0.137     -1.195   -0.925     -0.656 -0.925   0
+## single_momall  0.011 0.155     -0.292    0.011      0.315  0.011   0
 ## 
 ## Random effects:
 ##   Name     Model
@@ -466,14 +466,14 @@ mod.math.bayes.state = inla(fml.bayes.state, data = math.DID)</code></pre>
 ## Model hyperparameters:
 ##                                           mean    sd 0.025quant 0.5quant
 ## Precision for the Gaussian observations  4.664 0.034      4.597    4.664
-## Precision for cohort                     0.325 0.007      0.311    0.325
-## Precision for year                      52.995 2.626     47.149   53.342
+## Precision for cohort                     0.325 0.007      0.312    0.325
+## Precision for year                      52.920 2.619     47.092   53.266
 ##                                         0.975quant   mode
-## Precision for the Gaussian observations      4.733  4.663
+## Precision for the Gaussian observations      4.732  4.663
 ## Precision for cohort                         0.339  0.325
-## Precision for year                          57.092 54.747
+## Precision for year                          57.006 54.665
 ## 
-## Marginal log-Likelihood:  -38137.61 
+## Marginal log-Likelihood:  -38133.71 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -501,23 +501,22 @@ mod.math.bayes.state = inla(fml.bayes.state, data = math.DID)</code></pre>
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.49, Running = 2.9, Post = 0.486, Total = 5.88 
+##     Pre = 1.76, Running = 2.35, Post = 0.54, Total = 4.65 
 ## Fixed effects:
 ##                 mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)    5.687 0.072      5.545    5.687      5.828  5.687   0
-## pernam        -1.168 0.419     -1.990   -1.168     -0.346 -1.168   0
-## perasn         2.850 0.457      1.953    2.850      3.747  2.850   0
-## perhsp        -0.968 0.084     -1.133   -0.968     -0.802 -0.968   0
-## perblk        -2.021 0.086     -2.189   -2.021     -1.853 -2.021   0
-## perfl         -0.276 0.035     -0.345   -0.276     -0.206 -0.276   0
-## perell         0.602 0.241      0.130    0.602      1.074  0.602   0
-## perspeced      0.306 0.168     -0.024    0.306      0.636  0.306   0
-## urban          0.127 0.076     -0.023    0.127      0.277  0.127   0
-## perecd        -0.054 0.035     -0.123   -0.054      0.015 -0.054   0
-## baplusall      2.052 0.170      1.719    2.052      2.385  2.052   0
-## povertyall    -0.826 0.146     -1.111   -0.826     -0.541 -0.826   0
-## snapall       -0.285 0.142     -0.563   -0.285     -0.006 -0.285   0
-## single_momall  0.053 0.156     -0.253    0.053      0.360  0.053   0
+## (Intercept)    5.675 0.072      5.534    5.675      5.815  5.675   0
+## pernam        -1.170 0.419     -1.992   -1.170     -0.348 -1.170   0
+## perasn         2.869 0.457      1.972    2.869      3.766  2.869   0
+## perhsp        -0.970 0.084     -1.136   -0.970     -0.804 -0.970   0
+## perblk        -2.024 0.086     -2.193   -2.024     -1.856 -2.025   0
+## perfl         -0.285 0.035     -0.354   -0.285     -0.216 -0.285   0
+## perell         0.587 0.240      0.115    0.587      1.058  0.587   0
+## perspeced      0.289 0.168     -0.040    0.289      0.619  0.289   0
+## urban          0.130 0.076     -0.020    0.130      0.280  0.130   0
+## perecd        -0.055 0.035     -0.124   -0.055      0.014 -0.055   0
+## baplusall      2.081 0.169      1.749    2.081      2.413  2.081   0
+## povertyall    -0.923 0.137     -1.192   -0.923     -0.653 -0.923   0
+## single_momall  0.010 0.155     -0.294    0.010      0.314  0.010   0
 ## 
 ## Random effects:
 ##   Name     Model
@@ -527,25 +526,31 @@ mod.math.bayes.state = inla(fml.bayes.state, data = math.DID)</code></pre>
 ## 
 ## Model hyperparameters:
 ##                                           mean     sd 0.025quant 0.5quant
-## Precision for the Gaussian observations  4.672  0.035      4.602    4.672
-## Precision for state                     64.609 47.155     13.546   52.373
-## Precision for cohort                     0.324  0.007      0.311    0.324
-## Precision for year                      79.620 50.093     27.528   66.208
+## Precision for the Gaussian observations  4.670  0.034      4.603    4.670
+## Precision for state                     65.576 48.615     13.612   52.824
+## Precision for cohort                     0.325  0.007      0.311    0.325
+## Precision for year                      79.976 50.666     27.510   66.375
 ##                                         0.975quant   mode
-## Precision for the Gaussian observations      4.738  4.675
-## Precision for state                        188.692 33.428
-## Precision for cohort                         0.339  0.323
-## Precision for year                         213.701 47.628
+## Precision for the Gaussian observations      4.738  4.669
+## Precision for state                        193.705 33.479
+## Precision for cohort                         0.339  0.324
+## Precision for year                         215.645 47.616
 ## 
-## Marginal log-Likelihood:  -38113.25 
+## Marginal log-Likelihood:  -38109.86 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
 </div>
+<div id="save-math-model-as-rds-file" class="section level2">
+<h2>Save math model as RDS file</h2>
+<pre class="r"><code>saveRDS(mod.math.bayes.state, paste0(model.processing.folder, &quot;math_model.rds&quot;))</code></pre>
+</div>
 <div id="run-bayesian-rla-models" class="section level2">
 <h2>Run Bayesian rla models</h2>
-<pre class="r"><code>mod.rla.bayes.overall = inla(fml.bayes.overall, data = rla.DID)
-mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID)</code></pre>
+<pre class="r"><code>mod.rla.bayes.overall = inla(fml.bayes.overall, data = rla.DID, 
+                              control.compute=list(config = TRUE))
+mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID,
+                              control.compute=list(config = TRUE))</code></pre>
 </div>
 <div id="summary-of-overall-rla-model" class="section level2">
 <h2>Summary of overall rla model</h2>
@@ -570,24 +575,23 @@ mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID)</code></pre>
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.41, Running = 2.55, Post = 0.528, Total = 5.49 
+##     Pre = 1.6, Running = 2.23, Post = 0.397, Total = 4.23 
 ## Fixed effects:
 ##                 mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)    5.804 0.064      5.679    5.804      5.929  5.804   0
-## et             0.000 0.021     -0.041    0.000      0.041  0.000   0
-## pernam        -1.697 0.361     -2.405   -1.697     -0.989 -1.697   0
-## perasn         2.704 0.387      1.946    2.704      3.463  2.704   0
+## (Intercept)    5.809 0.063      5.685    5.809      5.934  5.809   0
+## et             0.001 0.021     -0.040    0.001      0.042  0.001   0
+## pernam        -1.698 0.361     -2.406   -1.698     -0.990 -1.698   0
+## perasn         2.698 0.387      1.940    2.698      3.456  2.698   0
 ## perhsp        -1.593 0.071     -1.731   -1.593     -1.454 -1.593   0
-## perblk        -2.245 0.076     -2.394   -2.245     -2.096 -2.245   0
-## perfl          0.084 0.029      0.026    0.084      0.141  0.084   0
-## perell        -1.074 0.198     -1.462   -1.074     -0.686 -1.074   0
-## urban          0.204 0.065      0.075    0.204      0.332  0.204   0
-## perspeced      0.883 0.144      0.601    0.883      1.165  0.883   0
+## perblk        -2.244 0.076     -2.394   -2.244     -2.095 -2.244   0
+## perfl          0.087 0.029      0.030    0.087      0.145  0.087   0
+## perell        -1.068 0.198     -1.456   -1.068     -0.680 -1.068   0
+## urban          0.203 0.065      0.074    0.203      0.331  0.203   0
+## perspeced      0.891 0.144      0.609    0.891      1.173  0.891   0
 ## perecd        -0.575 0.030     -0.633   -0.575     -0.517 -0.575   0
-## baplusall      1.741 0.142      1.462    1.741      2.021  1.741   0
-## povertyall    -0.086 0.120     -0.321   -0.086      0.149 -0.086   0
-## snapall        0.121 0.118     -0.109    0.121      0.352  0.121   0
-## single_momall  0.072 0.128     -0.179    0.072      0.323  0.072   0
+## baplusall      1.731 0.142      1.452    1.731      2.009  1.731   0
+## povertyall    -0.044 0.113     -0.265   -0.044      0.177 -0.044   0
+## single_momall  0.089 0.127     -0.160    0.089      0.338  0.089   0
 ## 
 ## Random effects:
 ##   Name     Model
@@ -598,13 +602,13 @@ mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID)</code></pre>
 ##                                           mean     sd 0.025quant 0.5quant
 ## Precision for the Gaussian observations  6.139  0.044      6.056    6.138
 ## Precision for cohort                     0.345  0.007      0.331    0.345
-## Precision for year                      92.970 75.437     25.901   71.323
+## Precision for year                      96.029 81.564     25.630   72.452
 ##                                         0.975quant   mode
-## Precision for the Gaussian observations      6.227  6.134
-## Precision for cohort                         0.359  0.346
-## Precision for year                         295.487 46.004
+## Precision for the Gaussian observations       6.23  6.134
+## Precision for cohort                          0.36  0.345
+## Precision for year                          314.53 45.756
 ## 
-## Marginal log-Likelihood:  -35157.17 
+## Marginal log-Likelihood:  -35151.95 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
@@ -632,23 +636,22 @@ mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID)</code></pre>
 ##    = inla.mode, safe = FALSE, debug = debug, &quot;, &quot; .parent.frame = 
 ##    .parent.frame)&quot;) 
 ## Time used:
-##     Pre = 2.53, Running = 2.89, Post = 0.567, Total = 5.99 
+##     Pre = 1.79, Running = 2.3, Post = 0.454, Total = 4.54 
 ## Fixed effects:
 ##                 mean    sd 0.025quant 0.5quant 0.975quant   mode kld
-## (Intercept)    5.807 0.065      5.679    5.807      5.935  5.807   0
-## pernam        -1.700 0.361     -2.408   -1.700     -0.992 -1.700   0
-## perasn         2.723 0.386      1.966    2.723      3.481  2.723   0
+## (Intercept)    5.811 0.065      5.683    5.811      5.939  5.811   0
+## pernam        -1.701 0.361     -2.409   -1.701     -0.993 -1.701   0
+## perasn         2.718 0.386      1.961    2.718      3.476  2.718   0
 ## perhsp        -1.597 0.071     -1.736   -1.597     -1.459 -1.597   0
-## perblk        -2.244 0.076     -2.394   -2.244     -2.095 -2.244   0
-## perfl          0.088 0.029      0.030    0.088      0.146  0.088   0
-## perell        -1.065 0.198     -1.453   -1.065     -0.677 -1.065   0
-## perspeced      0.874 0.144      0.592    0.874      1.156  0.874   0
-## urban          0.200 0.065      0.072    0.200      0.328  0.200   0
-## perecd        -0.572 0.030     -0.631   -0.572     -0.514 -0.572   0
-## baplusall      1.735 0.142      1.456    1.735      2.014  1.735   0
-## povertyall    -0.078 0.120     -0.313   -0.078      0.157 -0.078   0
-## snapall        0.099 0.117     -0.132    0.099      0.329  0.099   0
-## single_momall  0.066 0.128     -0.185    0.066      0.317  0.066   0
+## perblk        -2.244 0.076     -2.393   -2.244     -2.094 -2.244   0
+## perfl          0.091 0.029      0.033    0.091      0.148  0.091   0
+## perell        -1.060 0.198     -1.447   -1.060     -0.672 -1.060   0
+## perspeced      0.880 0.144      0.598    0.880      1.161  0.880   0
+## urban          0.199 0.065      0.071    0.199      0.327  0.199   0
+## perecd        -0.572 0.030     -0.630   -0.572     -0.514 -0.572   0
+## baplusall      1.726 0.142      1.448    1.726      2.005  1.726   0
+## povertyall    -0.044 0.113     -0.265   -0.044      0.177 -0.044   0
+## single_momall  0.080 0.127     -0.169    0.080      0.329  0.080   0
 ## 
 ## Random effects:
 ##   Name     Model
@@ -657,21 +660,25 @@ mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID)</code></pre>
 ##    year IID model
 ## 
 ## Model hyperparameters:
-##                                            mean     sd 0.025quant 0.5quant
-## Precision for the Gaussian observations   6.143  0.048      6.042    6.147
-## Precision for state                     101.224 90.670     24.937   74.858
-## Precision for cohort                      0.345  0.007      0.331    0.345
-## Precision for year                       91.690 68.733     26.810   72.333
+##                                           mean     sd 0.025quant 0.5quant
+## Precision for the Gaussian observations  6.144  0.048      6.042    6.147
+## Precision for state                     98.499 85.562     24.750   73.712
+## Precision for cohort                     0.345  0.007      0.331    0.345
+## Precision for year                      89.524 63.979     27.453   71.721
 ##                                         0.975quant   mode
 ## Precision for the Gaussian observations       6.23  6.160
-## Precision for state                         343.19 46.216
+## Precision for state                         327.21 46.242
 ## Precision for cohort                          0.36  0.346
-## Precision for year                          276.30 48.513
+## Precision for year                          261.36 49.078
 ## 
-## Marginal log-Likelihood:  -35149.81 
+## Marginal log-Likelihood:  -35144.55 
 ##  is computed 
 ## Posterior summaries for the linear predictor and the fitted values are computed
 ## (Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
+</div>
+<div id="save-rla-model-as-rds-file" class="section level2">
+<h2>Save RLA model as RDS file</h2>
+<pre class="r"><code>saveRDS(mod.rla.bayes.state, paste0(model.processing.folder, &quot;rla_model.rds&quot;))</code></pre>
 </div>
 <div id="summary-of-bayesian-results-99-is-overall-result" class="section level2">
 <h2>Summary of Bayesian results (99 is overall result)</h2>
@@ -687,6 +694,11 @@ hurricane.math.bayes.state = data.frame(type=&#39;bayes&#39;,subject=&#39;math&#
                                   ll=mod.math.bayes.state$summary.random$state$`0.025quant`,
                                   ul=mod.math.bayes.state$summary.random$state$`0.975quant`)
 
+hurricane.math.bayes.state.fixed = data.frame(type=&#39;bayes&#39;,subject=&#39;math&#39;,
+                                 est=mod.math.bayes.state$summary.fixed$mean,
+                                 ll=mod.math.bayes.state$summary.fixed$`0.025quant`,
+                                 ul=mod.math.bayes.state$summary.fixed$`0.975quant`)
+
 hurricane.rla.bayes.overall = data.frame(type=&#39;bayes&#39;,subject=&#39;rla&#39;,
                                  state=99,
                                  est=mod.rla.bayes.overall$summary.fixed[&#39;et&#39;,]$mean,
@@ -699,31 +711,66 @@ hurricane.rla.bayes.state = data.frame(type=&#39;bayes&#39;,subject=&#39;rla&#39
                                   ll=mod.rla.bayes.state$summary.random$state$`0.025quant`,
                                   ul=mod.rla.bayes.state$summary.random$state$`0.975quant`)
 
+hurricane.rla.bayes.state.fixed = data.frame(type=&#39;bayes&#39;,subject=&#39;rla&#39;,
+                                 est=mod.rla.bayes.state$summary.fixed$mean,
+                                 ll=mod.rla.bayes.state$summary.fixed$`0.025quant`,
+                                 ul=mod.rla.bayes.state$summary.fixed$`0.975quant`)
+
 hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.overall,
                                              hurricane.math.bayes.state,
+                                             hurricane.math.bayes.state.fixed,
                                              hurricane.rla.bayes.overall,
-                                             hurricane.rla.bayes.state))
+                                             hurricane.rla.bayes.state, 
+                                             hurricane.rla.bayes.state.fixed), 
+                                             fill = TRUE)
 
 print(hurricane.bayes)</code></pre>
-<pre><code>##      type subject state           est          ll           ul
-##  1: bayes    math    99  0.0022725534 -0.04691565  0.051460830
-##  2: bayes    math     1  0.1321556607 -0.04169810  0.319557684
-##  3: bayes    math    12  0.1893072878  0.11121991  0.268123912
-##  4: bayes    math    13 -0.0636674863 -0.16406979  0.035850352
-##  5: bayes    math    22 -0.0140948496 -0.24936696  0.216948187
-##  6: bayes    math    34 -0.1268748065 -0.33428654  0.062338068
-##  7: bayes    math    37 -0.1499051851 -0.26432645 -0.038142955
-##  8: bayes    math    45 -0.1872356604 -0.40180249  0.004236393
-##  9: bayes    math    48 -0.0938154167 -0.20728473  0.017712134
-## 10: bayes     rla    99 -0.0002667137 -0.04142416  0.040890553
-## 11: bayes     rla     1  0.0310761786 -0.08921589  0.159235754
-## 12: bayes     rla    12  0.0519384853 -0.01020474  0.115403571
-## 13: bayes     rla    13  0.0062477505 -0.07303579  0.085911249
-## 14: bayes     rla    22  0.0033468544 -0.14686068  0.155067276
-## 15: bayes     rla    34 -0.0242175378 -0.15970438  0.103894419
-## 16: bayes     rla    37  0.0324783593 -0.05348943  0.121301567
-## 17: bayes     rla    45  0.0161124240 -0.11126771  0.148272426
-## 18: bayes     rla    48 -0.1202941555 -0.20485616 -0.039463031</code></pre>
+<pre><code>##      type subject state           est           ll           ul
+##  1: bayes    math    99  9.784081e-05 -0.049030332  0.049226128
+##  2: bayes    math     1  1.289383e-01 -0.044211966  0.315621969
+##  3: bayes    math    12  1.839768e-01  0.106133273  0.262557079
+##  4: bayes    math    13 -6.479973e-02 -0.165159333  0.034627445
+##  5: bayes    math    22 -1.545690e-02 -0.249703896  0.214063424
+##  6: bayes    math    34 -1.256556e-01 -0.332510442  0.062818094
+##  7: bayes    math    37 -1.509971e-01 -0.265455336 -0.039283616
+##  8: bayes    math    45 -1.854611e-01 -0.399566279  0.005296714
+##  9: bayes    math    48 -9.200791e-02 -0.205329953  0.019348076
+## 10: bayes    math    NA  5.674849e+00  5.534088800  5.815412375
+## 11: bayes    math    NA -1.170223e+00 -1.992263840 -0.348182659
+## 12: bayes    math    NA  2.868777e+00  1.971626002  3.765928406
+## 13: bayes    math    NA -9.700335e-01 -1.135601565 -0.804459266
+## 14: bayes    math    NA -2.024484e+00 -2.192671299 -1.856254729
+## 15: bayes    math    NA -2.848277e-01 -0.353531411 -0.216124246
+## 16: bayes    math    NA  5.869109e-01  0.115398140  1.058416948
+## 17: bayes    math    NA  2.893704e-01 -0.039930873  0.618680166
+## 18: bayes    math    NA  1.298739e-01 -0.019924529  0.279674579
+## 19: bayes    math    NA -5.528342e-02 -0.124134494  0.013562712
+## 20: bayes    math    NA  2.080951e+00  1.748987432  2.412919266
+## 21: bayes    math    NA -9.225265e-01 -1.191995053 -0.653058618
+## 22: bayes    math    NA  9.724101e-03 -0.294066847  0.313512107
+## 23: bayes     rla    99  7.701481e-04 -0.040338491  0.041878673
+## 24: bayes     rla     1  3.265152e-02 -0.089768440  0.162007212
+## 25: bayes     rla    12  5.415349e-02 -0.008273876  0.117637715
+## 26: bayes     rla    13  6.816353e-03 -0.073160388  0.087119608
+## 27: bayes     rla    22  3.761557e-03 -0.149039585  0.158098457
+## 28: bayes     rla    34 -2.509436e-02 -0.162055194  0.105352277
+## 29: bayes     rla    37  3.364300e-02 -0.053306941  0.122930600
+## 30: bayes     rla    45  1.660373e-02 -0.112933963  0.150311185
+## 31: bayes     rla    48 -1.227726e-01 -0.206529881 -0.042036722
+## 32: bayes     rla    NA  5.811210e+00  5.683337856  5.939340922
+## 33: bayes     rla    NA -1.700709e+00 -2.408621951 -0.992796778
+## 34: bayes     rla    NA  2.718388e+00  1.960605550  3.476193715
+## 35: bayes     rla    NA -1.597222e+00 -1.735644634 -1.458786987
+## 36: bayes     rla    NA -2.243834e+00 -2.393267573 -2.094390934
+## 37: bayes     rla    NA  9.076002e-02  0.033329513  0.148187585
+## 38: bayes     rla    NA -1.059646e+00 -1.447351790 -0.671939944
+## 39: bayes     rla    NA  8.795532e-01  0.597876907  1.161225881
+## 40: bayes     rla    NA  1.990585e-01  0.070867553  0.327246366
+## 41: bayes     rla    NA -5.721683e-01 -0.630483570 -0.513856869
+## 42: bayes     rla    NA  1.726421e+00  1.447804512  2.005023798
+## 43: bayes     rla    NA -4.407307e-02 -0.265093222  0.176947454
+## 44: bayes     rla    NA  7.991619e-02 -0.169010829  0.328842693
+##      type subject state           est           ll           ul</code></pre>
 </div>
 <div id="save-bayesian-results" class="section level2">
 <h2>Save Bayesian results</h2>
