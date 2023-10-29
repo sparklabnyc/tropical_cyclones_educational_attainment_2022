@@ -379,7 +379,7 @@ posterior probabilities</h1>
 </div>
 <div id="load-math-model-rds-file" class="section level1">
 <h1>Load math model RDS file</h1>
-<pre class="r"><code>math.model = readRDS((paste0(model.processing.folder, &quot;math_model.rds&quot;)))</code></pre>
+<pre class="r"><code>math.model = readRDS((paste0(full.model.output.folder, &quot;math_model.rds&quot;)))</code></pre>
 </div>
 <div id="make-draws-of-model-parameters" class="section level1">
 <h1>Make draws of model parameters</h1>
@@ -417,20 +417,20 @@ which derive from it.</p>
 <pre><code>##         count_positive posterior_prob_positive posterior_prob_negative
 ## fun[1]            4655                    0.93                    0.07
 ## fun[2]            5000                    1.00                    0.00
-## fun[3]             481                    0.10                    0.90
+## fun[3]             479                    0.10                    0.90
 ## fun[4]            2278                    0.46                    0.54
-## fun[5]             556                    0.11                    0.89
-## fun[6]              26                    0.01                    0.99
-## fun[7]             144                    0.03                    0.97
-## fun[8]             254                    0.05                    0.95
+## fun[5]             553                    0.11                    0.89
+## fun[6]              24                    0.00                    1.00
+## fun[7]             142                    0.03                    0.97
+## fun[8]             257                    0.05                    0.95
 ## fun[9]              10                    0.00                    1.00
 ## fun[10]           5000                    1.00                    0.00
 ## fun[11]              0                    0.00                    1.00
 ## fun[12]              0                    0.00                    1.00
 ## fun[13]           4968                    0.99                    0.01
 ## fun[14]           4796                    0.96                    0.04
-## fun[15]           4758                    0.95                    0.05
-## fun[16]            305                    0.06                    0.94
+## fun[15]           4759                    0.95                    0.05
+## fun[16]            306                    0.06                    0.94
 ## fun[17]           5000                    1.00                    0.00
 ## fun[18]              0                    0.00                    1.00
 ## fun[19]           2608                    0.52                    0.48</code></pre>

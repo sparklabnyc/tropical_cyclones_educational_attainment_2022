@@ -22,7 +22,7 @@ library(dplyr)
 
 # Load math model RDS file
 ```{r}
-math.model = readRDS((paste0(model.processing.folder, "math_model.rds")))
+math.model = readRDS((paste0(full.model.output.folder, "math_model.rds")))
 ```
 
 # Make draws of model parameters
