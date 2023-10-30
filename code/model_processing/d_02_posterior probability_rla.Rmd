@@ -54,3 +54,9 @@ draws.terms.of.interest.summary = draws.terms.of.interest %>%
 ```{r}
 print(draws.terms.of.interest.summary)
 ```
+
+# Save results
+```{r}
+readr::write_csv(hurricane.bayes,paste0(model.output.folder,'rla_probabilities.csv'))
+```
+
