@@ -1,5 +1,5 @@
 ---
-title: "Hurricane DID model national process posterior probabilities"
+title: "Hurricane DID math model national process posterior probabilities"
 output: html_document
 ---
 
@@ -31,7 +31,6 @@ draws.model = inla.posterior.sample(num_draws, math.model, seed=1234)
 ```
 
 # Define parameters of interest
-# Robbie: Gabriella, Please check if these are all the terms you need, then correct if not
 ```{r}
 mod.terms = c('state','pernam','perasn','perblk',
               'perfl', 'perell', 'perspeced','urban',
@@ -51,7 +50,7 @@ draws.terms.of.interest.summary = draws.terms.of.interest %>%
 
 # Print to display
 
-Each row is a parameters of interest. But remember that if a term is a random effect, e.g., `state`, it will have several terms which derive from it.
+# Each row is a parameters of interest. But remember that if a term is a random effect, e.g., `state`, it will have several terms which derive from it.
 ```{r}
 print(draws.terms.of.interest.summary)
 ```
