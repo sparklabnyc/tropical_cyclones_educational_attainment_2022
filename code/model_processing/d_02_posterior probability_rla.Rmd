@@ -22,7 +22,7 @@ library(dplyr)
 
 #Load RLA model RDS file
 ```{r}
-rla.model = readRDS((paste0(model.processing.folder, "rla_model.rds")))
+rla.model = readRDS((paste0(full.model.output.folder, "rla_model.rds")))
 ```
 
 # Make draws of model parameters
@@ -32,7 +32,7 @@ draws.model = inla.posterior.sample(num_draws, rla.model, seed=1234)
 
 # Define parameters of interest
 ```{r}
-mod.terms = c('state','pernam','perasn','perblk',
+mod.terms = c('state','pernam','perasn','perhsp','perblk',
               'perfl', 'perell', 'perspeced','urban',
               'perecd', 'baplusall', 'povertyall', 'single_momall')
 ```
@@ -57,6 +57,6 @@ print(draws.terms.of.interest.summary)
 
 # Save results
 ```{r}
-readr::write_csv(hurricane.bayes,paste0(model.output.folder,'rla_probabilities.csv'))
+readr::write_csv(draws.terms.of.interest.summary,paste0(model.output.folder,'rla_probabilities.csv'))
 ```
 
