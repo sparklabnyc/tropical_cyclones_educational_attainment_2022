@@ -43,7 +43,7 @@ draws.terms.of.interest = as.data.frame(inla.posterior.sample.eval(mod.terms, dr
 
 draws.terms.of.interest.summary = draws.terms.of.interest %>%
   mutate(count_positive = rowSums(. > 0)) %>%
-  mutate(posterior_prob_positive = round(count_positive/num_draws,2)) %>%
+  mutate(posterior_prob_positive = round(count_positive/num_draws,4)) %>%
   mutate(posterior_prob_negative = 1-posterior_prob_positive) %>%
   select(count_positive,posterior_prob_positive,posterior_prob_negative)
 ```
