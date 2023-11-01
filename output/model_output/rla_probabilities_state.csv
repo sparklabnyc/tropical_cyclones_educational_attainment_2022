@@ -1,0 +1,21 @@
+model_term,count_positive,posterior_prob_positive,posterior_prob_negative
+Alabama,3501,70.00%,30.00%
+Florida,4772,95.00%,5.00%
+Georgia,2825,56.00%,44.00%
+Louisiana,2612,52.00%,48.00%
+New Jersey,1802,36.00%,64.00%
+North Carolina,3910,78.00%,22.00%
+South Carolina,2991,60.00%,40.00%
+Texas,6,0.00%,100.00%
+Native American,0,0.00%,100.00%
+Asian,5000,100.00%,0.00%
+Hispanic,0,0.00%,100.00%
+Black,0,0.00%,100.00%
+Free lunch,4993,100.00%,0.00%
+ELL,0,0.00%,100.00%
+Special ed,5000,100.00%,0.00%
+Urban,4993,100.00%,0.00%
+Econ disadvantage,0,0.00%,100.00%
+BA,5000,100.00%,0.00%
+Poverty,1779,36.00%,64.00%
+Single mom,3623,72.00%,28.00%

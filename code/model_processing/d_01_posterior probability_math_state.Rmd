@@ -1,5 +1,5 @@
 ---
-title: "Hurricane DID RLA model national process posterior probabilities"
+title: "Hurricane DID math state model process posterior probabilities"
 output: html_document
 ---
 
@@ -20,19 +20,19 @@ library(INLA)
 library(dplyr)
 ```
 
-#Load RLA model RDS file
+# Load math model RDS file
 ```{r}
-rla.model = readRDS((paste0(full.model.output.folder, "rla_model.rds")))
+math.model.state = readRDS((paste0(full.model.output.folder, "math_model_state.rds")))
 ```
 
 # Make draws of model parameters
 ```{r}
-draws.model = inla.posterior.sample(num_draws, rla.model, seed=1234)
+draws.model = inla.posterior.sample(num_draws, math.model.state, seed=1234)
 ```
 
 # Define parameters of interest
 ```{r}
-mod.terms = c('state','pernam','perasn','perhsp','perblk',
+mod.terms = c('state','pernam','perasn','perhsp','perblk', 
               'perfl', 'perell', 'perspeced','urban',
               'perecd', 'baplusall', 'povertyall', 'single_momall')
 ```
@@ -55,8 +55,7 @@ draws.terms.of.interest.summary = draws.terms.of.interest %>%
 print(draws.terms.of.interest.summary)
 ```
 
-# Save results
+#Save results
 ```{r}
-readr::write_csv(draws.terms.of.interest.summary,paste0(model.output.folder,'rla_probabilities.csv'))
+readr::write_csv(draws.terms.of.interest.summary,paste0(model.output.folder,'math_probabilities_state.csv'))
 ```
-

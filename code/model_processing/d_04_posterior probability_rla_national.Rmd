@@ -1,0 +1,62 @@
+---
+title: "Hurricane DID RLA national model process posterior probabilities"
+output: html_document
+---
+
+## Load packages and file locations etc.
+```{r include=FALSE}
+rm(list=ls())
+
+project.folder <- paste0(print(here::here()),'/')
+source(paste0(project.folder,'create_folder_structure.R'))
+source(paste0(file.locations.folder,'file_locations.R'))
+source(paste0(objects.folder,'objects.R'))
+source(paste0(functions.folder,'functions.R'))
+```
+
+# Packages
+```{r}
+library(INLA)
+library(dplyr)
+```
+
+#Load RLA model RDS file
+```{r}
+rla.model.national = readRDS((paste0(full.model.output.folder, "rla_model_national.rds")))
+```
+
+# Make draws of model parameters
+```{r}
+draws.model = inla.posterior.sample(num_draws, rla.model.national, seed=1234)
+```
+
+# Define parameters of interest
+```{r}
+mod.terms = c('state','pernam','perasn','perhsp','perblk',
+              'perfl', 'perell', 'perspeced','urban',
+              'perecd', 'baplusall', 'povertyall', 'single_momall')
+```
+
+# Summarise each parameter of interest
+```{r}
+draws.terms.of.interest = as.data.frame(inla.posterior.sample.eval(mod.terms, draws.model))
+
+draws.terms.of.interest.summary = draws.terms.of.interest %>%
+  mutate(count_positive = rowSums(. > 0)) %>%
+  mutate(posterior_prob_positive = round(count_positive/num_draws,2)) %>%
+  mutate(posterior_prob_negative = 1-posterior_prob_positive) %>%
+  select(count_positive,posterior_prob_positive,posterior_prob_negative)
+```
+
+# Print to display
+
+# Each row is a parameters of interest. But remember that if a term is a random effect, e.g., `state`, it will have several terms which derive from it.
+```{r}
+print(draws.terms.of.interest.summary)
+```
+
+# Save results
+```{r}
+readr::write_csv(draws.terms.of.interest.summary,paste0(model.output.folder,'rla_probabilities_national.csv'))
+```
+
