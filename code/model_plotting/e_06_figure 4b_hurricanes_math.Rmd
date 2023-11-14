@@ -45,7 +45,7 @@ x_limits <- c(-2.5, 4)
 fp <- ggplot(data=results, aes(x = est, xmin = ll, xmax = ul, y = code)) +
   geom_pointrange(aes(color = color)) + 
   geom_vline(xintercept=0, lty=2) +  
-  xlab("Estimated Average Grade Scores (95% CrI)") + ylab("Covariate") +
+  xlab("Estimated Association with Average Grade Scores (95% CrI)") + ylab("Covariate") +
   scale_y_discrete(limits = rev(levels(results$code))) + 
   scale_color_identity() + 
   theme_bw() + 
