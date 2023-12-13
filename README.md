@@ -95,6 +95,8 @@ c_19_hurricane_did_once - national model with state-specific effects for hurrica
 
 c_20_cyclone_did_once - national model with state-specific effects for tropical cyclones; in counties with only one tropical cyclone in the timeframe
 
+c_21_hurricane_lagged_did_national_effect_modification_grade - national lagged hurricane model with effect modification by grade level
+
 ## Model processing (model_processing) list:
 
 d_01_posterior probability_math - calculating posterior probabilities for the state-specific math hurricane model
@@ -118,3 +120,15 @@ e_06_figure 4b_hurricanes_math - Forest plot of state-specific hurricane math mo
 e_07_figure 5a_hurricanes_rla - Forest plot of state-specific hurricanes rla model, state results
 
 e_08_figure 5b_hurricanes_rla - Forest plot of state-specific hurricanes rla model, covariate results
+
+e_09_plot_hurricanes_lagged_math - Forest plot of state-specific lagged hurricanes math model, state results
+
+e_10_plot_hurricanes_lagged_rla - Forest plot of state-specific lagged hurricanes RLA model, state results
+
+e_11_plot_cyclones_lagged_math - Forest plot of state-specific lagged tropical cyclones math model, state results
+
+e_12_plot_cyclones_lagged_rla - Forest plot of state-specific lagged tropical cyclones math model, state results
+
+e_13_plot_hurricanes_lagged_grade_math - Forest plot of national lagged hurricane model of math scores, effect modification by grade level
+
+e_14_plot_hurricanes_lagged_grade_rla - Forest plot of national lagged hurricane model of RLA scores, effect modification by grade level

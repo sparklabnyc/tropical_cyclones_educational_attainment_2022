@@ -56,7 +56,7 @@ math.DID = math.DID %>% mutate(et2=et)
 rla.DID = rla.DID %>% mutate(et2=et)
 ```
 
-## Add combined state and tertile column 
+## Add combined state and grade column 
 ```{r,message=FALSE}
 math.DID = math.DID %>%
   mutate(state_grade=as.factor(paste0(state,'_',grade)))
@@ -136,26 +136,24 @@ summary(mod.rla.bayes.random.interaction.state)
 
 ```{r, message=FALSE}
 hurricane.math.bayes.fixed.interaction = data.frame(type='bayes',subject='math',
-                                 tertile=c(1,2,3),
-                                 est=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$mean,
-                                 ll=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
-                                 ul=mod.math.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
+                                 grade=c(3,4,5,6,7,8),
+                                 est=mod.math.bayes.fixed.interaction$summary.fixed[c(3:8), ]$mean,
+                                 ll=mod.math.bayes.fixed.interaction$summary.fixed[c(3:8), ]$`0.025quant`,
+                                 ul=mod.math.bayes.fixed.interaction$summary.fixed[c(3:8), ]$`0.975quant`)
 
 hurricane.math.bayes.random.interaction.state = data.frame(type='bayes',subject='math',
-                                  #tertile=c(1,2,3),
                                   state=mod.math.bayes.random.interaction.state$summary.random$state_grade$ID,
                                   est=mod.math.bayes.random.interaction.state$summary.random$state_grade$mean,
                                   ll=mod.math.bayes.random.interaction.state$summary.random$state_grade$`0.025quant`,
                                   ul=mod.math.bayes.random.interaction.state$summary.random$state_grade$`0.975quant`)
 
 hurricane.rla.bayes.fixed.interaction = data.frame(type='bayes',subject='rla',
-                                 tertile=c(1,2,3), 
-                                 est=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$mean,
-                                 ll=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.025quant`,
-                                 ul=mod.rla.bayes.fixed.interaction$summary.fixed[c(2:4),]$`0.975quant`)
+                                grade=c(3,4,5,6,7,8),
+                                 est=mod.rla.bayes.fixed.interaction$summary.fixed[c(3:8), ]$mean,
+                                 ll=mod.rla.bayes.fixed.interaction$summary.fixed[c(3:8), ]$`0.025quant`,
+                                 ul=mod.rla.bayes.fixed.interaction$summary.fixed[c(3:8), ]$`0.975quant`)
 
 hurricane.rla.bayes.random.interaction.state = data.frame(type='bayes',subject='rla',
-                                  #tertile=c(1,2,3),
                                   state=mod.math.bayes.random.interaction.state$summary.random$state_grade$ID,
                                   est=mod.math.bayes.random.interaction.state$summary.random$state_grade$mean,
                                   ll=mod.math.bayes.random.interaction.state$summary.random$state_grade$`0.025quant`,
@@ -164,8 +162,7 @@ hurricane.rla.bayes.random.interaction.state = data.frame(type='bayes',subject='
 hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.fixed.interaction,
                                              hurricane.rla.bayes.fixed.interaction,
                                              hurricane.math.bayes.random.interaction.state,
-                                             hurricane.rla.bayes.random.interaction.state
-))
+                                             hurricane.rla.bayes.random.interaction.state))
 
 print(hurricane.bayes)
 ```
