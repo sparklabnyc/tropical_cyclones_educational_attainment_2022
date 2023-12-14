@@ -71,98 +71,58 @@ rla.DID = rla.DID %>%
 hyper_value = 0.001
 lg_prior = list(prec = list(prior = "loggamma", param = c(1, hyper_value)))
 
-fml.bayes.fixed.interaction = gcs_mn_all ~  
-                et*grade + 
+fml.bayes.grade = gcs_mn_all ~ 
+                f(grade,et2,model="iid", hyper = lg_prior) +
                 f(cohort,model="iid", hyper = lg_prior) +
                 f(year,model="iid", hyper = lg_prior) +
-                pernam + perasn + perhsp + perblk +  
-                perfl + perell + 
-                urban + perspeced +
-                perecd + baplusall + povertyall + snapall + single_momall
-
-fml.bayes.fixed.interaction.state = gcs_mn_all ~  
-                state*et*grade +
-                f(cohort,model="iid", hyper = lg_prior) +
-                f(year,model="iid", hyper = lg_prior) +
-               pernam + perasn + perhsp + perblk +  
-                perfl + perell + 
-                urban + perspeced +
-                perecd + baplusall + povertyall + snapall + single_momall
-
-fml.bayes.random.interaction.state = gcs_mn_all ~  
-                f(state_grade,et,model="iid", hyper = lg_prior) +
-                f(cohort,model="iid", hyper = lg_prior) +
-                f(year,model="iid", hyper = lg_prior) +
-                pernam + perasn + perhsp + perblk +  
-                perfl + perell + 
-                urban + perspeced +
+                pernam + perasn + perhsp + perblk + 
+                perfl + perell + perspeced +
+                urban + 
                 perecd + baplusall + povertyall + snapall + single_momall
 ```
 
 
-## Run Bayesian math models
+## Run Bayesian math model
 
 ```{r,message=FALSE}
-mod.math.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = math.DID)
-mod.math.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = math.DID)
-mod.math.bayes.random.interaction.state = inla(fml.bayes.random.interaction.state, data = math.DID)
+mod.math.bayes.grade = inla(fml.bayes.grade, data = math.DID)
 ```
 
-## Summary of fixed and random interaction math model
+## Summary of fixed interaction math model
 
 ```{r,message=FALSE}
-summary(mod.math.bayes.fixed.interaction)
-summary(mod.math.bayes.fixed.interaction.state)
-summary(mod.math.bayes.random.interaction.state)
+summary(mod.math.bayes.grade)
 ```
 
-## Run Bayesian rla models
+## Run Bayesian rla model
 
 ```{r,message=FALSE}
-mod.rla.bayes.fixed.interaction = inla(fml.bayes.fixed.interaction, data = rla.DID)
-mod.rla.bayes.fixed.interaction.state = inla(fml.bayes.fixed.interaction.state, data = rla.DID)
-mod.rla.bayes.random.interaction.state = inla(fml.bayes.random.interaction.state, data = rla.DID)
+mod.rla.bayes.grade = inla(fml.bayes.grade, data = rla.DID)
 ```
 
 ## Summary of fixed interaction rla model
 
 ```{r,message=FALSE}
-summary(mod.rla.bayes.fixed.interaction)
-summary(mod.rla.bayes.fixed.interaction.state)
-summary(mod.rla.bayes.random.interaction.state)
+summary(mod.rla.bayes.grade)
 ```
 
 ## Summary of Bayesian results
 
 ```{r, message=FALSE}
-hurricane.math.bayes.fixed.interaction = data.frame(type='bayes',subject='math',
-                                 grade=c(3,4,5,6,7,8),
-                                 est=mod.math.bayes.fixed.interaction$summary.fixed[c(3:8), ]$mean,
-                                 ll=mod.math.bayes.fixed.interaction$summary.fixed[c(3:8), ]$`0.025quant`,
-                                 ul=mod.math.bayes.fixed.interaction$summary.fixed[c(3:8), ]$`0.975quant`)
+hurricane.math.bayes.grade = data.frame(type='bayes',subject='math',
+                                  grade=mod.math.bayes.grade$summary.random$grade$ID,
+                                  est=mod.math.bayes.grade$summary.random$grade$mean,
+                                  ll=mod.math.bayes.grade$summary.random$grade$`0.025quant`,
+                                  ul=mod.math.bayes.grade$summary.random$grade$`0.975quant`)
 
-hurricane.math.bayes.random.interaction.state = data.frame(type='bayes',subject='math',
-                                  state=mod.math.bayes.random.interaction.state$summary.random$state_grade$ID,
-                                  est=mod.math.bayes.random.interaction.state$summary.random$state_grade$mean,
-                                  ll=mod.math.bayes.random.interaction.state$summary.random$state_grade$`0.025quant`,
-                                  ul=mod.math.bayes.random.interaction.state$summary.random$state_grade$`0.975quant`)
+hurricane.rla.bayes.grade = data.frame(type='bayes',subject='rla',
+                                  grade=mod.rla.bayes.grade$summary.random$grade$ID,
+                                  est=mod.rla.bayes.grade$summary.random$grade$mean,
+                                  ll=mod.rla.bayes.grade$summary.random$grade$`0.025quant`,
+                                  ul=mod.rla.bayes.grade$summary.random$grade$`0.975quant`)
 
-hurricane.rla.bayes.fixed.interaction = data.frame(type='bayes',subject='rla',
-                                grade=c(3,4,5,6,7,8),
-                                 est=mod.rla.bayes.fixed.interaction$summary.fixed[c(3:8), ]$mean,
-                                 ll=mod.rla.bayes.fixed.interaction$summary.fixed[c(3:8), ]$`0.025quant`,
-                                 ul=mod.rla.bayes.fixed.interaction$summary.fixed[c(3:8), ]$`0.975quant`)
-
-hurricane.rla.bayes.random.interaction.state = data.frame(type='bayes',subject='rla',
-                                  state=mod.math.bayes.random.interaction.state$summary.random$state_grade$ID,
-                                  est=mod.math.bayes.random.interaction.state$summary.random$state_grade$mean,
-                                  ll=mod.math.bayes.random.interaction.state$summary.random$state_grade$`0.025quant`,
-                                  ul=mod.math.bayes.random.interaction.state$summary.random$state_grade$`0.975quant`)
-
-hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.fixed.interaction,
-                                             hurricane.rla.bayes.fixed.interaction,
-                                             hurricane.math.bayes.random.interaction.state,
-                                             hurricane.rla.bayes.random.interaction.state))
+hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.grade,
+                                             hurricane.rla.bayes.grade))
 
 print(hurricane.bayes)
 ```
