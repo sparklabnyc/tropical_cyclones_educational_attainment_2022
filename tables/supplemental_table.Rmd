@@ -1,0 +1,37 @@
+---
+title: "Prepare supplementary table of test scores by state"
+output: html_document 
+---
+
+#Load packages and file locations
+```{r}
+rm(list=ls())
+
+# Declare root directory, folder locations, local file locations, objects, and functions
+project.folder = paste0(print(here::here()),'/')
+source(paste0(project.folder,'create_folder_structure.R'))
+source(paste0(file.locations.folder,'file_locations.R'))
+source(paste0(objects.folder,'objects.R'))
+source(paste0(functions.folder,'functions.R'))
+
+library(tidyverse)
+library(Hmisc)
+library(dplyr)
+```
+
+#Load datasets
+```{r}
+#Load datasets
+math_DID = readRDS(paste0(prepared.math.DID.folder, "math_DID_hurricanes_lagged.rds"))
+rla_DID = readRDS(paste0(prepared.rla.DID.folder, "rla_DID_hurricanes_lagged.rds"))
+```
+
+#Filter to only states that had exposures to hurricanes
+
+
+#Describe the distribution of math scores in 2009 for grade 3
+```{r}
+math_DID %>% dplyr::filter(year == 2009, grade == 3) %>% dplyr::select(gcs_mn_all) %>% describe()
+```
+
+

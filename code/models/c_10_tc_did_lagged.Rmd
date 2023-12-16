@@ -64,7 +64,7 @@ fml.bayes.overall = gcs_mn_all ~
                 pernam + perasn + perhsp + perblk + perasn + 
                 perfl + perell + 
                 urban + perspeced + 
-                perecd + baplusall + povertyall + snapall + single_momall
+                perecd + baplusall + povertyall + single_momall
 
 
 fml.bayes.state = gcs_mn_all ~ 
@@ -74,7 +74,7 @@ fml.bayes.state = gcs_mn_all ~
                 pernam + perasn + perhsp + perblk + perasn + 
                 perfl + perell + perspeced +
                 urban + 
-                perecd + baplusall + povertyall + snapall + single_momall
+                perecd + baplusall + povertyall + single_momall
 ```
 
 ## Run Bayesian math models
