@@ -8,8 +8,8 @@ bayes,math,45,-0.123801027,-0.354783854,0.057511548,SC,
 bayes,math,48,0.028294555,-0.097872358,0.157851651,TX,
 bayes,math,0,-1.448273739,-2.38364147,-0.512929955,% American Indian/Alaska Native,blue
 bayes,math,0,1.778818758,0.695637507,2.861989821,% Asian,blue
-bayes,math,0,-0.961159466,-1.140267575,-0.782023611,% Black,blue
-bayes,math,0,-1.705258748,-1.927906783,-1.482523094,% Hispanic,blue
+bayes,math,0,-1.705258748,-1.927906783,-1.482523094,% Black,blue
+bayes,math,0,-0.961159466,-1.140267575,-0.782023611,% Hispanic,blue
 bayes,math,0,-0.489031878,-0.593707817,-0.384396024,% Economically disadvantaged,green
 bayes,math,0,-0.449543363,-0.527450196,-0.371634409,% Free lunch,green
 bayes,math,0,0.660595037,0.135086676,1.186062811,% English language learners,red
@@ -27,8 +27,8 @@ bayes,rla,45,-0.008832677,-0.147449177,0.124983905,SC,
 bayes,rla,48,-0.041395358,-0.137613219,0.048977762,TX,
 bayes,rla,0,-2.015036182,-2.835802286,-1.194272797,% American Indian/Alaska Native,blue
 bayes,rla,0,1.785952613,0.863196689,2.708763468,% Asian,blue
-bayes,rla,0,-1.663403464,-1.814366788,-1.512438876,% Black,blue
-bayes,rla,0,-2.265696543,-2.464706051,-2.066699169,% Hispanic,blue
+bayes,rla,0,-2.265696543,-2.464706051,-2.066699169,% Black,blue
+bayes,rla,0,-1.663403464,-1.814366788,-1.512438876,% Hispanic,blue
 bayes,rla,0,-0.977459503,-1.064236723,-0.890720287,% Economically disadvantaged,green
 bayes,rla,0,0.019831576,-0.046006813,0.085672141,% Free lunch,green
 bayes,rla,0,-1.61277392,-2.047676242,-1.177844288,% English language learners,red
