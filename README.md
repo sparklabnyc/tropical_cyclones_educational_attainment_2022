@@ -107,6 +107,10 @@ d_03_posterior probability_math_lagged - calculating posterior probabilities for
 
 d_04_posterior probability_rla_lagged - calculating posterior probabilities for the state-specific RLA lagged hurricane model
 
+d_05_posterior probability_math_national_lagged - calculating posterior probabilities for the national math lagged hurricane model
+
+d_06_posterior probability_rla_national_lagged - calculating posterior probabilities for the national RLA lagged hurricane model
+
 ## Model running (model_plotting) list:
 
 e_01_figure 2a_cyclones_math - Forest plot of state-specific tropical cyclone math model, state results

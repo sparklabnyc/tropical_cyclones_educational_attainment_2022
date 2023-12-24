@@ -1,0 +1,19 @@
+,count_positive,posterior_prob_positive,posterior_prob_negative
+FL,4951,0.9902,0.0098
+LA,1506,0.3012,0.6988
+NJ,565,0.113,0.887
+NC,29,0.0058,0.9942
+SC,500,0.1,0.9
+TX,3302,0.6604,0.3396
+Indian,5,0.001,0.999
+Asian,4998,0.9996,4.00E-04
+Hispanic,0,0,1
+Black,0,0,1
+Free lunch,0,0,1
+ELL,4962,0.9924,0.0076
+Special ed,0,0,1
+Urban,4892,0.9784,0.0216
+Econ,0,0,1
+College,5000,1,0
+Poverty,0,0,1
+Single mom,1324,0.2648,0.7352

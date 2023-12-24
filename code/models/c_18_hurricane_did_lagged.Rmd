@@ -83,8 +83,10 @@ fml.bayes.state = gcs_mn_all ~
 ## Run Bayesian math models
 
 ```{r,message=FALSE}
-mod.math.bayes.overall = inla(fml.bayes.overall, data = math.DID)
-mod.math.bayes.state = inla(fml.bayes.state, data = math.DID)
+mod.math.bayes.overall = inla(fml.bayes.overall, data = math.DID, 
+                              control.compute=list(config = TRUE))
+mod.math.bayes.state = inla(fml.bayes.state, data = math.DID,
+                            control.compute=list(config = TRUE))
 ```
 
 ## Summary of overall math model
@@ -108,8 +110,10 @@ saveRDS(mod.math.bayes.overall, paste0(full.model.output.folder, "math_model_nat
 ## Run Bayesian rla models
 
 ```{r,message=FALSE}
-mod.rla.bayes.overall = inla(fml.bayes.overall, data = rla.DID)
-mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID)
+mod.rla.bayes.overall = inla(fml.bayes.overall, data = rla.DID, 
+                              control.compute=list(config = TRUE))
+mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID,
+                              control.compute=list(config = TRUE))
 ```
 
 ## Summary of overall rla model
