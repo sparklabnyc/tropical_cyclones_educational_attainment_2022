@@ -53,6 +53,8 @@ b_06_effect_modification_midpoints - generate effect modification midpoints, com
 
 b_07_figure 2_maps - prepare code for Figure 2 map showing distribution of county poverty tertiles
 
+b_09_figure 1_map - prepare code for revised Figure 1 showing locations of lagged hurricanes
+
 ## Model running (models) list:
 
 c_01_hurricane_did_national- national model with state-specific effects for hurricanes only
