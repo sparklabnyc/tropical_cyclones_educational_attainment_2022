@@ -38,7 +38,7 @@ results$code <- factor(results$code, levels = results$code)
 
 # Setting x-axis limits
 ```{r}
-x_limits <- c(-0.25, 0.30)
+x_limits <- c(-0.50, 0.30)
 ```
 
 # Forest plot

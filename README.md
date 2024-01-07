@@ -142,3 +142,7 @@ e_12_plot_cyclones_lagged_rla - Forest plot of state-specific lagged tropical cy
 e_13_plot_hurricanes_lagged_grade_math - Forest plot of national lagged hurricane model of math scores, effect modification by grade level
 
 e_14_plot_hurricanes_lagged_grade_rla - Forest plot of national lagged hurricane model of RLA scores, effect modification by grade level
+
+e_15_plot_hurricanes_lagged_covariates_math - Forest plot of national lagged hurricane model of math scores, covariate results
+
+e_16_plot_hurricanes_lagged_covariates_rla - Forest plot of national lagged hurricane model of RLA scores, covariate results

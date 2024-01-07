@@ -26,12 +26,36 @@ math_DID = readRDS(paste0(prepared.math.DID.folder, "math_DID_hurricanes_lagged.
 rla_DID = readRDS(paste0(prepared.rla.DID.folder, "rla_DID_hurricanes_lagged.rds"))
 ```
 
-#Filter to only states that had exposures to hurricanes
+#Which states ever had exposure to hurricanes?
+```{r}
+states_to_include = math.DID %>% filter(et==1) %>% pull(state) %>% unique()
+states_to_include = as.character(states_to_include)
+```
 
+#Filter for states which ever had exposure to hurricanes
+```{r}
+math.DID = math.DID %>% 
+  filter(state%in%states_to_include) %>% 
+  mutate(state=as.numeric(as.character(state)))
+rla.DID = rla.DID %>% 
+  filter(state%in%states_to_include) %>% 
+  mutate(state=as.numeric(as.character(state)))
+```
 
 #Describe the distribution of math scores in 2009 for grade 3
 ```{r}
-math_DID %>% dplyr::filter(year == 2009, grade == 3) %>% dplyr::select(gcs_mn_all) %>% describe()
+math.DID %>% dplyr::filter(year == 2009, grade == 3) %>% dplyr::select(gcs_mn_all) %>% describe()
 ```
 
+#Describe the distribution of RLA scores in 2009 for grade 3
+```{r}
+rla.DID %>% dplyr::filter(year == 2009, grade == 3) %>% dplyr::select(gcs_mn_all) %>% describe()
+```
+
+#Florida 12
+#Louisiana 22
+#New Jersey 34
+#North Carolina 37
+#South Carolina 45
+#Texas 48
 
