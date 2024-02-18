@@ -1,5 +1,5 @@
 ---
-title: "Lagged Hurricane DID math national model process posterior probabilities"
+title: "Lagged Hurricane DID RLA national model process posterior probabilities"
 output: html_document
 ---
 
@@ -22,17 +22,17 @@ library(dplyr)
 
 # Load math model RDS file
 ```{r}
-math.model.national = readRDS((paste0(full.model.output.folder, "math_model_national_lagged.rds")))
+rla.model.national = readRDS((paste0(full.model.output.folder, "rla_model_national_lagged.rds")))
 ```
 
 # Make draws of model parameters
 ```{r}
-draws.model = inla.posterior.sample(num_draws, math.model.national, seed=1234)
+draws.model = inla.posterior.sample(num_draws, rla.model.national, seed=1234)
 ```
 
 # Define parameters of interest
 ```{r}
-mod.terms = c('state','pernam','perasn','perhsp','perblk', 
+mod.terms = c('et','pernam','perasn','perhsp','perblk', 
               'perfl', 'perell', 'perspeced','urban',
               'perecd', 'baplusall', 'povertyall', 'single_momall')
 ```
@@ -57,5 +57,5 @@ print(draws.terms.of.interest.summary)
 
 #Save results
 ```{r}
-readr::write_csv(draws.terms.of.interest.summary,paste0(model.output.folder,'math_probabilities_national_lagged.csv'))
+readr::write_csv(draws.terms.of.interest.summary,paste0(model.output.folder,'rla_probabilities_national_lagged.csv'))
 ```

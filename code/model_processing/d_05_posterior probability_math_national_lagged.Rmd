@@ -32,7 +32,7 @@ draws.model = inla.posterior.sample(num_draws, math.model.national, seed=1234)
 
 # Define parameters of interest
 ```{r}
-mod.terms = c('state','pernam','perasn','perhsp','perblk', 
+mod.terms = c('et', 'pernam','perasn','perhsp','perblk', 
               'perfl', 'perell', 'perspeced','urban',
               'perecd', 'baplusall', 'povertyall', 'single_momall')
 ```
