@@ -1,5 +1,5 @@
 ---
-title: "Hurricane DID model national with effect modification; poverty binary"
+title: "Hurricane lagged DID model national with effect modification; poverty binary"
 output: html_document
 ---
 
@@ -24,8 +24,8 @@ library(INLA)
 
 ## Load math and rla data prepared for DID model
 ```{r,message=FALSE}
-math.DID = readRDS(paste0(prepared.math.DID.folder, "math_DID.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
-rla.DID = readRDS(paste0(prepared.rla.DID.folder, "rla_DID.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
+math.DID = readRDS(paste0(prepared.math.DID.folder, "math_DID_hurricanes_lagged.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
+rla.DID = readRDS(paste0(prepared.rla.DID.folder, "rla_DID_hurricanes_lagged.rds")) %>% mutate(year=as.factor(year), state=as.factor(state))
 ```
 
 ## Which states ever had exposure to hurricanes?
