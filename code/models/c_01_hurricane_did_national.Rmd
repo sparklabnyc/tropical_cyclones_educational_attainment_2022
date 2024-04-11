@@ -56,6 +56,13 @@ math.DID = math.DID %>% mutate(et2=et)
 rla.DID = rla.DID %>% mutate(et2=et)
 ```
 
+## Clone state in the math and RLA data and call it state 2
+
+```{r,message=FALSE}
+math.DID = math.DID %>% mutate(state2=state)
+rla.DID = rla.DID %>% mutate(state2=state)
+```
+
 ## Define Bayesian formula
 
 ```{r,message=FALSE}
@@ -80,6 +87,16 @@ fml.bayes.state = gcs_mn_all ~
                 perfl + perell + perspeced +
                 urban +
                 perecd + baplusall + povertyall + single_momall
+
+fml.bayes.state.2 = gcs_mn_all ~ 
+                f(state2,model="iid", hyper = lg_prior) +
+                f(state,et2,model="iid", hyper = lg_prior) +
+                f(cohort,model="iid", hyper = lg_prior) +
+                f(year,model="iid", hyper = lg_prior) +
+                pernam + perasn + perhsp + perblk + 
+                perfl + perell + perspeced +
+                urban +
+                perecd + baplusall + povertyall + single_momall
 ```
 
 ## Run Bayesian math models
@@ -89,6 +106,8 @@ mod.math.bayes.overall = inla(fml.bayes.overall, data = math.DID,
                               control.compute=list(config = TRUE))
 mod.math.bayes.state = inla(fml.bayes.state, data = math.DID,
                             control.compute=list(config = TRUE))
+mod.math.bayes.state.2 = inla(fml.bayes.state.2, data = math.DID,
+                              control.compute = list(config = TRUE))
 ```
 
 ## Summary of overall math model
@@ -103,10 +122,17 @@ summary(mod.math.bayes.overall)
 summary(mod.math.bayes.state)
 ```
 
+## Summary of state math model 2
+
+```{r,message=FALSE}  
+summary(mod.math.bayes.state.2)
+```
+
 ## Save math model as RDS file
 ```{r}
 saveRDS(mod.math.bayes.state, paste0(full.model.output.folder, "math_model_state.rds"))
 saveRDS(mod.math.bayes.overall, paste0(full.model.output.folder, "math_model_national.rds"))
+saveRDS(mod.math.bayes.state.2, paste0(full.model.output.folder, "math_model_state_2.rds"))
 ```
 
 ## Run Bayesian rla models
@@ -116,6 +142,8 @@ mod.rla.bayes.overall = inla(fml.bayes.overall, data = rla.DID,
                               control.compute=list(config = TRUE))
 mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID,
                               control.compute=list(config = TRUE))
+mod.rla.bayes.state.2 = inla(fml.bayes.state.2, data = rla.DID,
+                              control.compute = list(config = TRUE))
 ```
 
 ## Summary of overall rla model
@@ -130,11 +158,18 @@ summary(mod.rla.bayes.overall)
 summary(mod.rla.bayes.state)
 ```
 
+## Summary of state rla model 2
+
+```{r,message=FALSE}
+summary(mod.rla.bayes.state.2)
+```
+
 ## Save RLA model as RDS file
 
 ```{r}
 saveRDS(mod.rla.bayes.state, paste0(full.model.output.folder, "rla_model_state.rds"))
 saveRDS(mod.rla.bayes.overall, paste0(full.model.output.folder, "rla_model_national.rds"))
+saveRDS(mod.rla.bayes.state.2, paste0(full.model.output.folder, "rla_model_state_2.rds"))
 ```
 
 
@@ -158,6 +193,12 @@ hurricane.math.bayes.state.fixed = data.frame(type='bayes',subject='math',
                                  ll=mod.math.bayes.state$summary.fixed$`0.025quant`,
                                  ul=mod.math.bayes.state$summary.fixed$`0.975quant`)
 
+hurricane.math.bayes.state.2 = data.frame(type='bayes',subject='math',
+                                  state=mod.math.bayes.state.2$summary.random$state$ID,
+                                  est=mod.math.bayes.state.2$summary.random$state$mean,
+                                  ll=mod.math.bayes.state.2$summary.random$state$`0.025quant`,
+                                  ul=mod.math.bayes.state.2$summary.random$state$`0.975quant`)
+
 hurricane.rla.bayes.overall = data.frame(type='bayes',subject='rla',
                                  state=99,
                                  est=mod.rla.bayes.overall$summary.fixed['et',]$mean,
@@ -175,12 +216,20 @@ hurricane.rla.bayes.state.fixed = data.frame(type='bayes',subject='rla',
                                  ll=mod.rla.bayes.state$summary.fixed$`0.025quant`,
                                  ul=mod.rla.bayes.state$summary.fixed$`0.975quant`)
 
+hurricane.rla.bayes.state.2 = data.frame(type='bayes',subject='rla',
+                                  state=mod.rla.bayes.state.2$summary.random$state$ID,
+                                  est=mod.rla.bayes.state.2$summary.random$state$mean,
+                                  ll=mod.rla.bayes.state.2$summary.random$state$`0.025quant`,
+                                  ul=mod.rla.bayes.state.2$summary.random$state$`0.975quant`)
+
 hurricane.bayes = data.table::rbindlist(list(hurricane.math.bayes.overall,
                                              hurricane.math.bayes.state,
                                              hurricane.math.bayes.state.fixed,
                                              hurricane.rla.bayes.overall,
                                              hurricane.rla.bayes.state, 
-                                             hurricane.rla.bayes.state.fixed), 
+                                             hurricane.rla.bayes.state.fixed,
+                                             hurricane.math.bayes.state.2,
+                                             hurricane.rla.bayes.state.2), 
                                              fill = TRUE)
 
 print(hurricane.bayes)
