@@ -1,13 +1,14 @@
-# Tropical cyclones and educational attainment
+# Disruption to Test Scores after Hurricanes in the United States
 
-Work in progress by Gabriella Meltzer, Joan Casey, Joel Schwartz, Michelle Bell, Marianthi-Anna Kioumourtzoglou, Robbie M Parks
+Gabriella Meltzer, G. Brooke Anderson, Xicheng Xie, Joan A. Casey, Joel Schwartz, Michelle Bell, Yoshira Ornelas Van Horne, Jared Fox, Marianthi-Anna Kioumourtzoglou, Robbie M Parks
 
-note: please run 0_00_create_folder_structure.R first to create folders which may not be there when first loaded.
+## Project Description
 
-note: to run an R Markdown file from command line, run\
-Rscript -e "rmarkdown::render('SCRIPT_NAME.Rmd')"
+This dataset and code is used for the paper
 
-## Data preparation (data_prep) list:
+## Code
+
+### Data preparation (data_prep) list:
 
 a_01_prepare_educational_attainment_data - prepare educational attainment data from raw (in local) to annual tidied format (in GitHub repo).
 
@@ -37,7 +38,7 @@ a_13_prepare_hurricane_once_data_did - merging hurricane data for only one expos
 
 a_14_prepare_tc_once_data_did - merging tropical cyclone data for only one exposure with data for analysis
 
-## Data exploration (data_exploration) list:
+### Data exploration (data_exploration) list:
 
 b_01_plotting_scores_years_ggplot2 - prepare GCS data and plot change in score over years, faceted by grade
 
@@ -55,7 +56,7 @@ b_07_figure 2_maps - prepare code for Figure 2 map showing distribution of count
 
 b_09_figure 1_map - prepare code for revised Figure 1 showing locations of lagged hurricanes
 
-## Model running (models) list:
+### Model running (models) list:
 
 c_01_hurricane_did_national- national model with state-specific effects for hurricanes only
 
@@ -99,7 +100,7 @@ c_20_cyclone_did_once - national model with state-specific effects for tropical 
 
 c_21_hurricane_lagged_did_national_effect_modification_grade - national lagged hurricane model with effect modification by grade level
 
-## Model processing (model_processing) list:
+### Model processing (model_processing) list:
 
 d_01_posterior probability_math - calculating posterior probabilities for the state-specific math hurricane model
 
@@ -113,7 +114,7 @@ d_05_posterior probability_math_national_lagged - calculating posterior probabil
 
 d_06_posterior probability_rla_national_lagged - calculating posterior probabilities for the national RLA lagged hurricane model
 
-## Model running (model_plotting) list:
+### Model running (model_plotting) list:
 
 e_01_figure 2a_cyclones_math - Forest plot of state-specific tropical cyclone math model, state results
 
@@ -146,3 +147,14 @@ e_14_plot_hurricanes_lagged_grade_rla - Forest plot of national lagged hurricane
 e_15_plot_hurricanes_lagged_covariates_math - Forest plot of national lagged hurricane model of math scores, covariate results
 
 e_16_plot_hurricanes_lagged_covariates_rla - Forest plot of national lagged hurricane model of RLA scores, covariate results
+
+## Directory structure
+
+## Data availability
+
+Data used for this analysis are available via https://github.com/sparklabnyc/tropical_cyclones_educational_attainment_2022
+
+The data used in this study were created from the following datasets. 
+- Tropical cyclone and hurricane exposure data are available as a package developed by Dr. Anderson via https://github.com/geanders/hurricaneexposure and https://github.com/geanders/hurricaneexposuredata.
+- County-level standardized test score and covariate data from 2008/2009 to 2017/2018 are available via the Stanford Education Data Archive Version 4.1: https://purl.stanford.edu/xv742vh9296. 
+
