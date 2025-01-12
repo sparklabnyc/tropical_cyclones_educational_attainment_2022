@@ -74,21 +74,13 @@ lg_prior = list(prec = list(prior = "loggamma", param = c(1, hyper_value)))
 fml.bayes.overall = gcs_mn_all ~ 
                 et +
                 f(cohort,model="iid", hyper = lg_prior) +
-                f(year,model="iid", hyper = lg_prior) +
-                pernam + perasn + perhsp + perblk +  
-                perfl + perell + 
-                urban + perspeced +
-                perecd + baplusall + povertyall + single_momall
+                f(year,model="iid", hyper = lg_prior)
 
 
 fml.bayes.state = gcs_mn_all ~ 
                 f(state,et2,model="iid", hyper = lg_prior) +
                 f(cohort,model="iid", hyper = lg_prior) +
-                f(year,model="iid", hyper = lg_prior) +
-                pernam + perasn + perhsp + perblk + 
-                perfl + perell + perspeced +
-                urban +
-                perecd + baplusall + povertyall + single_momall
+                f(year,model="iid", hyper = lg_prior)
 ```
 
 ## Run Bayesian math models
@@ -110,12 +102,19 @@ summary(mod.math.bayes.overall)
 summary(mod.math.bayes.state)
 ```
 
+## Save math model as RDS file
+```{r}
+saveRDS(mod.math.bayes.state, paste0(full.model.output.folder, "math_model_state_once.rds"))
+saveRDS(mod.math.bayes.overall, paste0(full.model.output.folder, "math_model_national_once.rds"))
+```
+
 ## Run Bayesian rla models
 
 ```{r,message=FALSE}
-mod.rla.bayes.overall = inla(fml.bayes.overall, data = rla.DID)
-mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID)
+mod.rla.bayes.overall = inla(fml.bayes.overall, data = rla.DID, control.compute = list(config = TRUE))
+mod.rla.bayes.state = inla(fml.bayes.state, data = rla.DID, control.compute = list(config = TRUE))
 ```
+
 
 ## Summary of overall rla model
 
@@ -127,6 +126,12 @@ summary(mod.rla.bayes.overall)
 
 ```{r,message=FALSE}
 summary(mod.rla.bayes.state)
+```
+
+## Save RLA model as RDS file
+```{r}
+saveRDS(mod.rla.bayes.state, paste0(full.model.output.folder, "rla_model_state_once.rds"))
+saveRDS(mod.rla.bayes.overall, paste0(full.model.output.folder, "rla_model_national_once.rds"))
 ```
 
 ## Summary of Bayesian results (99 is overall result)

@@ -100,6 +100,8 @@ c_20_cyclone_did_once - national model with state-specific effects for tropical 
 
 c_21_hurricane_lagged_did_national_effect_modification_grade - national lagged hurricane model with effect modification by grade level
 
+c_22_hurricane_lagged_did_national_sensitivity - sensitivity analysis of the national lagged hurricane model with state specific effects, adding groups of covariates one at a time (per reviewer request)
+
 ### Model processing (model_processing) list:
 
 d_01_posterior probability_math - calculating posterior probabilities for the state-specific math hurricane model
@@ -113,6 +115,10 @@ d_04_posterior probability_rla_lagged - calculating posterior probabilities for 
 d_05_posterior probability_math_national_lagged - calculating posterior probabilities for the national math lagged hurricane model
 
 d_06_posterior probability_rla_national_lagged - calculating posterior probabilities for the national RLA lagged hurricane model
+
+d_07_posterior probability_rla_lagged_sensitivity - calculating posterior probabilities for the national RLA lagged hurricane model, sensitivity analysis with no covariates
+
+d_08_posterior probability_rla_once_sensitivity - calculating posterior probabilities for the national RLA lagged hurricane model, sensitivity analysis for single exposure counties with no covariates
 
 ### Model running (model_plotting) list:
 
@@ -152,9 +158,6 @@ e_16_plot_hurricanes_lagged_covariates_rla - Forest plot of national lagged hurr
 
 ## Data availability
 
-Data used for this analysis are available via https://github.com/sparklabnyc/tropical_cyclones_educational_attainment_2022
+Data used for this analysis are available via <https://github.com/sparklabnyc/tropical_cyclones_educational_attainment_2022>
 
-The data used in this study were created from the following datasets. 
-- Tropical cyclone and hurricane exposure data are available as a package developed by Dr. Anderson via https://github.com/geanders/hurricaneexposure and https://github.com/geanders/hurricaneexposuredata.
-- County-level standardized test score and covariate data from 2008/2009 to 2017/2018 are available via the Stanford Education Data Archive Version 4.1: https://purl.stanford.edu/xv742vh9296. 
-
+The data used in this study were created from the following datasets. - Tropical cyclone and hurricane exposure data are available as a package developed by Dr. Anderson via <https://github.com/geanders/hurricaneexposure> and <https://github.com/geanders/hurricaneexposuredata>. - County-level standardized test score and covariate data from 2008/2009 to 2017/2018 are available via the Stanford Education Data Archive Version 4.1: <https://purl.stanford.edu/xv742vh9296>.
