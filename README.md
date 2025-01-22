@@ -4,7 +4,7 @@ Gabriella Meltzer, G. Brooke Anderson, Xicheng Xie, Joan A. Casey, Joel Schwartz
 
 ## Project Description
 
-This dataset and code is used for the paper
+This dataset and code is used for the paper "Disruption to Test Scores after Hurricanes in the United States"
 
 ## Code
 
